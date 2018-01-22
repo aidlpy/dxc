@@ -14,7 +14,7 @@
 
 
 ////test
-#define GET_URL(API) [NSString stringWithFormat:@"http://api.uat.37du.xin/%@",API]
+#define GET_URL(API) [NSString stringWithFormat:@"http://api.uat.37du.xin%@",API]
 #define POST_URL(API) [NSString stringWithFormat:@"http://api.uat.37du.xin%@",API]
 
 

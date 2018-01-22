@@ -127,10 +127,11 @@
             
             NSDictionary *dic = (NSDictionary *)responseObject;
             if ([[dic objectForKey:@"code"] integerValue] == 200) {
-      
-                CacheToken([dic objectForKey:@"access_token"]);
-                CacheTokenType( [dic objectForKey:@"token_type"]);
-                CacheEexpiresIn([dic objectForKey:@"expires_in"]);
+                
+                NSDictionary *dataDic = [dic objectForKey:@"data"];
+                CacheToken([dataDic objectForKey:@"access_token"]);
+                CacheTokenType( [dataDic objectForKey:@"token_type"]);
+                CacheEexpiresIn([dataDic objectForKey:@"expires_in"]);
                 [self fetchUserInfo];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [SVProgressHUD dismiss];
@@ -169,8 +170,9 @@
             if ([[dic objectForKey:@"code"] integerValue] == 200) {
   
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [SVProgressHUD dismiss];
-                    [SVProgressHUD showSuccessWithStatus:@"登录成功！"];
+  
+//                    NSDictionary *dataDic = [dic objectForKey:@"data"];
+                    
                     [self dismissViewControllerAnimated:YES completion:nil];
                 });
                 

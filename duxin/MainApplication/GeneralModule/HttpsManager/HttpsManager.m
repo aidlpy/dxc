@@ -18,7 +18,13 @@
     NSMutableDictionary  *dicc = [self getBaseMsg:dic];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.requestSerializer.timeoutInterval =TIMEOUT;
-    NSLog(@"getDicc==>%@",dicc);
+    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    if (FetchToken != nil) {
+         [manager.requestSerializer setValue:[NSString stringWithFormat:@"Bearer %@",FetchToken] forHTTPHeaderField:@"Authorization"];
+    }
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"application/json", @"text/json", nil];
+    NSLog(@"getDicc==>%@URL===>%@",dicc,api);
+    
     [manager GET:api parameters:dicc progress:^(NSProgress * _Nonnull downloadProgress) {
         nil;
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -66,7 +72,8 @@
     {
         [dic setObject:[user objectForKey:@"deviceid"] forKey:@"deviceid"];
     }
-    if (FetchToken) {
+    NSString *string = FetchToken;
+    if (string != nil ) {
         NSString *auth = [NSString stringWithFormat:@"%@ %@",FetchTokenType,FetchToken];
         [dic setObject:auth forKey:@"Authorization"];
     }
