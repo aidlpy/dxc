@@ -42,23 +42,22 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [self.navigationController setNavigationBarHidden:YES animated:NO];
     [SCLoginManager shareLoginManager].curChat = nil;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor grayColor];
-    
+    self.view.backgroundColor = [UIColor whiteColor];
     // Do any additional setup after loading the view.
     self.showRefreshHeader = YES;
     self.delegate = self;
     self.dataSource = self;
     self.visitorInfo = [self visitorInfo];
     
-    [[HChatClient sharedClient].chatManager bindChatWithConversationId:self.conversation.conversationId];
+    [self setNav];
     
+    [[HChatClient sharedClient].chatManager bindChatWithConversationId:self.conversation.conversationId];
     [self _setupBarButtonItem];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteAllMessages:) name:KNOTIFICATIONNAME_DELETEALLMESSAGE object:nil];
     if ([_commodityInfo count] > 1) {
@@ -69,13 +68,26 @@
 
 }
 
--(void)insertMessageToHuanXin{
+-(void)setNav{
+    
+    UINavigationBar *bar = [UINavigationBar appearance];
+    
+    //设置显示的颜色
+    
+    bar.barTintColor =Color_5ECAF7;
+    
+    //设置字体颜色
+    
+    bar.tintColor = [UIColor whiteColor];
+    
+    [bar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+    
+    //或者用这个都行
     
     
-   
- 
+    //    [bar setTitleTextAttributes:@{UITextAttributeTextColor : [UIColor whiteColor]}];
+    
 }
-
 
 
 //请求视频通话
@@ -180,8 +192,7 @@
         message.ext = [ext copy];
         [self _insertTrackMessage:message];
     }
-    
-    
+
 }
 
 
@@ -203,21 +214,42 @@
 
 - (void)_setupBarButtonItem
 {
-    UIButton *clearButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 15, 19)];
-    clearButton.accessibilityIdentifier = @"clear_message";
-    [clearButton setImage:[UIImage imageNamed:@"hd_chat_delete_icon"] forState:UIControlStateNormal];
-    [clearButton addTarget:self action:@selector(deleteAllMessages:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *clearItem = [[UIBarButtonItem alloc] initWithCustomView:clearButton];
-    UIBarButtonItem *clearNagetiveSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    clearNagetiveSpacer.width = -5;
     
-    //    UIButton *leaveMsgButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
-    //    [leaveMsgButton setImage:[UIImage imageNamed:@"chatBar_comment"]forState:UIControlStateNormal];
-    //    [leaveMsgButton addTarget:self action:@selector(didPressedLeaveMsgButton) forControlEvents:UIControlEventTouchUpInside];
-    //    UIBarButtonItem *leaveItem = [[UIBarButtonItem alloc] initWithCustomView:leaveMsgButton];
+    UIButton *rightCallBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 15, 19)];
+    [rightCallBtn setImage:[UIImage imageNamed:Image(@"mobileCall")] forState:UIControlStateNormal];
+    [rightCallBtn addTarget:self action:@selector(callMobileAction:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *rightBtnItem = [[UIBarButtonItem alloc] initWithCustomView:rightCallBtn];
+    UIBarButtonItem *rightNagetiveSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    rightNagetiveSpacer.width = -5;
+   
     
-    self.navigationItem.rightBarButtonItems = @[clearNagetiveSpacer,clearItem];
+    UIButton *leftBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 15, 19)];
+    [leftBtn setImage:[UIImage imageNamed:Image(@"whiteLeftArrow")] forState:UIControlStateNormal];
+    [leftBtn addTarget:self action:@selector(backAction:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *leftBtnItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
+    UIBarButtonItem *leftNagetiveSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    leftNagetiveSpacer.width = -5;
+    
+    self.navigationItem.rightBarButtonItems = @[rightNagetiveSpacer,rightBtnItem];
+    self.navigationItem.leftBarButtonItems = @[leftNagetiveSpacer,leftBtnItem];
+    
+    
 }
+
+-(void)backAction:(UIButton *)btn{
+    
+    [self.navigationController popViewControllerAnimated:YES];
+    
+}
+
+
+-(void)callMobileAction:(UIButton *)sender{
+    
+    
+    NSLog(@"111");
+    
+}
+
 
 - (void)didPressedLeaveMsgButton {
     HDLeaveMsgViewController *leaveMsgVC = [[HDLeaveMsgViewController alloc] init];
@@ -273,16 +305,16 @@
 
 #pragma mark - HDMessageViewControllerDataSource
 
-//- (id<HDIMessageModel>)messageViewController:(HDMessageViewController *)viewController
-//                           modelForMessage:(HMessage *)message
-//{
-//    id<HDIMessageModel> model = nil;
-//    model = [[HDMessageModel alloc] initWithMessage:message];
-//    model.avatarImage = [UIImage imageNamed:@"HelpDeskUIResource.bundle/user"];
-//    model.avatarURLPath = @"";
-//    model.failImageName = @"imageDownloadFail";
-//    return model;
-//}
+- (id<HDIMessageModel>)messageViewController:(HDMessageViewController *)viewController
+                           modelForMessage:(HMessage *)message
+{
+    id<HDIMessageModel> model = nil;
+    model = [[HDMessageModel alloc] initWithMessage:message];
+    model.avatarImage = [UIImage imageNamed:@"HelpDeskUIResource.bundle/user"];
+    model.avatarURLPath = @"";
+    model.failImageName = @"imageDownloadFail";
+    return model;
+}
 
 - (NSArray*)emotionFormessageViewController:(HDMessageViewController *)viewController
 {

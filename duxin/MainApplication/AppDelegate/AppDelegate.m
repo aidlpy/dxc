@@ -23,13 +23,7 @@
     [self easemobApplication:application didFinishLaunchingWithOptions:launchOptions];
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
-    
     [self tabbarView];
-    
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
- 
-    });
-    
     [self.window makeKeyAndVisible];
     
     return YES;

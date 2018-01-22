@@ -30,6 +30,12 @@
     [self initUI];
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+     [self.navigationController setNavigationBarHidden:YES animated:NO];
+}
+
+
 -(void)initUI{
     
     self.view.backgroundColor = [UIColor clearColor];
