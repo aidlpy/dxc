@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MBProgressHUD.h"
+#import "Header.h"
+#import "CustomNavView.h"
+
 @interface BaseViewController : UIViewController
-
-@property(nonatomic,retain)NSString *mainURLStr;
-
+@property(nonatomic,retain)CustomNavView *navView;
 @end

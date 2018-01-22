@@ -1,0 +1,16 @@
+//
+//  PrefixHeader.pch
+//  duxin
+//
+//  Created by 37duxin on 20/01/2018.
+//  Copyright © 2018 37duxin. All rights reserved.
+//
+
+#ifdef __OBJC__
+
+#import "LocalDefine.h"
+#import "Header.h"
+#import <HelpDesk/HelpDesk.h>
+#import "HelpDeskUI.h"
+
+#endif

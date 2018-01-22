@@ -7,7 +7,25 @@
 		<key>duxin.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>10</integer>
+			<integer>11</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>BAA52F3620102B19005DA87F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>BAA52F4E20102B19005DA87F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>BAA52F5920102B19005DA87F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>
