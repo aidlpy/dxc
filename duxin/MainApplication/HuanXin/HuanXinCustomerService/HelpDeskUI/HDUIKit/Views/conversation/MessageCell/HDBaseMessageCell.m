@@ -86,6 +86,8 @@
 {
     [super layoutSubviews];
     _bubbleView.backgroundImageView.image = self.model.isSender ? self.sendBubbleBackgroundImage : self.recvBubbleBackgroundImage;
+    _bubbleView.textLabel.textColor = self.model.isSender?[UIColor whiteColor]:Color_1F1F1F;
+    _bubbleView.textLabel.font = [UIFont systemFontOfSize:15.0f];
     switch ([HMessageHelper getMessageExtType:self.model.message]) {
         case HExtArticleMsg: {
             _bubbleView.backgroundImageView.image = nil;

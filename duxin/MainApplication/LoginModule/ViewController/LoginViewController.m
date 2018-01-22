@@ -59,6 +59,9 @@
         CGFloat pedding = 8.5f;
         LoginView *loginView = [[LoginView alloc] initWithFrame:CGRectMake(0, h(self.navView)+pedding+idx*viewHeight, SIZE.width, viewHeight)];
         [loginView setLogoImageView:dic[@"logo"] setPlaceHolder:dic[@"placeHolder"]];
+        if (idx == 0) {
+            loginView.textField.keyboardType = UIKeyboardTypePhonePad;
+        }
         loginView.codeBlock = ^{nil;};
         [self.view addSubview:loginView];
         [_loginViewArray addObject:loginView];
@@ -91,6 +94,7 @@
 }
 
 -(void)loginAciton:(UIButton *)loginBtn{
+    [SVProgressHUD show];
     [self postUser];
 }
 
@@ -121,18 +125,72 @@
         
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             
-            dispatch_async(dispatch_get_main_queue(), ^{
-                NSLog(@"result==>%@",responseObject);
-            });
-            
+            NSDictionary *dic = (NSDictionary *)responseObject;
+            if ([[dic objectForKey:@"code"] integerValue] == 200) {
+      
+                CacheToken([dic objectForKey:@"access_token"]);
+                CacheTokenType( [dic objectForKey:@"token_type"]);
+                CacheEexpiresIn([dic objectForKey:@"expires_in"]);
+                [self fetchUserInfo];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [SVProgressHUD dismiss];
+                    [SVProgressHUD showSuccessWithStatus:@"登录成功！"];
+                    [self dismissViewControllerAnimated:YES completion:nil];
+                });
+                
+            }
+            else if([[dic objectForKey:@"code"] integerValue] == 401){
+
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [SVProgressHUD dismiss];
+                    [SVProgressHUD showErrorWithStatus:@"请重新登录!"];
+                });
+            }
+            else{ [SVProgressHUD dismiss];}
         });
         
     } fail:^(id error) {
-        NSLog(@"error==>%@",error);
+        [SVProgressHUD dismiss];
+        [SVProgressHUD showErrorWithStatus:@"网络连接失败!"];
     }];
     
     
 }
+
+-(void)fetchUserInfo{
+    
+    HttpsManager *httpsManager = [[HttpsManager alloc] init];
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+    [httpsManager getServerAPI:FetchUserInfo deliveryDic:dic successful:^(id responseObject) {
+        
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            
+            NSDictionary *dic = (NSDictionary *)responseObject;
+            if ([[dic objectForKey:@"code"] integerValue] == 200) {
+  
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [SVProgressHUD dismiss];
+                    [SVProgressHUD showSuccessWithStatus:@"登录成功！"];
+                    [self dismissViewControllerAnimated:YES completion:nil];
+                });
+                
+            }
+            else if([[dic objectForKey:@"code"] integerValue] == 401){
+                NSLog(@"fetchUserInfoFailure==>%@",responseObject);
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [SVProgressHUD dismiss];
+                    [SVProgressHUD showErrorWithStatus:@"请重新登录!"];
+                });
+            }
+            else{ [SVProgressHUD dismiss];}
+        });
+        
+    } fail:^(id error) {
+        [SVProgressHUD showErrorWithStatus:@"网络连接失败!"];
+    }];
+}
+
+
 
 -(void)backTo{
     

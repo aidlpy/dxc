@@ -59,6 +59,7 @@
 #define  Color_F54A5F COLOR(@"F54A5F")
 #define  Color_4B4B4B COLOR(@"4B4B4B")
 #define  Color_D4D4D4 COLOR(@"D4D4D4")
+#define  Color_EBEBEB COLOR(@"EBEBEB")
 
 
 #define A100 @"FF"
@@ -116,6 +117,7 @@
 #define USERNAME @"moblie"
 #define PASSWORD @"password"
 #define TOKEN @"token"
+#define TOKENTYPE @"tokentype"
 #define USERID @"userid"
 #define AUTOLOGIN @"autologin"
 #define DEVICEID @"deviceid"
@@ -126,6 +128,7 @@
 #define USERLEVEL @"level"
 #define USERNICKNAME @"nickname"
 #define USERHEDAERIMAGE @"headerImage"
+#define EXPIRESININ @"expires_in"
 
 //自动登录
 #define CacheAutoLoginState(bool) [[NSUserDefaults standardUserDefaults] setBool:bool forKey:AUTOLOGIN]
@@ -162,6 +165,21 @@
 #define FetchToken NSUserDefaultsFetch(TOKEN)
 //删除Token
 #define ClearToken NSUserDefalutsDel(TOKEN)
+
+//缓存TokenType
+#define CacheTokenType(value) NSUserDefaultsSet(TOKENTYPE,value)
+//获取TokenType
+#define FetchTokenType NSUserDefaultsFetch(TOKENTYPE)
+//删除TokenType
+#define ClearTokenType NSUserDefalutsDel(TOKENTYPE)
+
+
+//缓存expires_in
+#define CacheEexpiresIn(value) NSUserDefaultsSet(EXPIRESININ,value)
+//获取expires_in
+#define FetchEexpiresIn NSUserDefaultsFetch(EXPIRESININ)
+//删除expires_in
+#define ClearEexpiresIn NSUserDefalutsDel(EXPIRESININ)
 
 //缓存userid
 #define CacheUserID(value) NSUserDefaultsSet(USERID,value)

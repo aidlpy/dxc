@@ -16,9 +16,9 @@
 {
    
     NSMutableDictionary  *dicc = [self getBaseMsg:dic];
-    NSLog(@"dic==>%@url==>%@",dicc,api);
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.requestSerializer.timeoutInterval =TIMEOUT;
+    NSLog(@"getDicc==>%@",dicc);
     [manager GET:api parameters:dicc progress:^(NSProgress * _Nonnull downloadProgress) {
         nil;
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -28,6 +28,14 @@
         NSLog(@"error==>%@",error);
         failBlock(error);
     }];
+    
+}
+
+-(void)getServerApi:(NSString *)api deliveryDic:(NSMutableDictionary *)dic successful:(RequestSuccessfulBlock )successBlock fail:(RequestFailureBlock )failBlock{
+
+
+    
+    
     
 }
 
@@ -54,12 +62,13 @@
 {
    
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    if ([user objectForKey:@"userid"]) {
-        [dic setObject:[user objectForKey:@"userid"] forKey:@"user_id"];
-    }
     if ([user  objectForKey:@"deviceid"])
     {
         [dic setObject:[user objectForKey:@"deviceid"] forKey:@"deviceid"];
+    }
+    if (FetchToken) {
+        NSString *auth = [NSString stringWithFormat:@"%@ %@",FetchTokenType,FetchToken];
+        [dic setObject:auth forKey:@"Authorization"];
     }
     return dic;
 }

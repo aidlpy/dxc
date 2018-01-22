@@ -52,6 +52,17 @@
     self = [self initWithFrame:frame horizontalPadding:8 verticalPadding:5 inputViewMinHeight:36 inputViewMaxHeight:150 type:HDChatToolbarTypeChat];
     if (self) {
         
+        //toolbar 背景色
+        
+        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SIZE.width, 0.5)];
+        lineView.backgroundColor = Color_EBEBEB;
+        [self.toolbarView addSubview:lineView];
+        
+        self.toolbarView.backgroundColor = [UIColor whiteColor];
+        
+        
+        
+        
     }
     
     return self;

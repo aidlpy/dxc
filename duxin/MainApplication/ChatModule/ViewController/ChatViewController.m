@@ -12,6 +12,7 @@
 #import "HDLeaveMsgViewController.h"
 #import "HFileViewController.h"
 #import "HDMessageReadManager.h"
+#import "Header.h"
 
 
 @interface ChatViewController ()<UIAlertViewDelegate,HChatClientDelegate>
@@ -33,10 +34,6 @@
 {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:NO];
-    if( ([[[UIDevice currentDevice] systemVersion] doubleValue]>=7.0)) {
-        //        self.edgesForExtendedLayout=UIRectEdgeNone;
-        self.navigationController.navigationBar.translucent = NO;
-    }
     [SCLoginManager shareLoginManager].curChat = self;
 }
 
@@ -55,10 +52,9 @@
     self.dataSource = self;
     self.visitorInfo = [self visitorInfo];
     
-    [self setNav];
+    [self _setupBarButtonItem];
     
     [[HChatClient sharedClient].chatManager bindChatWithConversationId:self.conversation.conversationId];
-    [self _setupBarButtonItem];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteAllMessages:) name:KNOTIFICATIONNAME_DELETEALLMESSAGE object:nil];
     if ([_commodityInfo count] > 1) {
         [self sendCommodityMessageWithInfo:_commodityInfo];
@@ -68,27 +64,10 @@
 
 }
 
--(void)setNav{
+-(void)viewWillLayoutSubviews{
     
-    UINavigationBar *bar = [UINavigationBar appearance];
-    
-    //设置显示的颜色
-    
-    bar.barTintColor =Color_5ECAF7;
-    
-    //设置字体颜色
-    
-    bar.tintColor = [UIColor whiteColor];
-    
-    [bar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
-    
-    //或者用这个都行
-    
-    
-    //    [bar setTitleTextAttributes:@{UITextAttributeTextColor : [UIColor whiteColor]}];
     
 }
-
 
 //请求视频通话
 - (void)moreViewVideoCallAction:(HDChatBarMoreView *)moreView {
@@ -214,6 +193,10 @@
 
 - (void)_setupBarButtonItem
 {
+    [UINavigationBar appearance].translucent = NO;
+    self.navigationController.navigationBar.barTintColor = Color_5ECAF5;
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    [self customStaus];
     
     UIButton *rightCallBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 15, 19)];
     [rightCallBtn setImage:[UIImage imageNamed:Image(@"mobileCall")] forState:UIControlStateNormal];
@@ -232,8 +215,15 @@
     
     self.navigationItem.rightBarButtonItems = @[rightNagetiveSpacer,rightBtnItem];
     self.navigationItem.leftBarButtonItems = @[leftNagetiveSpacer,leftBtnItem];
+}
+
+-(void)customStaus{
     
-    
+    CGFloat statusHeight = Height_StatusBar;
+    UIView *statusBarView = [[UIView alloc]   initWithFrame:CGRectMake(0,0 - statusHeight,SIZE.width,statusHeight)];
+    statusBarView.backgroundColor = Color_5ECAF5;
+    [self.navigationController.navigationBar addSubview:statusBarView];
+
 }
 
 -(void)backAction:(UIButton *)btn{

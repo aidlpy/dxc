@@ -24,9 +24,6 @@
     
     //ios8注册apns
     [self registerRemoteNotification];
-    //初始化环信客服sdk
-//    [self initializeCustomerServiceSdk];
-    
     [self initHuanXinCustomer];
     
     AVAudioSession *audioSession = [AVAudioSession sharedInstance];

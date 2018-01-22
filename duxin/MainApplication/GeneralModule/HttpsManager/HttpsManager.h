@@ -19,6 +19,7 @@
 
 
 #define FetchLogin POST_URL(@"/oauth2/token")
+#define FetchUserInfo GET_URL(@"/v1/user/get-user")
 
 #define FetchRegister GET_URL(@"/admin/register.json")
 #define UpdateInfoAPI GET_URL(@"/admin/update_userinfo.json")

@@ -3,7 +3,7 @@
 //  FLTextView
 //
 //  Created by afanda on 16/7/29.
-///Users/37duxin/Desktop/Project/环信/kefu-iossdk-v1.1-2.7r2/kefu-ios-demo/CustomerSystem-ios/Class/FLTextView.h/Users/37duxin/Desktop/Project/环信/kefu-iossdk-v1.1-2.7r2/kefu-ios-demo/CustomerSystem-ios/Class/FLTextView.m  Copyright © 2016年 afanda All rights reserved.
+// Copyright © 2016年 afanda All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
