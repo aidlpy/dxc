@@ -22,8 +22,11 @@
     UITableView *_tableView;
     NSArray *_dataArray;
     UIButton *_loginBtn;
+    UIImageView *_genderImageView;
     UIButton *_loginBtnTitle;
     NSArray *_orderImageArray;
+    
+    
 }
 
 @end
@@ -41,13 +44,30 @@
 -(void)initData{
     _dataArray = @[@[@{@"headImage":@"myCollection",@"title":@"我的收藏"},@{@"headImage":@"myFoucs",@"title":@"我的关注"}],@[@{@"headImage":@"accountSecurity",@"title":@"账号与安全"}],@[@{@"headImage":@"aboutUs",@"title":@"关于我们"}]];
     _orderImageArray = @[@{@"image":@"reservationOrder",@"title":@"预约订单"},@{@"image":@"consultingOrders",@"title":@"咨询订单"},@{@"image":@"myTidings",@"title":@"我的动态"}];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginUpdate:) name:LOGINUPDATE object:nil];
+}
+
+- (void)loginUpdate:(NSNotification *)notification{
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self reloadDataForTableViewHeader];
+    });
+    
 }
 
 -(void)login{
 
-    LoginViewController *vc = [[LoginViewController alloc] init];
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
-    [self.navigationController presentViewController:nav animated:YES completion:nil];
+    
+    if ([FetchLoginState isEqualToString:LOGINSUCCESS]) {
+        
+    }
+    else{
+        LoginViewController *vc = [[LoginViewController alloc] init];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+        [self.navigationController presentViewController:nav animated:YES completion:nil];
+    }
+    
+ 
     
 }
 
@@ -86,17 +106,22 @@
     [_loginBtn.layer setCornerRadius:w(_loginBtn)/2];
     [_loginBtn.layer setBorderWidth:2.0f];
     [_loginBtn.layer setBorderColor:Color_F1F1F1.CGColor];
-    [_loginBtn setImage:[UIImage imageNamed:Image(@"unLogin")] forState:UIControlStateNormal];
+    _loginBtn.clipsToBounds = YES;
     [_loginBtn addTarget:self action:@selector(login) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:_loginBtn];
     
-    _loginBtnTitle = [[UIButton alloc] initWithFrame:CGRectMake(0, bottom(_loginBtn)+8, 100, 20)];
+    _loginBtnTitle = [[UIButton alloc] initWithFrame:CGRectMake(0, bottom(_loginBtn)+15, 100, 20)];
     _loginBtnTitle.center = CGPointMake(SIZE.width/2, _loginBtnTitle.center.y);
     _loginBtnTitle.titleLabel.font = FONT_15;
-    [_loginBtnTitle setTitle:@"请登录" forState:UIControlStateNormal];
     [_loginBtnTitle setTitleColor:Color_1F1F1F forState:UIControlStateNormal];
     [view addSubview:_loginBtnTitle];
     
+    _genderImageView = [[UIImageView alloc] initWithFrame:CGRectMake(left(_loginBtn)+15, 0, 15, 15)];
+    _genderImageView.center = CGPointMake(_genderImageView.center.x, _loginBtnTitle.center.y);
+    [view addSubview:_genderImageView];
+    
+    [self reloadDataForTableViewHeader];
+
     [_orderImageArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
         NSDictionary *dic = (NSDictionary *)obj;
@@ -112,6 +137,60 @@
     
     return view;
 }
+
+-(void)reloadDataForTableViewHeader{
+    
+    
+    if ([FetchLoginState isEqualToString:LOGINSUCCESS]) {
+        
+        if (FetchUserHeaderImage)
+        {
+             [_loginBtn sd_setImageWithURL:[NSURL URLWithString:FetchUserHeaderImage] forState:UIControlStateNormal];
+        }
+        else
+        {
+             [_loginBtn setImage:[UIImage imageNamed:Image(@"unLogin")] forState:UIControlStateNormal];
+        }
+        
+        [_loginBtnTitle setTitle:FetchUserNickName forState:UIControlStateNormal];
+        if (FetchUserSex) {
+            switch ([FetchUserSex integerValue]) {
+                case 0:
+                {
+                    _genderImageView.hidden = YES;
+                }
+                    break;
+                    
+                case 1:
+                {
+                     _genderImageView.hidden = NO;
+                    [_genderImageView setImage:[UIImage imageNamed:Image(@"male")]];
+                }
+                    break;
+                case 2:
+                {
+                     _genderImageView.hidden = NO;
+                     [_genderImageView setImage:[UIImage imageNamed:Image(@"female")]];
+                }
+                    break;
+                    
+                    
+                default:
+                    break;
+            }
+        }
+      
+        
+    }
+    else
+    {
+        [_loginBtn setImage:[UIImage imageNamed:Image(@"unLogin")] forState:UIControlStateNormal];
+        [_loginBtnTitle setTitle:@"请登录" forState:UIControlStateNormal];
+        _genderImageView.hidden = YES;
+    }
+    
+}
+
 
 -(void)myHeadAction:(MyHeaderBtn *)btn{
     
@@ -264,6 +343,12 @@
         default:
             break;
     }
+    
+    
+}
+
+-(void)dealloc{
+    
     
     
 }

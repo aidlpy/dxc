@@ -11,6 +11,7 @@
 @interface AboutUsViewController ()<UIWebViewDelegate>
 {
     UIWebView *_webView;
+
 }
 @end
 
@@ -29,12 +30,14 @@ static NSString *url = @"https://www.baidu.com";
     
     self.view.backgroundColor = [UIColor whiteColor];
     [self.navView setBackStytle:@"关于我们" rightImage:@"whiteLeftArrow"];
+
     
     _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0,h(self.navView),SIZE.width,SIZE.height-h(self.navView))];
     _webView.delegate = self;
     [self.view addSubview:_webView];
-    
 }
+
+
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];

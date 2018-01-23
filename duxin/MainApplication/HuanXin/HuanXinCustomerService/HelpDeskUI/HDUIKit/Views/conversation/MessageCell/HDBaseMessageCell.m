@@ -85,6 +85,7 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
+    [self.avatarView setImage:self.model.isSender?[UIImage imageNamed:@"HelpDeskUIResource.bundle/customLogo"]:[UIImage imageNamed:@"HelpDeskUIResource.bundle/customLogo"]];
     _bubbleView.backgroundImageView.image = self.model.isSender ? self.sendBubbleBackgroundImage : self.recvBubbleBackgroundImage;
     _bubbleView.textLabel.textColor = self.model.isSender?[UIColor whiteColor]:Color_1F1F1F;
     _bubbleView.textLabel.font = [UIFont systemFontOfSize:15.0f];

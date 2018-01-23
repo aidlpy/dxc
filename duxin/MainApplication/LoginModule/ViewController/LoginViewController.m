@@ -94,9 +94,34 @@
 }
 
 -(void)loginAciton:(UIButton *)loginBtn{
-    [SVProgressHUD show];
-    [self postUser];
+    [self checkInputType];
 }
+
+-(void)checkInputType{
+    
+    NSString *cellPhone = ((LoginView *)(_loginViewArray[0])).textField.text;
+    NSString *password = ((LoginView *)(_loginViewArray[1])).textField.text;
+
+    if ([RegularTool isPhoneNumber:cellPhone]){
+        
+        if ([RegularTool matchPassword:password]) {
+            [SVProgressHUD show];
+            [self postUser];
+        }
+        else
+        {
+           [SVProgressHUD showErrorWithStatus:@"请输入正确的密码！"];
+        }
+
+    }
+    else
+    {
+        [SVProgressHUD showErrorWithStatus:@"请输入正确的手机号码！"];
+
+    }
+    
+}
+
 
 -(void)registerAction:(UIButton *)btn{
     
@@ -113,6 +138,7 @@
 
 
 -(void)postUser{
+    
     HttpsManager *httpsManager = [[HttpsManager alloc] init];
     NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
     [dic setValue:@"password" forKey:@"grant_type"];
@@ -124,14 +150,15 @@
     [httpsManager postServerAPI:FetchLogin deliveryDic:dic successful:^(id responseObject) {
         
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            
             NSDictionary *dic = (NSDictionary *)responseObject;
+            
             if ([[dic objectForKey:@"code"] integerValue] == 200) {
-                
                 NSDictionary *dataDic = [dic objectForKey:@"data"];
                 CacheToken([dataDic objectForKey:@"access_token"]);
                 CacheTokenType( [dataDic objectForKey:@"token_type"]);
                 CacheEexpiresIn([dataDic objectForKey:@"expires_in"]);
+                CacheLoginState(LOGINSUCCESS);
+                
                 [self fetchUserInfo];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [SVProgressHUD dismiss];
@@ -141,7 +168,7 @@
                 
             }
             else if([[dic objectForKey:@"code"] integerValue] == 401){
-
+                CacheLoginState(LOGINERROR);
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [SVProgressHUD dismiss];
                     [SVProgressHUD showErrorWithStatus:@"请重新登录!"];
@@ -168,12 +195,33 @@
             
             NSDictionary *dic = (NSDictionary *)responseObject;
             if ([[dic objectForKey:@"code"] integerValue] == 200) {
-  
+                
+                NSDictionary *dicData = [[dic objectForKey:@"data"] objectForKey:@"result"];
+                NSString *headerImageStr = [dicData objectForKey:@"avatar"];
+                if (![headerImageStr isEqual:[NSNull null]]) {
+                    CacheUserHeaderImage(headerImageStr);
+                }
+                CacheUserSex([dicData objectForKey:@"gender"]);
+                CacheUserNickName([dicData objectForKey:@"nickname"]);
+                CacheUsername([dicData objectForKey:@"username"]);
+                CacheUserRole([dicData objectForKey:@"role"]);
+                NSString *emusername = [dicData objectForKey:@"emchart_username"];
+                NSString *empassword = [dicData objectForKey:@"emchart_password"];
+                CacheEMUsername(emusername);
+                CacheEMPassword(empassword);
+                
+        
+
+                NSNotification *notifyEMLogin =[NSNotification notificationWithName:LOGINEMUSER object:nil userInfo:nil];
+                [[NSNotificationCenter defaultCenter] postNotification:notifyEMLogin];
+                
+                NSNotification *notification =[NSNotification notificationWithName:LOGINUPDATE object:nil userInfo:nil];
+                [[NSNotificationCenter defaultCenter] postNotification:notification];
+                
                 dispatch_async(dispatch_get_main_queue(), ^{
-  
-//                    NSDictionary *dataDic = [dic objectForKey:@"data"];
                     
                     [self dismissViewControllerAnimated:YES completion:nil];
+
                 });
                 
             }
@@ -200,7 +248,13 @@
     
 }
 
-
+-(void)dealloc
+{
+    //移除登录更新通知
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:LOGINUPDATE object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:LOGINEMUSER object:nil];
+    
+}
 
 
 - (void)didReceiveMemoryWarning {

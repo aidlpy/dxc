@@ -70,16 +70,117 @@
     
 }
 
--(void)fetchCodeAction{
-    
-    
-    
-}
 
 -(void)registerAciton:(UIButton *)btn{
     
+        [self postRegister];
+}
+
+-(void)fetchCodeAction{
+    
+    HttpsManager *httpsManager = [[HttpsManager alloc] init];
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+    [dic setObject:((LoginView *)(_loginViewArray[0])).textField.text forKey:@"username"];
+    [dic setObject:@"application/json" forKey:@"Content-Type"];
+    [httpsManager postServerAPI:PostMobileCode deliveryDic:dic successful:^(id responseObject) {
+        
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            NSDictionary *dic = (NSDictionary *)responseObject;
+            
+            if ([[dic objectForKey:@"code"] integerValue] == 200)
+            {
+                NSDictionary *dataDic = [dic objectForKey:@"data"];
+                if ([[dataDic objectForKey:@"error_code"] integerValue] ==0) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                        [SVProgressHUD showSuccessWithStatus:[dataDic objectForKey:@"msg"]];
+                        // 延迟0.5秒后消失
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                            [SVProgressHUD dismiss];
+                        });
+                       
+                    });
+                }
+                else
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                      [SVProgressHUD showErrorWithStatus:[dataDic objectForKey:@"msg"]];
+                    });
+                }
+                
+            }
+            else
+                if([[dic objectForKey:@"code"] integerValue] == 401){
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [SVProgressHUD dismiss];
+                        [SVProgressHUD showErrorWithStatus:@"获取验证码失败！"];
+                    });
+                }
+                else
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [SVProgressHUD dismiss];
+                        [SVProgressHUD showErrorWithStatus:@"获取验证码失败！"];
+                    });
+                }
+            
+        });
+        
+    } fail:^(id error) {
+        [SVProgressHUD dismiss];
+        [SVProgressHUD showErrorWithStatus:@"网络连接失败!"];
+    }];
     
 }
+
+-(void)postRegister{
+    
+    HttpsManager *httpsManager = [[HttpsManager alloc] init];
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+    [dic setObject:((LoginView *)(_loginViewArray[0])).textField.text forKey:@"username"];
+    [dic setObject:((LoginView *)(_loginViewArray[2])).textField.text forKey:@"password"];
+    [dic setObject:((LoginView *)(_loginViewArray[1])).textField.text forKey:@"code"];
+    [dic setObject:FetchDeviceID forKey:@"device"];
+    [httpsManager postServerAPI:POSTREGISTER deliveryDic:dic successful:^(id responseObject) {
+        
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            NSDictionary *dic = (NSDictionary *)responseObject;
+            
+            if ([[dic objectForKey:@"code"] integerValue] == 200)
+            {
+        
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [SVProgressHUD dismiss];
+                    [SVProgressHUD showSuccessWithStatus:@"注册成功！"];
+                    [self.navigationController popViewControllerAnimated:YES];
+                });
+                
+            }
+            else
+            if([[dic objectForKey:@"code"] integerValue] == 401){
+               
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [SVProgressHUD dismiss];
+                    [SVProgressHUD showErrorWithStatus:@"注册失败！"];
+                });
+            }
+            else
+            {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [SVProgressHUD dismiss];
+                    [SVProgressHUD showErrorWithStatus:@"注册失败！"];
+                });
+            }
+            
+        });
+        
+    } fail:^(id error) {
+        [SVProgressHUD dismiss];
+        [SVProgressHUD showErrorWithStatus:@"网络连接失败!"];
+    }];
+}
+
 
 -(void)backTo{
     

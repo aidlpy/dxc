@@ -62,7 +62,8 @@
         
         switch (_firstMessageBody.type) {
             case EMMessageBodyTypeText:
-            {   EMTextMessageBody *textBody = (EMTextMessageBody *)_firstMessageBody;
+            {
+                EMTextMessageBody *textBody = (EMTextMessageBody *)_firstMessageBody;
                 NSString *didReceiveText = [HDConvertToCommonEmoticonsHelper convertToSystemEmoticons:textBody.text];
                 if ([HMessageHelper getMessageExtType:self.message] == HExtRobotMenuMsg) {
                     didReceiveText = [HDMessageCell _getMessageContent:self.message];

@@ -12,6 +12,7 @@
 @interface AccountSafeViewController ()<UITableViewDelegate,UITableViewDataSource>{
     
     UITableView *_tableView;
+    UIButton *_loginOutBtn;
     NSArray *_dataArray;
     
 }
@@ -35,11 +36,20 @@
 -(void)initUI{
     
     self.view.backgroundColor = [UIColor whiteColor];
-    [self.navView setBackStytle:@"账号安全" rightImage:@"whiteLeftArrow"];
+    [self.navView setBackStytle:@"账号与安全" rightImage:@"whiteLeftArrow"];
+
+    _loginOutBtn = [[UIButton alloc] initWithFrame:CGRectMake(0,SIZE.height-48,SIZE.width, 48)];
+    [_loginOutBtn setTitle:@"退出" forState:UIControlStateNormal];
+    [_loginOutBtn setTitleColor:Color_FE6C7E forState:UIControlStateNormal];
+    [_loginOutBtn addTarget:self action:@selector(loginOutAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_loginOutBtn];
     
-    CGFloat tabbarBar = Height_TabBar;
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0,0, SIZE.width, 1)];
+    lineView.backgroundColor = Color_F1F1F1;
+    [_loginOutBtn addSubview:lineView];
+
     //设置列表属性
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, h(self.navView), SIZE.width, SIZE.height-tabbarBar) style:UITableViewStylePlain];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, h(self.navView), SIZE.width, SIZE.height-h(self.navView)-h(_loginOutBtn)) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -47,6 +57,35 @@
     _tableView.estimatedSectionHeaderHeight = 0;
     _tableView.estimatedSectionFooterHeight = 0;
     [self.view addSubview:_tableView];
+    
+}
+
+-(void)loginOutAction:(UIButton *)btn{
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+    
+        ClearLoginState;
+        ClearToken;
+        ClearTokenType;
+        ClearEexpiresIn;
+        ClearUserHeaderImage;
+        ClearUserSex;
+        ClearUserNickName;
+        ClearUsername;
+        ClearUserRole;
+    
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            [self.navigationController popViewControllerAnimated:YES];
+            
+        });
+
+        NSDictionary *dict =[[NSDictionary alloc] initWithObjectsAndKeys:@"1",@"code", nil];
+        NSNotification *notification =[NSNotification notificationWithName:LOGINUPDATE object:nil userInfo:dict];
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
+        
+    });
     
 }
 

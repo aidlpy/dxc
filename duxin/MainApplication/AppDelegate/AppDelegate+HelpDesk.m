@@ -22,18 +22,40 @@
 - (void)easemobApplication:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     
-    //ios8注册apns
-    [self registerRemoteNotification];
-    [self initHuanXinCustomer];
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        NSString *deviceID = [[UIDevice currentDevice] identifierForVendor].UUIDString;
+        CacheDeviceID(deviceID);
+    });
     
-    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
-    [audioSession overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:nil];
-    [audioSession setActive:YES error:nil];
-    /*
-     注册IM用户【注意:注册建议在服务端创建，而不要放到APP中，可以在登录自己APP时从返回的结果中获取环信账号再登录环信服务器。】
-     */
-    // 注册环信监听
-    [self setupNotifiers];
+    IQKeyboardManager *manager = [IQKeyboardManager sharedManager];
+    manager.enable = YES;
+    manager.shouldResignOnTouchOutside = YES;
+    manager.shouldToolbarUsesTextFieldTintColor = YES;
+    manager.enableAutoToolbar = NO;
+
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+    
+        //ios8注册apns
+        [self registerRemoteNotification];
+    
+        [self initHuanXinCustomer];
+    
+        AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+        [audioSession overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:nil];
+        [audioSession setActive:YES error:nil];
+    
+        /*
+         环信的注册和登录
+         */
+        // 环信注册和登录
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(registerEMCustomerService) name:LOGINEMUSER object:nil];
+    
+        /*
+         注册IM用户【注意:注册建议在服务端创建，而不要放到APP中，可以在登录自己APP时从返回的结果中获取环信账号再登录环信服务器。】
+         */
+        // 注册环信监听
+        [self setupNotifiers];
+    });
 }
 
 -(void)initHuanXinCustomer{
@@ -50,37 +72,53 @@
     //Kefu SDK 初始化,初始化失败后将不能使用Kefu SDK
     HError *initError = [[HChatClient sharedClient] initializeSDKWithOptions:option];
     if (!initError) {
-       HError *error =  [[HChatClient sharedClient] registerWithUsername:@"iostest" password:@"123456"];
-        if (error) {
-            
-            NSLog(@"已经注册该账号成功");
-            HChatClient *client = [HChatClient sharedClient];
-            if (client.isLoggedInBefore != YES) {
-                HError *error = [client loginWithUsername:@"iostest" password:@"123456"];
-                if (!error) {
-                    NSLog(@"环信登录%@",@"成功");
-                }
-                else
-                {
-                    NSLog(@"环信登录%@",@"失败");
-                    return;
-                }
-                
-            }
-
-        }
-        else
-        {
-            NSLog(@"注册失败");
-        }
-       
+        NSLog(@"初始化成功!");
+        [self registerEMCustomerService];
     }
     else
     {
-        NSLog(@"初始化失败");
+        NSLog(@"initError初始化失败!");
+        NSLog(@"%d",initError.code);
         
     }
 
+}
+
+-(void)registerEMCustomerService{
+    
+    NSLog(@"FetchEMUsername==>%@FetchEMPassword==>%@",FetchEMUsername,FetchEMPassword);
+    NSString *username = FetchEMUsername;
+    NSString *emps = FetchEMPassword;
+    
+    HError *error =  [[HChatClient sharedClient] registerWithUsername:username password:emps];
+    if (error) {
+        [self loginEMUserResult];
+    }
+    else
+    {
+        NSLog(@"注册%d",error.code);
+        [self loginEMUserResult];
+    }
+    
+}
+
+
+-(void)loginEMUserResult{
+    
+    HChatClient *client = [HChatClient sharedClient];
+    if (client.isLoggedInBefore != YES) {
+        
+        NSString *username = FetchEMUsername;
+        NSString *emps = FetchEMPassword;
+        HError *error = [client loginWithUsername:username password:emps];
+        if (!error) { //登录成功
+        } else { //登录失败
+
+            NSLog(@"登录%d",error.code);
+            return;
+        }
+    }
+    
 }
 
 

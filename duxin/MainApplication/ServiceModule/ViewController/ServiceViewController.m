@@ -11,6 +11,7 @@
 #import "MyCounselorVC.h"
 #import "ChatViewController.h"
 #import "ServiceBtn.h"
+#import "AppDelegate+HelpDesk.h"
 
 @interface ServiceViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
@@ -117,10 +118,7 @@
     switch (btn.tag) {
         case 0:
         {
-            ChatViewController *vc =[[ChatViewController alloc] initWithConversationChatter:kDefaultCustomerName];
-            vc.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:vc animated:YES];
-            
+            [self pushToSerViceRoom];
         }
             break;
             
@@ -143,6 +141,14 @@
         default:
             break;
     }
+    
+}
+
+-(void)pushToSerViceRoom{
+    
+    ChatViewController *vc =[[ChatViewController alloc] initWithConversationChatter:kDefaultCustomerName];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
     
 }
 

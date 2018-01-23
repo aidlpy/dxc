@@ -116,6 +116,7 @@
         _title = _conversation.officialAccount.name;
     }
     self.title = _title;
+    
     [[HChatClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
     [[HDSDKHelper shareHelper] setIsShowingimagePicker:NO];
     if (self.scrollToBottomWhenAppear) {
@@ -152,7 +153,7 @@
     //Register the delegate
     [HDCDDeviceManager sharedInstance].delegate = self;
     
-    [self setLeftBarBtnItem];
+    //[self setLeftBarBtnItem];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didBecomeActive)

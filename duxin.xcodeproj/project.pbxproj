@@ -22,6 +22,8 @@
 		BA07EA102014B3A3004CBA1A /* ServiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA07EA0A2014B3A2004CBA1A /* ServiceViewController.m */; };
 		BA07EA172014BD39004CBA1A /* AccountSafeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BA07EA162014BD39004CBA1A /* AccountSafeCell.m */; };
 		BA07EA1A2014C714004CBA1A /* MyDynamicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA07EA192014C714004CBA1A /* MyDynamicViewController.m */; };
+		BA0EFD522016EF6500307C78 /* RegularTool.m in Sources */ = {isa = PBXBuildFile; fileRef = BA0EFD512016EF6500307C78 /* RegularTool.m */; };
+		BA0EFD5520171C3000307C78 /* MyInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA0EFD5420171C3000307C78 /* MyInfoViewController.m */; };
 		BA3FBB082015871700D863A7 /* ReservationOrderVController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3FBB072015871700D863A7 /* ReservationOrderVController.m */; };
 		BA3FBB0B2015923400D863A7 /* ConsultingOrdersVController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3FBB0A2015923400D863A7 /* ConsultingOrdersVController.m */; };
 		BA6CD9B02010C48200C36B73 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6CD99C2010C48200C36B73 /* BaseViewController.m */; };
@@ -280,6 +282,10 @@
 		BA07EA162014BD39004CBA1A /* AccountSafeCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AccountSafeCell.m; sourceTree = "<group>"; };
 		BA07EA182014C714004CBA1A /* MyDynamicViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyDynamicViewController.h; sourceTree = "<group>"; };
 		BA07EA192014C714004CBA1A /* MyDynamicViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyDynamicViewController.m; sourceTree = "<group>"; };
+		BA0EFD502016EF6500307C78 /* RegularTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RegularTool.h; sourceTree = "<group>"; };
+		BA0EFD512016EF6500307C78 /* RegularTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RegularTool.m; sourceTree = "<group>"; };
+		BA0EFD5320171C3000307C78 /* MyInfoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyInfoViewController.h; sourceTree = "<group>"; };
+		BA0EFD5420171C3000307C78 /* MyInfoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyInfoViewController.m; sourceTree = "<group>"; };
 		BA3FBB062015871700D863A7 /* ReservationOrderVController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReservationOrderVController.h; sourceTree = "<group>"; };
 		BA3FBB072015871700D863A7 /* ReservationOrderVController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReservationOrderVController.m; sourceTree = "<group>"; };
 		BA3FBB092015923400D863A7 /* ConsultingOrdersVController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConsultingOrdersVController.h; sourceTree = "<group>"; };
@@ -797,6 +803,23 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		BA0EFD4E2016EF3E00307C78 /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				BA0EFD4F2016EF5100307C78 /* RegularTool */,
+			);
+			path = Tools;
+			sourceTree = "<group>";
+		};
+		BA0EFD4F2016EF5100307C78 /* RegularTool */ = {
+			isa = PBXGroup;
+			children = (
+				BA0EFD502016EF6500307C78 /* RegularTool.h */,
+				BA0EFD512016EF6500307C78 /* RegularTool.m */,
+			);
+			path = RegularTool;
+			sourceTree = "<group>";
+		};
 		BA3FBB052015792A00D863A7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -829,6 +852,7 @@
 			children = (
 				BAA1B3D1201336EE00CDB437 /* LocalDefine.h */,
 				BA6CD9A62010C48200C36B73 /* Header.h */,
+				BA0EFD4E2016EF3E00307C78 /* Tools */,
 				BA6CD9C12010D99A00C36B73 /* CustomeBtn */,
 				BA6CD9BD2010D8BF00C36B73 /* CustomNav */,
 				BA6CD99A2010C48200C36B73 /* BaseViewController */,
@@ -932,6 +956,8 @@
 				BA6CD9FA201225FC00C36B73 /* AboutUsViewController.m */,
 				BA07EA182014C714004CBA1A /* MyDynamicViewController.h */,
 				BA07EA192014C714004CBA1A /* MyDynamicViewController.m */,
+				BA0EFD5320171C3000307C78 /* MyInfoViewController.h */,
+				BA0EFD5420171C3000307C78 /* MyInfoViewController.m */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -2214,6 +2240,7 @@
 				BAA1B34420132DDA00CDB437 /* PSTCollectionViewUpdateItem.m in Sources */,
 				BAA1B35B20132DDA00CDB437 /* CWStarRateView.m in Sources */,
 				BAA1B36F20132DDA00CDB437 /* HDEmoji.m in Sources */,
+				BA0EFD5520171C3000307C78 /* MyInfoViewController.m in Sources */,
 				BAA1B32F20132DDA00CDB437 /* EMSDWebImageDownloader.m in Sources */,
 				BAA1B36220132DDA00CDB437 /* HRecordView.m in Sources */,
 				BAA1B3C72013343000CDB437 /* SCLoginManager.m in Sources */,
@@ -2225,6 +2252,7 @@
 				BAA1B32220132DDA00CDB437 /* UIView+MJExtension.m in Sources */,
 				BA03F6DB2012E95F004821DA /* RegisterViewController.m in Sources */,
 				BAA1B32C20132DDA00CDB437 /* EMSDImageCache.m in Sources */,
+				BA0EFD522016EF6500307C78 /* RegularTool.m in Sources */,
 				BAA1B30C20132DDA00CDB437 /* HDCDDeviceManager+Remind.m in Sources */,
 				BA6CD9F8201225C800C36B73 /* AccountSafeViewController.m in Sources */,
 				BAA1B38320132DDA00CDB437 /* HDArticleView.m in Sources */,

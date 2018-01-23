@@ -60,6 +60,7 @@
 #define  Color_4B4B4B COLOR(@"4B4B4B")
 #define  Color_D4D4D4 COLOR(@"D4D4D4")
 #define  Color_EBEBEB COLOR(@"EBEBEB")
+#define  Color_FE6C7E COLOR(@"FE6C7E")
 
 
 #define A100 @"FF"
@@ -97,7 +98,10 @@
 #import "ZSize.h"
 #import "SVProgressHUD.h"
 #import "CustomNavView.h"
-
+#import "IQKeyboardManager.h"
+#import "UIImageView+WebCache.h"
+#import "UIButton+WebCache.h"
+#import "RegularTool.h"
 
 
 
@@ -129,11 +133,23 @@
 #define USERNICKNAME @"nickname"
 #define USERHEDAERIMAGE @"headerImage"
 #define EXPIRESININ @"expires_in"
+#define USERROLE @"userrole"
+#define LOGINEMUSER @"lgoinEMuser"
+#define LOGINUPDATE @"loginUpdate"
+#define LOGINSTATE @"loginState"
+#define LOGINERROR [NSString stringWithFormat:@"401"]
+#define LOGINSUCCESS [NSString stringWithFormat:@"200"]
+#define MALE [NSString stringWithFormat:@"1"]
+#define FEMALE [NSString stringWithFormat:@"2"]
+#define ZERO [NSString stringWithFormat:@"0"]
+#define EMUSER @"emuser"
+#define EMPASSWORD @"empassword"
 
 //自动登录
 #define CacheAutoLoginState(bool) [[NSUserDefaults standardUserDefaults] setBool:bool forKey:AUTOLOGIN]
 //是否自动登录
 #define FetchAutoLoginState [[NSUserDefaults standardUserDefaults] boolForKey:AUTOLOGIN]
+
 //快速取本地值
 #define NSUserDefaultsFetch(key) [[NSUserDefaults standardUserDefaults] objectForKey:key]
 //快速存值在本地
@@ -146,18 +162,34 @@
 #define CacheDeviceID(value) NSUserDefaultsSet(DEVICEID,value)
 //获取设备标识
 #define FetchDeviceID NSUserDefaultsFetch(DEVICEID)
+
 //缓存用户名
 #define CacheUsername(value) NSUserDefaultsSet(USERNAME,value)
 //获取用户名
 #define FetchUsername NSUserDefaultsFetch(USERNAME)
 //删除用户名
 #define ClearUsername NSUserDefalutsDel(USERNAME)
+
+//缓存环信用户名
+#define CacheEMUsername(value) NSUserDefaultsSet(EMUSER,value)
+//获取环信用户名
+#define FetchEMUsername NSUserDefaultsFetch(EMUSER)
+//删除环信用户名
+#define ClearEMUsername NSUserDefalutsDel(EMUSER)
+
 //缓存密码
 #define CachePassword(value) NSUserDefaultsSet(PASSWORD,value)
 //获取密码
 #define FetchPassword NSUserDefaultsFetch(PASSWORD)
 //删除密码
 #define ClearPassword NSUserDefalutsDel(PASSWORD)
+
+//缓存环信密码
+#define CacheEMPassword(value) NSUserDefaultsSet(EMPASSWORD,value)
+//获取环信密码
+#define FetchEMPassword NSUserDefaultsFetch(EMPASSWORD)
+//删除环信密码
+#define ClearEMPassword NSUserDefalutsDel(EMPASSWORD)
 
 //缓存Token
 #define CacheToken(value) NSUserDefaultsSet(TOKEN,value)
@@ -172,6 +204,13 @@
 #define FetchTokenType NSUserDefaultsFetch(TOKENTYPE)
 //删除TokenType
 #define ClearTokenType NSUserDefalutsDel(TOKENTYPE)
+
+//缓存登录的状态 200登录成功 401登录失败
+#define CacheLoginState(value) NSUserDefaultsSet(LOGINSTATE,value)
+//获取登录的状态
+#define FetchLoginState NSUserDefaultsFetch(LOGINSTATE)
+//删除登录的状态
+#define ClearLoginState NSUserDefalutsDel(LOGINSTATE)
 
 
 //缓存expires_in
@@ -237,5 +276,13 @@
 #define FetchUserHeaderImage NSUserDefaultsFetch(USERHEDAERIMAGE)
 //删除用户头像
 #define ClearUserHeaderImage NSUserDefalutsDel(USERHEDAERIMAGE)
+
+//缓存用户角色
+#define CacheUserRole(value) NSUserDefaultsSet(USERROLE,value)
+//获取用户角色
+#define FetchUserRole NSUserDefaultsFetch(USERROLE)
+//删除用户角色
+#define ClearUserRole NSUserDefalutsDel(USERROLE)
+
 
 #endif /* Header_h */

@@ -49,19 +49,12 @@
     // Do any additional setup after loading the view.
     self.showRefreshHeader = YES;
     self.delegate = self;
-    self.dataSource = self;
+    self.dataSource = self;    
     self.visitorInfo = [self visitorInfo];
     
     [self _setupBarButtonItem];
-    
     [[HChatClient sharedClient].chatManager bindChatWithConversationId:self.conversation.conversationId];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteAllMessages:) name:KNOTIFICATIONNAME_DELETEALLMESSAGE object:nil];
-    if ([_commodityInfo count] > 1) {
-        [self sendCommodityMessageWithInfo:_commodityInfo];
-        _commodityInfo = nil;
-    }
-    
-
 }
 
 -(void)viewWillLayoutSubviews{
@@ -96,9 +89,7 @@
     visitor.qq = @"12345678";
     visitor.phone = @"13636362637";
     visitor.companyName = @"环信1212";
-    if ([SCLoginManager shareLoginManager].nickname && [SCLoginManager shareLoginManager].nickname.length > 0) {
-        visitor.nickName = [SCLoginManager shareLoginManager].nickname;
-    }
+    [[NSUserDefaults standardUserDefaults] setObject:FetchUserNickName forKey:kCustomerNickname];
     visitor.email = @"abv@126.com";
     visitor.desc = @"环信1212";
     return visitor;
@@ -152,7 +143,6 @@
     if ([self isOrder]) {
         HOrderInfo *od  = (HOrderInfo *)[self trackOrOrder];
         [message addContent:od];
-        
         [message addContent:self.visitorInfo];
         NSString *imageName = [info objectForKey:@"imageName"];
         NSMutableDictionary *ext = [message.ext mutableCopy];
@@ -300,7 +290,7 @@
 {
     id<HDIMessageModel> model = nil;
     model = [[HDMessageModel alloc] initWithMessage:message];
-    model.avatarImage = [UIImage imageNamed:@"HelpDeskUIResource.bundle/user"];
+    model.avatarImage =[UIImage imageNamed:@"HelpDeskUIResource.bundle/user"];
     model.avatarURLPath = @"";
     model.failImageName = @"imageDownloadFail";
     return model;

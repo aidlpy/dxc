@@ -20,6 +20,8 @@
 
 #define FetchLogin POST_URL(@"/oauth2/token")
 #define FetchUserInfo GET_URL(@"/v1/user/get-user")
+#define POSTREGISTER POST_URL(@"/v1/user/sign")
+#define PostMobileCode POST_URL(@"/v1/common/verification")
 
 #define FetchRegister GET_URL(@"/admin/register.json")
 #define UpdateInfoAPI GET_URL(@"/admin/update_userinfo.json")

@@ -65,9 +65,9 @@
     _confirmBtn = [[UIButton alloc] initWithFrame:CGRectMake(35, bottom(_loginViewArray.lastObject)+48,SIZE.width-70,40)];
     _confirmBtn.backgroundColor = Color_5ECAF5;
     [_confirmBtn.layer setCornerRadius:2.0f];
-    [_confirmBtn setTitle:@"注册" forState:UIControlStateNormal];
+    [_confirmBtn setTitle:@"确认" forState:UIControlStateNormal];
     [_confirmBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [_confirmBtn addTarget:self action:@selector(registerAciton:) forControlEvents:UIControlEventTouchUpInside];
+    [_confirmBtn addTarget:self action:@selector(confirmAciton:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_confirmBtn];
     
 }
@@ -77,7 +77,55 @@
 
 }
 
--(void)registerAciton:(UIButton *)btn{
+-(void)confirmAciton:(UIButton *)btn{
+    [self foundPassword];
+}
+
+-(void)foundPassword{
+    
+    HttpsManager *httpsManager = [[HttpsManager alloc] init];
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+    [dic setObject:((LoginView *)(_loginViewArray[0])).textField.text forKey:@"username"];
+    [dic setObject:((LoginView *)(_loginViewArray[2])).textField.text forKey:@"password"];
+    [dic setObject:((LoginView *)(_loginViewArray[1])).textField.text forKey:@"code"];
+    [httpsManager postServerAPI:POSTREGISTER deliveryDic:dic successful:^(id responseObject) {
+        
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            NSDictionary *dic = (NSDictionary *)responseObject;
+            
+            if ([[dic objectForKey:@"code"] integerValue] == 200)
+            {
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [SVProgressHUD dismiss];
+                    [SVProgressHUD showSuccessWithStatus:@"找回密码成功！"];
+                    [self.navigationController popViewControllerAnimated:YES];
+                });
+                
+            }
+            else
+                if([[dic objectForKey:@"code"] integerValue] == 401){
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [SVProgressHUD dismiss];
+                        [SVProgressHUD showErrorWithStatus:@"找回密码失败！"];
+                    });
+                }
+                else
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [SVProgressHUD dismiss];
+                        [SVProgressHUD showErrorWithStatus:@"找回密码失败！"];
+                    });
+                }
+            
+        });
+        
+    } fail:^(id error) {
+        [SVProgressHUD dismiss];
+        [SVProgressHUD showErrorWithStatus:@"网络连接失败!"];
+    }];
+    
     
 }
 

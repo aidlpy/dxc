@@ -7,11 +7,13 @@
 //
 
 #import "AppDelegate.h"
+#import "Header.h"
 
 @interface AppDelegate (HelpDesk)<UIAlertViewDelegate,HChatClientDelegate>
 - (void)easemobApplication:(UIApplication *)application
 didFinishLaunchingWithOptions:(NSDictionary *)launchOptions;
-- (void)resetCustomerServiceSDK;
-- (void)userAccountDidRemoveFromServer ;
-- (void)userAccountDidLoginFromOtherDevice;
+-(void)resetCustomerServiceSDK;
+-(void)userAccountDidRemoveFromServer ;
+-(void)userAccountDidLoginFromOtherDevice;
+
 @end
