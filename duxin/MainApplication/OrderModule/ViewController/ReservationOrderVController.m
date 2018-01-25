@@ -12,6 +12,7 @@
 #import "OrderModel.h"
 #import "FinishPayCell.h"
 
+
 @interface ReservationOrderVController ()<UITableViewDelegate,UITableViewDataSource>
 {
     OrderTitleView  *_titleView;
@@ -48,8 +49,7 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     [self.navView setBackStytle:@"预约订单" rightImage:@"whiteLeftArrow"];
-    
-    
+
     __weak typeof(self) weakSelf = self;
     _titleView = [[OrderTitleView alloc] initWithFrame:CGRectMake(0, h(self.navView), SIZE.width, 50) withArray:@[@"全部",@"待支付",@"已支付"]];
     _titleView.indexBlock = ^(NSInteger index) {
@@ -57,9 +57,12 @@
     };
     [self.view addSubview:_titleView];
     
-    _tablView = [[UITableView alloc] initWithFrame:CGRectMake(0,bottom(_titleView), SIZE.width, SIZE.height-bottom(_titleView)) style:UITableViewStylePlain];
+    _tablView = [[UITableView alloc] initWithFrame:CGRectMake(0,bottom(_titleView), SIZE.width, SIZE.height-bottom(_titleView)) style:UITableViewStyleGrouped];
     _tablView.delegate = self;
     _tablView.dataSource = self;
+    _tablView.estimatedRowHeight = 0;
+    _tablView.estimatedSectionHeaderHeight = 0;
+    _tablView.estimatedSectionFooterHeight = 0;
     [self.view addSubview:_tablView];
     
 }
@@ -69,10 +72,22 @@
     
 }
 
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    if (section == 0) {
+        return 0.001f;
+    }else{
+        return 7.0f;
+    }
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 0.001f;
+}
+
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     
     return _dataArray.count;
-    
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -80,15 +95,16 @@
     return 1;
 }
 
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     OrderModel *model = _dataArray[indexPath.section];
     switch (model.orderState) {
         case 0:
-            return 75.0f;
+            return 230.0f;
             break;
         case 1:
-            return 100.0f;
+            return 190.0f;
             break;
             
         default:

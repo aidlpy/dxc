@@ -283,6 +283,7 @@
 		BAA912D92014304E0091D13E /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAA912D82014304E0091D13E /* HelpDesk.framework */; };
 		BAA912DA2014305F0091D13E /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAA912D82014304E0091D13E /* HelpDesk.framework */; };
 		BAA912DB2014305F0091D13E /* HelpDesk.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BAA912D82014304E0091D13E /* HelpDesk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BAAC92B72019F3A7008780CD /* TagView.m in Sources */ = {isa = PBXBuildFile; fileRef = BAAC92B62019F3A7008780CD /* TagView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -873,6 +874,8 @@
 		BAA52F8F20104C3B005DA87F /* FoundViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FoundViewController.m; sourceTree = "<group>"; };
 		BAA912CF20142FD40091D13E /* HyphenateLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HyphenateLite.framework; sourceTree = "<group>"; };
 		BAA912D82014304E0091D13E /* HelpDesk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HelpDesk.framework; sourceTree = "<group>"; };
+		BAAC92B52019F3A7008780CD /* TagView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TagView.h; sourceTree = "<group>"; };
+		BAAC92B62019F3A7008780CD /* TagView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TagView.m; sourceTree = "<group>"; };
 		C64F07869E8AECBB02E0B393 /* Pods-duxin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-duxin.debug.xcconfig"; path = "Pods/Target Support Files/Pods-duxin/Pods-duxin.debug.xcconfig"; sourceTree = "<group>"; };
 		FB7BCD384DA25EB1455F0FA8 /* libPods-duxinTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-duxinTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -994,6 +997,8 @@
 				BA2583562019E9060079C854 /* OrderTitleView.m */,
 				BA2583572019E9060079C854 /* WatingForPayCell.h */,
 				BA2583522019E9050079C854 /* WatingForPayCell.m */,
+				BAAC92B52019F3A7008780CD /* TagView.h */,
+				BAAC92B62019F3A7008780CD /* TagView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2775,6 +2780,7 @@
 				BAA1B30320132DDA00CDB437 /* hdwav.mm in Sources */,
 				BA6CD9C02010D8BF00C36B73 /* CustomNavView.m in Sources */,
 				BAA1B36B20132DDA00CDB437 /* NSString+Valid.m in Sources */,
+				BAAC92B72019F3A7008780CD /* TagView.m in Sources */,
 				BAA1B33A20132DDA00CDB437 /* UIImageView+EMWebCache.m in Sources */,
 				BA2583242019D90A0079C854 /* NSString+Valid.m in Sources */,
 				BAA1B32920132DDA00CDB437 /* MWTapDetectingView.m in Sources */,

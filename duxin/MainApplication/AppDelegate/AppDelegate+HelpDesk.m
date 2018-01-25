@@ -38,6 +38,7 @@
         //ios8注册apns
         [self registerRemoteNotification];
         [self initHuanXinCustomer];
+        [self initIMchat];
         AVAudioSession *audioSession = [AVAudioSession sharedInstance];
         [audioSession overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:nil];
         [audioSession setActive:YES error:nil];
@@ -53,6 +54,7 @@
          */
         // 注册环信监听
         [self setupNotifiers];
+        
     });
 }
 
@@ -69,6 +71,7 @@
     option.apnsCertName = @"1221";//(集成离线推送必填)
     //Kefu SDK 初始化,初始化失败后将不能使用Kefu SDK
     HError *initError = [[HChatClient sharedClient] initializeSDKWithOptions:option];
+ 
     if (!initError) {
         NSLog(@"初始化成功!");
         [self registerEMCustomerService];
@@ -79,12 +82,40 @@
         NSLog(@"%d",initError.code);
         
     }
+    
+
 }
 
+-(void)initIMchat{
+    
+    EMOptions *options = [EMOptions optionsWithAppkey:kDefaultAppKey];
+    options.apnsCertName = @"istore_dev";
+    [[EMClient sharedClient] initializeSDKWithOptions:options];
+    [self registerIMChat];
 
--(void)initIMChat{
+}
+
+-(void)registerIMChat{
     
+    EMError *error = [[EMClient sharedClient] registerWithUsername:@"iostest" password:@"123456"];
+    if (error==nil) {
+        NSLog(@"IM注册成功");
+    }
+    else
+    {
+        NSLog(@"IM注册失败%d",error.code);
+        
+    }
     
+    EMError *error1= [[EMClient sharedClient] loginWithUsername:@"iostest" password:@"123456"];
+    if (!error1) {
+        NSLog(@"IM登录成功");
+    }
+    else
+    {
+        NSLog(@"IM登录失败%d",error1.code);
+        
+    }
     
 }
 
@@ -103,6 +134,8 @@
         NSLog(@"注册%d",error.code);
         [self loginEMUserResult];
     }
+    
+    [self registerIMChat];
     
 }
 
@@ -238,6 +271,7 @@
 #pragma mark - notifiers
 - (void)appDidEnterBackgroundNotif:(NSNotification*)notif{
     [[HChatClient sharedClient] applicationDidEnterBackground:notif.object];
+    
 }
 
 - (void)appWillEnterForeground:(NSNotification*)notif

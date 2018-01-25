@@ -146,9 +146,11 @@
 }
 
 -(void)pushChatWithPaymentRoom{
+    
     ChatWithPaymentVC *vc = [[ChatWithPaymentVC alloc] initWithConversationChatter:@"user123" conversationType:EMConversationTypeChat];
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
+    
 }
 
 -(void)pushToSerViceRoom{

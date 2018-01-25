@@ -62,6 +62,8 @@
 #define  Color_EBEBEB COLOR(@"EBEBEB")
 #define  Color_FE6C7E COLOR(@"FE6C7E")
 #define  Color_DCDCDC COLOR(@"DCDCDC")
+#define  Color_2A2A2A COLOR(@"2A2A2A")
+#define  Color_57CAFA COLOR(@"57CAFA")
 
 
 #define A100 @"FF"
