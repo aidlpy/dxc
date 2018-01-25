@@ -36,7 +36,16 @@
     }
 }
 
-
++(BOOL)matchCodeType:(NSString *)str {
+    BOOL result = false;
+    if ([str length] >= 6){
+        // 判断长度大于8位后再接着判断是否同时包含数字和字符
+        NSString * regex = @"^[0-9]{0,6}$";
+        NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+        result = [pred evaluateWithObject:str];
+    }
+    return result;
+}
 
 
 #pragma mark - 匹配3-15位的中文或英文(用户名)

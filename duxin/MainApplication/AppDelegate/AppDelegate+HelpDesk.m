@@ -37,9 +37,7 @@
     
         //ios8注册apns
         [self registerRemoteNotification];
-    
         [self initHuanXinCustomer];
-    
         AVAudioSession *audioSession = [AVAudioSession sharedInstance];
         [audioSession overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:nil];
         [audioSession setActive:YES error:nil];
@@ -81,7 +79,13 @@
         NSLog(@"%d",initError.code);
         
     }
+}
 
+
+-(void)initIMChat{
+    
+    
+    
 }
 
 -(void)registerEMCustomerService{

@@ -110,13 +110,14 @@
         }
         else
         {
-           [SVProgressHUD showErrorWithStatus:@"请输入正确的密码！"];
+
+            [SVHUD showErrorWithDelay:@"请输入正确的密码！" time:0.8];
         }
 
     }
     else
     {
-        [SVProgressHUD showErrorWithStatus:@"请输入正确的手机号码！"];
+        [SVHUD showErrorWithDelay:@"请输入正确的手机号码！" time:0.8];
 
     }
     
@@ -161,8 +162,7 @@
                 
                 [self fetchUserInfo];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [SVProgressHUD dismiss];
-                    [SVProgressHUD showSuccessWithStatus:@"登录成功！"];
+                    [SVHUD showSuccessWithDelay:@"登录成功！" time:0.8];
                     [self dismissViewControllerAnimated:YES completion:nil];
                 });
                 
@@ -170,16 +170,14 @@
             else if([[dic objectForKey:@"code"] integerValue] == 401){
                 CacheLoginState(LOGINERROR);
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [SVProgressHUD dismiss];
-                    [SVProgressHUD showErrorWithStatus:@"请重新登录!"];
+                    [SVHUD showSuccessWithDelay:@"请重新登录!" time:0.8];
                 });
             }
             else{ [SVProgressHUD dismiss];}
         });
         
     } fail:^(id error) {
-        [SVProgressHUD dismiss];
-        [SVProgressHUD showErrorWithStatus:@"网络连接失败!"];
+            [SVHUD showSuccessWithDelay:@"发送请求失败!" time:0.8];
     }];
     
     

@@ -61,6 +61,7 @@
 #define  Color_D4D4D4 COLOR(@"D4D4D4")
 #define  Color_EBEBEB COLOR(@"EBEBEB")
 #define  Color_FE6C7E COLOR(@"FE6C7E")
+#define  Color_DCDCDC COLOR(@"DCDCDC")
 
 
 #define A100 @"FF"
@@ -102,6 +103,8 @@
 #import "UIImageView+WebCache.h"
 #import "UIButton+WebCache.h"
 #import "RegularTool.h"
+#import "MBProgressHUD.h"
+#import "SVHUD.h"
 
 
 

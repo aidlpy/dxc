@@ -11,7 +11,8 @@
 #import "MyCounselorVC.h"
 #import "ChatViewController.h"
 #import "ServiceBtn.h"
-#import "AppDelegate+HelpDesk.h"
+#import "ChatWithPaymentVC.h"
+
 
 @interface ServiceViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
@@ -124,7 +125,7 @@
             
         case 1:
         {
-
+            [self pushChatWithPaymentRoom];
             
         }
             break;
@@ -142,6 +143,12 @@
             break;
     }
     
+}
+
+-(void)pushChatWithPaymentRoom{
+    ChatWithPaymentVC *vc = [[ChatWithPaymentVC alloc] initWithConversationChatter:@"user123" conversationType:EMConversationTypeChat];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 -(void)pushToSerViceRoom{

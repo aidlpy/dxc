@@ -49,12 +49,28 @@
         
         LoginView *loginView = [[LoginView alloc] initWithFrame:CGRectMake(0, h(self.navView)+pedding+idx*viewHeight, SIZE.width, viewHeight)];
         [loginView setLogoImageView:dic[@"logo"] setPlaceHolder:dic[@"placeHolder"]];
+        if (idx == 0)
+        {
+            loginView.textField.keyboardType =UIKeyboardTypePhonePad;
+        }
+        else
+        if (idx == 1)
+        {
+           loginView.textField.keyboardType =UIKeyboardTypeNumberPad;
+        }
+        else
+        {
+            loginView.textField.keyboardType = UIKeyboardTypeDefault;
+        }
+     
         if (idx == 1) {
             loginView.codeBtn.hidden = NO;
         }
+        
         loginView.codeBlock = ^{
             [self fetchCodeAction];
         };
+        
         [self.view addSubview:loginView];
         [_loginViewArray addObject:loginView];
         
@@ -72,17 +88,47 @@
 
 
 -(void)registerAciton:(UIButton *)btn{
+    NSString *mobileString  = ((LoginView *)(_loginViewArray[0])).textField.text;
+    NSString *codeString = ((LoginView *)(_loginViewArray[1])).textField.text;
+    NSString *passwordString =((LoginView *)(_loginViewArray[2])).textField.text;
     
-        [self postRegister];
+    if ([RegularTool isPhoneNumber:mobileString]){
+        
+        if (codeString.length == 6) {
+            
+            if ([RegularTool matchPassword:passwordString])
+            {
+                [self postRegister];
+            }
+            else
+            {
+                 [SVHUD showErrorWithDelay:@"密码错误!" time:0.8];
+            }
+        }
+        else
+        {
+            [SVHUD showErrorWithDelay:@"验证码错误!" time:0.8];
+        }
+        
+    }
+    else
+    {
+       [SVHUD showErrorWithDelay:@"验证码错误!" time:0.8];
+        
+    }
+
 }
 
 -(void)fetchCodeAction{
-    
-    HttpsManager *httpsManager = [[HttpsManager alloc] init];
-    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
-    [dic setObject:((LoginView *)(_loginViewArray[0])).textField.text forKey:@"username"];
-    [dic setObject:@"application/json" forKey:@"Content-Type"];
-    [httpsManager postServerAPI:PostMobileCode deliveryDic:dic successful:^(id responseObject) {
+ 
+     NSString *mobileString = ((LoginView *)(_loginViewArray[0])).textField.text;
+    if ([RegularTool isPhoneNumber:mobileString]) {
+
+        HttpsManager *httpsManager = [[HttpsManager alloc] init];
+        NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+        [dic setObject:((LoginView *)(_loginViewArray[0])).textField.text forKey:@"username"];
+        [dic setObject:@"application/json" forKey:@"Content-Type"];
+        [httpsManager postServerAPI:PostMobileCode deliveryDic:dic successful:^(id responseObject) {
         
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             NSDictionary *dic = (NSDictionary *)responseObject;
@@ -125,12 +171,20 @@
                     });
                 }
             
-        });
+            });
         
-    } fail:^(id error) {
-        [SVProgressHUD dismiss];
-        [SVProgressHUD showErrorWithStatus:@"网络连接失败!"];
-    }];
+            } fail:^(id error) {
+                [SVProgressHUD dismiss];
+                [SVProgressHUD showErrorWithStatus:@"网络连接失败!"];
+            }];
+        
+        
+        }
+        else
+        {
+            [SVHUD showErrorWithDelay:@"手机号码错误!" time:0.8];
+        
+        }
     
 }
 

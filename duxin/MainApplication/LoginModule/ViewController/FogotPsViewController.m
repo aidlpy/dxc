@@ -54,6 +54,21 @@
         if (idx == 1) {
             loginView.codeBtn.hidden = NO;
         }
+        
+        if (idx == 0)
+        {
+            loginView.textField.keyboardType =UIKeyboardTypePhonePad;
+        }
+        else
+            if (idx == 1)
+            {
+                loginView.textField.keyboardType =UIKeyboardTypeNumberPad;
+            }
+            else
+            {
+                loginView.textField.keyboardType = UIKeyboardTypeDefault;
+            }
+        
         loginView.codeBlock = ^{
             [self fetchCodeAction];
         };
@@ -72,13 +87,99 @@
     
 }
 
-
 -(void)fetchCodeAction{
-
+    
+    NSString *mobileString = ((LoginView *)(_loginViewArray[0])).textField.text;
+    if ([RegularTool isPhoneNumber:mobileString]) {
+        
+        HttpsManager *httpsManager = [[HttpsManager alloc] init];
+        NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+        [dic setObject:((LoginView *)(_loginViewArray[0])).textField.text forKey:@"username"];
+        [dic setObject:@"application/json" forKey:@"Content-Type"];
+        [httpsManager postServerAPI:PostMobileCode deliveryDic:dic successful:^(id responseObject) {
+            
+            dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                NSDictionary *dic = (NSDictionary *)responseObject;
+                if ([[dic objectForKey:@"code"] integerValue] == 200)
+                {
+                    NSDictionary *dataDic = [dic objectForKey:@"data"];
+                    if ([[dataDic objectForKey:@"error_code"] integerValue] ==0) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            
+                            [SVHUD showSuccessWithDelay:[dataDic objectForKey:@"msg"] time:0.8];
+                
+                        });
+                    }
+                    else
+                    {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [SVHUD showErrorWithDelay:[dataDic objectForKey:@"msg"] time:0.8];
+                        });
+                    }
+                    
+                }
+                else
+                    if([[dic objectForKey:@"code"] integerValue] == 401){
+                        
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [SVHUD showErrorWithDelay:@"获取验证码失败！" time:0.8];
+                        });
+                    }
+                    else
+                    {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [SVHUD showErrorWithDelay:@"获取验证码失败！" time:0.8];
+                        });
+                    }
+                
+            });
+            
+        } fail:^(id error) {
+            [SVHUD showErrorWithDelay:@"获取验证码失败！" time:0.8];
+        }];
+        
+        
+    }
+    else
+    {
+        [SVHUD showErrorWithDelay:@"手机号码错误!" time:0.8];
+    }
+    
 }
 
+
 -(void)confirmAciton:(UIButton *)btn{
-    [self foundPassword];
+    
+    NSString *mobileString  = ((LoginView *)(_loginViewArray[0])).textField.text;
+    NSString *codeString = ((LoginView *)(_loginViewArray[1])).textField.text;
+    NSString *passwordString =((LoginView *)(_loginViewArray[2])).textField.text;
+    
+    if ([RegularTool isPhoneNumber:mobileString]){
+        
+        if (codeString.length == 6) {
+            
+            if ([RegularTool matchPassword:passwordString])
+            {
+                [self foundPassword];
+            }
+            else
+            {
+                [SVHUD showErrorWithDelay:@"密码错误!" time:0.8];
+            }
+        }
+        else
+        {
+            [SVHUD showErrorWithDelay:@"验证码错误!" time:0.8];
+        }
+        
+    }
+    else
+    {
+        [SVHUD showErrorWithDelay:@"验证码错误!" time:0.8];
+        
+    }
+    
+    
 }
 
 -(void)foundPassword{

@@ -74,6 +74,13 @@ typedef void(^resultBlock)(NSString *res);
 */
 + (BOOL)matchPriceStr:(NSString *)priceStr;
 
-
+/*!
+ *  验证码匹配
+ *
+ *  @param str 需要匹配的URL字符串
+ *
+ *  @return 返回匹配结果
+ */
++(BOOL)matchCodeType:(NSString *)str;
 
 @end
