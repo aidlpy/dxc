@@ -8,17 +8,18 @@
 
 #import "ReservationOrderVController.h"
 #import "OrderTitleView.h"
-#import "WatingForPayCell.h"
-#import "OrderModel.h"
-#import "FinishPayCell.h"
+#import "ReservatingCell.h"
 
 
 @interface ReservationOrderVController ()<UITableViewDelegate,UITableViewDataSource>
 {
     OrderTitleView  *_titleView;
-    UIScrollView *_mainScrollView;
     UITableView *_tablView;
     NSMutableArray *_dataArray;
+    BOOL _isHeaderRefresh;
+    NSInteger _selectedIndex;
+    NSInteger _page;
+    NSString  *_pageCount;
 }
 @end
 
@@ -29,19 +30,12 @@
     // Do any additional setup after loading the view.
     
     [self initData];
-    
     [self initUI];
 }
 
 -(void)initData{
-    
+    _page = 1;
     _dataArray = [[NSMutableArray alloc] initWithCapacity:0];
-    NSArray *array = @[@"0",@"1",@"0"];
-    [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        OrderModel *model = [OrderModel new];
-        model.orderState = [obj intValue];
-        [_dataArray addObject:model];
-    }];
     
 }
 
@@ -51,25 +45,141 @@
     [self.navView setBackStytle:@"预约订单" rightImage:@"whiteLeftArrow"];
 
     __weak typeof(self) weakSelf = self;
-    _titleView = [[OrderTitleView alloc] initWithFrame:CGRectMake(0, h(self.navView), SIZE.width, 50) withArray:@[@"全部",@"待支付",@"已支付"]];
+    _titleView = [[OrderTitleView alloc] initWithFrame:CGRectMake(0, h(self.navView), SIZE.width, 50) withArray:@[@"全部",@"待支付",@"待评价",@"已支付"]];
     _titleView.indexBlock = ^(NSInteger index) {
         [weakSelf selectedIndex:index];
     };
     [self.view addSubview:_titleView];
     
+    _selectedIndex = AllOrder;
     _tablView = [[UITableView alloc] initWithFrame:CGRectMake(0,bottom(_titleView), SIZE.width, SIZE.height-bottom(_titleView)) style:UITableViewStyleGrouped];
     _tablView.delegate = self;
     _tablView.dataSource = self;
+    _tablView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        _isHeaderRefresh = YES;
+        [self jugmentLastPage:_selectedIndex];
+    }];
+    _tablView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+        _isHeaderRefresh = NO;
+      [self jugmentLastPage:_selectedIndex];
+    }];
     _tablView.estimatedRowHeight = 0;
     _tablView.estimatedSectionHeaderHeight = 0;
     _tablView.estimatedSectionFooterHeight = 0;
     [self.view addSubview:_tablView];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [_tablView.mj_header beginRefreshing];
+}
+
+-(void)jugmentLastPage:(NSInteger)orderStatus{
+    
+    if (_isHeaderRefresh) {
+        _page = 1;
+        [self getDataWithHeaderRefresh:orderStatus];
+    }
+    else{
+        _page++;
+    }
+    
+    if (_pageCount) {
+        if (_page > [_pageCount integerValue]) {
+            _isHeaderRefresh?[_tablView.mj_header endRefreshing]:[_tablView.mj_footer endRefreshing];
+        }
+        else
+        {
+            [self getDataWithHeaderRefresh:orderStatus];
+        }
+    }
+    
+}
+
+-(void)getDataWithHeaderRefresh:(NSInteger)orderStatus{
+    
+    HttpsManager *httpsManager = [[HttpsManager alloc] init];
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+    if (orderStatus == AllOrder) {
+        [dic setObject:@"" forKey:@"status"];
+    }
+    else{
+        [dic setObject:[NSString stringWithFormat:@"%d",(int)orderStatus] forKey:@"status"];
+    }
+    [dic setObject:[NSString stringWithFormat:@"%d",(int)_page] forKey:@"page"];
+    [httpsManager getServerAPI:FetchReservationOrders deliveryDic:dic successful:^(id responseObject) {
+        
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            NSDictionary *dic = (NSDictionary *)responseObject;
+            if ([[dic objectForKey:@"code"] integerValue] == 200) {
+                NSDictionary *dataDic = [dic objectForKey:@"data"];
+                if ([[dataDic objectForKey:@"error_code"] integerValue] == 0) {
+                    NSArray *itemArray =(NSArray *)[dataDic objectForKey:@"result"];
+                    NSArray *modelArray = [OrderModel fetchOrderModels:itemArray];
+                    _pageCount = [[dataDic objectForKey:@"_meta"] objectForKey:@"pageCount"];
+                    if (modelArray.count != 0) {
+                        if (_isHeaderRefresh) {
+                            [_dataArray removeAllObjects];
+                        }
+                            [_dataArray addObjectsFromArray:[OrderModel fetchOrderModels:itemArray]];
+                    }
+                    else
+                    {
+                        if (_isHeaderRefresh) {
+                            [_dataArray removeAllObjects];
+                        }
+                    }
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [_tablView reloadData];
+                        _isHeaderRefresh?[_tablView.mj_header endRefreshing]:[_tablView.mj_footer endRefreshing];
+                        [self dismissViewControllerAnimated:YES completion:nil];
+                    });
+                }
+                else{
+                   _isHeaderRefresh?[_tablView.mj_header endRefreshing]:[_tablView.mj_footer endRefreshing];
+                    [SVHUD showSuccessWithDelay:@"获取数据数据失败!" time:0.8];
+                }
+            }
+            else if([[dic objectForKey:@"code"] integerValue] == 401){
+            
+                dispatch_async(dispatch_get_main_queue(), ^{
+                   _isHeaderRefresh?[_tablView.mj_header endRefreshing]:[_tablView.mj_footer endRefreshing];
+                    [SVHUD showSuccessWithDelay:@"获取数据数据失败!" time:0.8];
+                });
+            }
+            else{ [SVProgressHUD dismiss];}
+        });
+        
+    } fail:^(id error) {
+       _isHeaderRefresh?[_tablView.mj_header endRefreshing]:[_tablView.mj_footer endRefreshing];
+        [SVHUD showSuccessWithDelay:@"获取数据数据失败!" time:0.8];
+    }];
     
 }
 
 -(void)selectedIndex:(NSInteger)index
 {
-    
+    _isHeaderRefresh = YES;
+    switch (index) {
+        case 0:
+            _selectedIndex = AllOrder;
+            break;
+        case 1:
+            _selectedIndex = WatingForOrderPay;
+            break;
+        case 2:
+            _selectedIndex = WatingForComment;
+            break;
+        case 3:
+            _selectedIndex = FinishComment;
+            break;
+            
+        default:
+            break;
+    }
+    [_tablView.mj_header beginRefreshing];
+   
 }
 
 
@@ -98,66 +208,201 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    OrderModel *model = _dataArray[indexPath.section];
-    switch (model.orderState) {
-        case 0:
-            return 230.0f;
-            break;
-        case 1:
-            return 190.0f;
-            break;
-            
-        default:
-            break;
-    }
-    
-    return 75.0f;
+    return 230.0f;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
     OrderModel *model = _dataArray[indexPath.section];
-    static NSString *waitingForPayID = @"watingForPayID";
-    static NSString *payedID = @"watingForPayID";
-    
-    if (model.orderState == 0) {
-        
-        WatingForPayCell *cell = [tableView dequeueReusableCellWithIdentifier:waitingForPayID];
-        if (cell == nil) {
-            cell = [[WatingForPayCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:waitingForPayID];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        }
-        cell.tag = indexPath.row;
-        // [cell setDefaultStytle];
-        return cell;
-        
-    }else if (model.orderState == 1){
-        
-        FinishPayCell *cell = [tableView dequeueReusableCellWithIdentifier:payedID];
-        if (cell == nil) {
-            cell = [[FinishPayCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:payedID];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        }
-        cell.tag = indexPath.row;
-        // [cell setDefaultStytle];
-        return cell;
-    
+    static NSString *waitingForPayID = @"GeneralCellID";
+    NSInteger orderStatus = [model.orderStatus integerValue];
+    ReservatingCell *cell = [tableView dequeueReusableCellWithIdentifier:waitingForPayID];
+    if (cell == nil) {
+        cell = [[ReservatingCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:waitingForPayID];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
-    else
-    {
-        
-        return nil;
-    }
-    
-
+    cell.tag = indexPath.section;
+    [cell setConsultingOrdersCellStytle:orderStatus];
+    [cell fetchData:model];
+    cell.cancelBlock = ^(NSInteger tag) {
+        [self cancelAction:tag];
+    };
+    cell.generalBlock = ^(NSInteger tag) {
+        [self generalAction:tag];
+    };
+    return cell;
 }
+
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
 }
 
 
+-(void)cancelAction:(NSUInteger)tag{
+    
+    UIAlertController *alertVc = [UIAlertController alertControllerWithTitle:@"提示" message:@"请确认是否取消订单?" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancle = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        nil;
+    }];
+    
+    UIAlertAction *confirm = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self cancelOrder:tag];
+    }];
+    
+    [alertVc addAction:cancle];
+    [alertVc addAction:confirm];
+
+    [self presentViewController:alertVc animated:YES completion:^{
+        nil;
+    }];
+    
+    
+}
+
+-(void)generalAction:(NSUInteger)tag{
+    OrderModel *model = _dataArray[tag];
+    switch ([model.orderStatus integerValue]) {
+        case WatingForOrderPay:
+        {
+            
+            
+        }
+            break;
+        case WatingForConsulting:
+        {
+            
+            
+        }
+            break;
+        case WatingForComment:
+        {
+            
+            
+        }
+            break;
+        case FinishComment:
+        {
+            
+            
+        }
+            break;
+        case FinishOrderPay:
+        {
+            
+            
+        }
+            break;
+        case AlreadColse:
+        {
+            
+            UIAlertController *alertVc = [UIAlertController alertControllerWithTitle:@"提示" message:@"请确认是否删除订单?" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *cancle = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+                nil;
+            }];
+            
+            UIAlertAction *confirm = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                [self deleteOrder:tag];
+            }];
+            
+            [alertVc addAction:cancle];
+            [alertVc addAction:confirm];
+            
+            [self presentViewController:alertVc animated:YES completion:^{
+                nil;
+            }];
+      
+            
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
+-(void)deleteOrder:(NSInteger)tag{
+    
+    OrderModel *model = _dataArray[tag];
+    HttpsManager *httpsManager = [[HttpsManager alloc] init];
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+    NSString *deleteURL = [NSString stringWithFormat:@"%@%@",PostDeleteOrder,model.orderId];
+    [httpsManager postServerAPI:deleteURL deliveryDic:dic successful:^(id responseObject) {
+        
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            NSDictionary *dic = (NSDictionary *)responseObject;
+            
+            if ([[dic objectForKey:@"code"] integerValue] == 200) {
+                
+                if ([[[dic objectForKey:@"data"] objectForKey:@"error_code"] integerValue] == 0) {
+                    [_dataArray removeObjectAtIndex:tag];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [_tablView reloadData];
+                        [SVHUD showSuccessWithDelay:@"删除订单成功！" time:0.8];
+                    });
+                }
+                else{
+                    [SVHUD showSuccessWithDelay:@"删除订单失败!" time:0.8];
+                }
+            }
+            else if([[dic objectForKey:@"code"] integerValue] == 401){
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [SVHUD showSuccessWithDelay:@"删除订单失败!" time:0.8];
+                });
+            }
+            else{ [SVProgressHUD dismiss];}
+        });
+        
+    } fail:^(id error) {
+        [SVHUD showSuccessWithDelay:@"删除订单失败!" time:0.8];
+    }];
+    
+    
+}
+
+-(void)cancelOrder:(NSUInteger)tag{
+    
+    OrderModel *model = _dataArray[tag];
+    HttpsManager *httpsManager = [[HttpsManager alloc] init];
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+    NSString *cancelURL = [NSString stringWithFormat:@"%@%@",PostCancelOrder,model.orderId];
+    [httpsManager postServerAPI:cancelURL deliveryDic:dic successful:^(id responseObject) {
+            
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            NSDictionary *dic = (NSDictionary *)responseObject;
+                
+            if ([[dic objectForKey:@"code"] integerValue] == 200) {
+                
+                if ([[[dic objectForKey:@"data"] objectForKey:@"error_code"] integerValue] == 0) {
+                    
+                    [_dataArray removeObjectAtIndex:tag];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [_tablView reloadData];
+                        [SVHUD showSuccessWithDelay:@"取消订单成功！" time:0.8];
+                    });
+                    
+                }
+                else
+                {
+                    [SVHUD showSuccessWithDelay:@"取消订单失败！" time:0.8];
+                }
+                
+                }
+                else if([[dic objectForKey:@"code"] integerValue] == 401){
+  
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [SVHUD showSuccessWithDelay:@"取消订单失败!" time:0.8];
+                    });
+                }
+                else{ [SVProgressHUD dismiss];}
+            });
+            
+        } fail:^(id error) {
+            [SVHUD showSuccessWithDelay:@"取消订单失败!" time:0.8];
+    }];
+}
 
 -(void)backTo{
     [self.navigationController popViewControllerAnimated:YES];

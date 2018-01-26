@@ -8,6 +8,16 @@
 
 #import "BaseViewController.h"
 
+typedef NS_OPTIONS(NSInteger, OrderStatus) {
+    WatingForOrderPay = 0,
+    WatingForConsulting,
+    WatingForComment,
+    FinishComment,
+    FinishOrderPay,
+    AlreadColse,
+    AllOrder =10000
+
+};
 
 @interface ReservationOrderVController : BaseViewController
 

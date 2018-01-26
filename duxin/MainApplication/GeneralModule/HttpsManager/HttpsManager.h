@@ -1,8 +1,8 @@
 //
 //  HttpsManager.h
-//  球汉
+//  Albert
 //
-//  Created by 洋洋钟 on 3/27/17.
+//  Created by Albert on 3/27/17.
 //  Copyright © 2017 smith. All rights reserved.
 //
 
@@ -20,33 +20,14 @@
 
 #define FetchLogin POST_URL(@"/oauth2/token")
 #define FetchUserInfo GET_URL(@"/v1/user/get-user")
-#define POSTREGISTER POST_URL(@"/v1/user/sign")
+#define PostRegister POST_URL(@"/v1/user/sign")
 #define PostMobileCode POST_URL(@"/v1/common/verification")
+#define FetchReservationOrders GET_URL(@"/v1/trade/reservation-item")
+#define PostCancelOrder POST_URL(@"/v1/trade/cancel-order/")
+#define PostDeleteOrder POST_URL(@"/v1/trade/delete-main/")
+#define FetchConsultingOrders GET_URL(@"/v1/trade/consultation-item")
+#define FetchConsultingSubOrders GET_URL(@"/v1/consultation/sub-item")
 
-#define FetchRegister GET_URL(@"/admin/register.json")
-#define UpdateInfoAPI GET_URL(@"/admin/update_userinfo.json")
-#define ALLitemsAPI GET_URL(@"/items/listall.json")
-#define FetchitemsOfCategoryId GET_URL(@"/item/getall.json")
-#define FetchCollectionItemsList GET_URL(@"/collection/collection_add.json")
-#define FetchCommentList GET_URL(@"/review/detail_list.json")
-#define FetchAddressList GET_URL(@"/adr/showall.json")
-#define UpdateDefaultAdddress GET_URL(@"/adr/upd_type.json")
-#define UploadAddtionalAddressAPI GET_URL(@"/adr/add.json")
-#define DelAddressAPI GET_URL(@"/adr/del_adr.json")
-#define SearchItemsList GET_URL(@"/search/showall.json")
-#define OrderAddAPI GET_URL(@"/order/add.json")
-
-
-#define FetchOrderInfo GET_URL(@"/secure/buy.json")
-#define FetchInsuranceList GET_URL(@"/insurance/list.json")
-#define GETALIPAY GET_URL(@"/secure/getAlipay.json")
-#define FetchNewsList GET_URL(@"/news/limitall.json")
-#define FetchResultNewsList GET_URL(@"/news/listlike.json")
-#define SubmitNews GET_URL(@"/user/addtg.json")
-
-#define FetchArticleList GET_URL(@"/user/contribute.json")
-#define UpdatePersonalInfo GET_URL(@"/springUpload.json")
-#define FetchMessageList GET_URL(@"/message/byid.json")
 
 typedef void (^RequestSuccessfulBlock)(id responseObject);
 typedef void (^RequestFailureBlock)(id error);

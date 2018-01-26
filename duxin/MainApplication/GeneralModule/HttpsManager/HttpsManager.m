@@ -37,22 +37,17 @@
     
 }
 
--(void)getServerApi:(NSString *)api deliveryDic:(NSMutableDictionary *)dic successful:(RequestSuccessfulBlock )successBlock fail:(RequestFailureBlock )failBlock{
-
-
-    
-    
-    
-}
-
-
 -(void)postServerAPI:(NSString *)api deliveryDic:(NSMutableDictionary *)dic successful:(RequestSuccessfulBlock )successBlock fail:(RequestFailureBlock )failBlock
 {
     [dic addEntriesFromDictionary:[self getBaseMsg:dic]];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.requestSerializer.timeoutInterval =TIMEOUT;
     manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    if (FetchToken != nil) {
+        [manager.requestSerializer setValue:[NSString stringWithFormat:@"Bearer %@",FetchToken] forHTTPHeaderField:@"Authorization"];
+    }
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"application/json", @"text/json", nil];
+    NSLog(@"dic==>%@",dic);
     [manager POST:api parameters:dic progress:^(NSProgress * _Nonnull uploadProgress) {
         nil;
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {

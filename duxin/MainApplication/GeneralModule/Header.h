@@ -53,7 +53,9 @@
 #define  Color_FFFFFF COLOR(@"FFFFFF")
 #define  Color_5ECAF5 COLOR(@"5ECAF5")
 #define  Color_5ECAF7 COLOR(@"5ECAF7")
+#define  Color_FDA8AF COLOR(@"FDA8AF")
 #define  Color_2A2A2A COLOR(@"2A2A2A")
+#define  Color_3A3A3A COLOR(@"3A3A3A")
 #define  Color_2E2E2E COLOR(@"2E2E2E")
 #define  Color_BABABA COLOR(@"BABABA")
 #define  Color_F54A5F COLOR(@"F54A5F")
@@ -64,6 +66,8 @@
 #define  Color_DCDCDC COLOR(@"DCDCDC")
 #define  Color_2A2A2A COLOR(@"2A2A2A")
 #define  Color_57CAFA COLOR(@"57CAFA")
+#define  Color_FC5268 COLOR(@"FC5268")
+#define  Color_FA9E4B COLOR(@"FA9E4B")
 
 
 #define A100 @"FF"
@@ -107,6 +111,7 @@
 #import "RegularTool.h"
 #import "MBProgressHUD.h"
 #import "SVHUD.h"
+#import "MJRefresh.h"
 
 
 

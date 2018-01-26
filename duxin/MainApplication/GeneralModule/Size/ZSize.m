@@ -151,6 +151,14 @@ bool checktType(NSString *str)
     return number;
 }
 
-
++(CGFloat)sizeWidth:(UILabel *)label
+{
+    
+    NSDictionary *dic=@{NSFontAttributeName:label.font};
+    
+    CGSize size=[label.text sizeWithAttributes:dic];
+    
+    return size.width;
+}
 
 @end

@@ -27,4 +27,5 @@ CGFloat percent(int m,int g);
 bool checktType(NSString *str);
 +(NSString*)get:(NSString *)str;
 +(NSString*)getpercent:(float)percent;
++(CGFloat)sizeWidth:(UILabel *)label;
 @end

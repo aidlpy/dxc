@@ -189,7 +189,7 @@
     [dic setObject:((LoginView *)(_loginViewArray[0])).textField.text forKey:@"username"];
     [dic setObject:((LoginView *)(_loginViewArray[2])).textField.text forKey:@"password"];
     [dic setObject:((LoginView *)(_loginViewArray[1])).textField.text forKey:@"code"];
-    [httpsManager postServerAPI:POSTREGISTER deliveryDic:dic successful:^(id responseObject) {
+    [httpsManager postServerAPI:PostRegister deliveryDic:dic successful:^(id responseObject) {
         
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             NSDictionary *dic = (NSDictionary *)responseObject;

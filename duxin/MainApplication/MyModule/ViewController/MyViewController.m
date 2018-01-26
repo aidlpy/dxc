@@ -16,6 +16,7 @@
 #import "LoginViewController.h"
 #import "MyDynamicViewController.h"
 #import "ReservationOrderVController.h"
+#import "ConsultingOrdersVController.h"
 
 @interface MyViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
@@ -205,7 +206,9 @@
             
         case 1:
         {
-            
+            ConsultingOrdersVController *vc = [ConsultingOrdersVController new];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
         }
             break;
             

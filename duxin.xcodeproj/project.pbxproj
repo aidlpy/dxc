@@ -85,12 +85,11 @@
 		BA25834A2019D90A0079C854 /* EaseUIResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BA25830F2019D90A0079C854 /* EaseUIResource.bundle */; };
 		BA25834E2019E83C0079C854 /* SVHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = BA25834D2019E83C0079C854 /* SVHUD.m */; };
 		BA2583512019E8D50079C854 /* ChatWithPaymentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = BA2583502019E8D50079C854 /* ChatWithPaymentVC.m */; };
-		BA2583582019E9060079C854 /* WatingForPayCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BA2583522019E9050079C854 /* WatingForPayCell.m */; };
-		BA2583592019E9060079C854 /* FinishPayCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BA2583552019E9060079C854 /* FinishPayCell.m */; };
 		BA25835A2019E9060079C854 /* OrderTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = BA2583562019E9060079C854 /* OrderTitleView.m */; };
 		BA25835D2019E90E0079C854 /* OrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BA25835C2019E90D0079C854 /* OrderModel.m */; };
 		BA3FBB082015871700D863A7 /* ReservationOrderVController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3FBB072015871700D863A7 /* ReservationOrderVController.m */; };
 		BA3FBB0B2015923400D863A7 /* ConsultingOrdersVController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3FBB0A2015923400D863A7 /* ConsultingOrdersVController.m */; };
+		BA3FCBA9201B0E3E00E9DCF7 /* ReservatingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3FCBA8201B0E3E00E9DCF7 /* ReservatingCell.m */; };
 		BA6CD9B02010C48200C36B73 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6CD99C2010C48200C36B73 /* BaseViewController.m */; };
 		BA6CD9B12010C48200C36B73 /* UIColor+Category.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6CD99F2010C48200C36B73 /* UIColor+Category.m */; };
 		BA6CD9B22010C48200C36B73 /* UIColor+SSToolkitAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6CD9A12010C48200C36B73 /* UIColor+SSToolkitAdditions.m */; };
@@ -484,18 +483,16 @@
 		BA25834D2019E83C0079C854 /* SVHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVHUD.m; sourceTree = "<group>"; };
 		BA25834F2019E8D40079C854 /* ChatWithPaymentVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatWithPaymentVC.h; sourceTree = "<group>"; };
 		BA2583502019E8D50079C854 /* ChatWithPaymentVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatWithPaymentVC.m; sourceTree = "<group>"; };
-		BA2583522019E9050079C854 /* WatingForPayCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WatingForPayCell.m; sourceTree = "<group>"; };
-		BA2583532019E9050079C854 /* FinishPayCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FinishPayCell.h; sourceTree = "<group>"; };
 		BA2583542019E9050079C854 /* OrderTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderTitleView.h; sourceTree = "<group>"; };
-		BA2583552019E9060079C854 /* FinishPayCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FinishPayCell.m; sourceTree = "<group>"; };
 		BA2583562019E9060079C854 /* OrderTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderTitleView.m; sourceTree = "<group>"; };
-		BA2583572019E9060079C854 /* WatingForPayCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WatingForPayCell.h; sourceTree = "<group>"; };
 		BA25835B2019E90D0079C854 /* OrderModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderModel.h; sourceTree = "<group>"; };
 		BA25835C2019E90D0079C854 /* OrderModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderModel.m; sourceTree = "<group>"; };
 		BA3FBB062015871700D863A7 /* ReservationOrderVController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReservationOrderVController.h; sourceTree = "<group>"; };
 		BA3FBB072015871700D863A7 /* ReservationOrderVController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReservationOrderVController.m; sourceTree = "<group>"; };
 		BA3FBB092015923400D863A7 /* ConsultingOrdersVController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConsultingOrdersVController.h; sourceTree = "<group>"; };
 		BA3FBB0A2015923400D863A7 /* ConsultingOrdersVController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConsultingOrdersVController.m; sourceTree = "<group>"; };
+		BA3FCBA7201B0E3E00E9DCF7 /* ReservatingCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReservatingCell.h; sourceTree = "<group>"; };
+		BA3FCBA8201B0E3E00E9DCF7 /* ReservatingCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReservatingCell.m; sourceTree = "<group>"; };
 		BA5E2A7D2013205600FB278C /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		BA6CD99B2010C48200C36B73 /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		BA6CD99C2010C48200C36B73 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
@@ -991,14 +988,12 @@
 		BA07EA122014B427004CBA1A /* View */ = {
 			isa = PBXGroup;
 			children = (
-				BA2583532019E9050079C854 /* FinishPayCell.h */,
-				BA2583552019E9060079C854 /* FinishPayCell.m */,
 				BA2583542019E9050079C854 /* OrderTitleView.h */,
 				BA2583562019E9060079C854 /* OrderTitleView.m */,
-				BA2583572019E9060079C854 /* WatingForPayCell.h */,
-				BA2583522019E9050079C854 /* WatingForPayCell.m */,
 				BAAC92B52019F3A7008780CD /* TagView.h */,
 				BAAC92B62019F3A7008780CD /* TagView.m */,
+				BA3FCBA7201B0E3E00E9DCF7 /* ReservatingCell.h */,
+				BA3FCBA8201B0E3E00E9DCF7 /* ReservatingCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2729,6 +2724,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA3FCBA9201B0E3E00E9DCF7 /* ReservatingCell.m in Sources */,
 				BAA1B38420132DDA00CDB437 /* HDBubbleView+Article.m in Sources */,
 				BA2583452019D90A0079C854 /* EaseFaceView.m in Sources */,
 				BAA1B30B20132DDA00CDB437 /* HDCDDeviceManager+ProximitySensor.m in Sources */,
@@ -2767,7 +2763,6 @@
 				BA2583162019D90A0079C854 /* EMCDDeviceManager+ProximitySensor.m in Sources */,
 				BA25835A2019E9060079C854 /* OrderTitleView.m in Sources */,
 				BAA1B31F20132DDA00CDB437 /* MJRefreshConst.m in Sources */,
-				BA2583582019E9060079C854 /* WatingForPayCell.m in Sources */,
 				BA25832D2019D90A0079C854 /* EaseEmotionManager.m in Sources */,
 				BAA52F3F20102B19005DA87F /* ViewController.m in Sources */,
 				BAA1B31A20132DDA00CDB437 /* MJRefreshBackStateFooter.m in Sources */,
@@ -2923,7 +2918,6 @@
 				BAA1B31520132DDA00CDB437 /* MJRefreshAutoGifFooter.m in Sources */,
 				BAA1B33320132DDA00CDB437 /* MKAnnotationView+EMWebCache.m in Sources */,
 				BA25835D2019E90E0079C854 /* OrderModel.m in Sources */,
-				BA2583592019E9060079C854 /* FinishPayCell.m in Sources */,
 				BAA1B31720132DDA00CDB437 /* MJRefreshAutoStateFooter.m in Sources */,
 				BAA1B33020132DDA00CDB437 /* EMSDWebImageDownloaderOperation.m in Sources */,
 				BA6CD9B72010C48200C36B73 /* ZSize.m in Sources */,
