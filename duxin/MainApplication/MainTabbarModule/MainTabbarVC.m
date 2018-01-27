@@ -50,31 +50,39 @@
 -(void)initTabbbar{
     
     self.tabBar.backgroundColor = [UIColor clearColor];
+    
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SIZE.width, 0.5)];
+    lineView.backgroundColor = Color_F1F1F1;
+    [self.tabBar addSubview:lineView];
+    
     [_viewControllersArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        id viewController = nil;
-        Class TabViewController = NSClassFromString(obj);
-        if (TabViewController) {
-            viewController = [[TabViewController alloc] init];
-        }
         
-        UIViewController *vc = ((UIViewController *)viewController);
-        vc.title = _tabbarTitleArray[idx];
+            id viewController = nil;
+            Class TabViewController = NSClassFromString(obj);
+            if (TabViewController) {
+                viewController = [[TabViewController alloc] init];
+            }
         
-        //未选中之前的颜色
-        NSMutableDictionary *textAttrs = [NSMutableDictionary dictionary];
-        textAttrs[NSForegroundColorAttributeName] =[UIColor grayColor];
+            UIViewController *vc = ((UIViewController *)viewController);
+            vc.title = _tabbarTitleArray[idx];
         
-        //选中之后的颜色
-        NSMutableDictionary *selectTextAttrs = [NSMutableDictionary dictionary];
-        selectTextAttrs[NSForegroundColorAttributeName] = Color_5DCBF5;
+            //未选中之前的颜色
+            NSMutableDictionary *textAttrs = [NSMutableDictionary dictionary];
+            textAttrs[NSForegroundColorAttributeName] =[UIColor grayColor];
         
-        [vc.tabBarItem setTitleTextAttributes:textAttrs forState:UIControlStateNormal];
-        [vc.tabBarItem setTitleTextAttributes:selectTextAttrs forState:UIControlStateSelected];
+            //选中之后的颜色
+            NSMutableDictionary *selectTextAttrs = [NSMutableDictionary dictionary];
+            selectTextAttrs[NSForegroundColorAttributeName] = Color_5DCBF5;
         
-        vc.tabBarItem.image = [[UIImage imageNamed:Image(_tabbarImageArray[idx])] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-        vc.tabBarItem.selectedImage = [[UIImage imageNamed:Image(_tabbarSelectedArray[idx])] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:viewController];
-        [_viewControllers addObject:nav];
+            [vc.tabBarItem setTitleTextAttributes:textAttrs forState:UIControlStateNormal];
+            [vc.tabBarItem setTitleTextAttributes:selectTextAttrs forState:UIControlStateSelected];
+        
+            vc.tabBarItem.image = [[UIImage imageNamed:Image(_tabbarImageArray[idx])] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+            vc.tabBarItem.selectedImage = [[UIImage imageNamed:Image(_tabbarSelectedArray[idx])] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:viewController];
+    
+            [_viewControllers addObject:nav];
+        
     }];
     self.viewControllers = [_viewControllers mutableCopy];
    

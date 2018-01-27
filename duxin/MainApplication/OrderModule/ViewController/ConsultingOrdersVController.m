@@ -9,7 +9,9 @@
 #import "ConsultingOrdersVController.h"
 #import "ReservationOrderVController.h"
 #import "OrderTitleView.h"
-#import "ReservatingCell.h"
+#import "ConsultingOrdersCell.h"
+#import "ConsultingMainModel.h"
+#import "SubOrderModel.h"
 
 @interface ConsultingOrdersVController ()<UITableViewDelegate,UITableViewDataSource>
 {
@@ -20,6 +22,7 @@
     NSInteger _selectedIndex;
     NSInteger _page;
     NSString  *_pageCount;
+    BOOL _isSubApi;
     
 }
 @end
@@ -29,6 +32,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+
     [self initData];
     [self initUI];
 
@@ -41,6 +45,7 @@
 
 -(void)initData{
      _page = 1;
+    _isSubApi = NO;
     _dataArray = [[NSMutableArray alloc] initWithCapacity:0];
 }
 
@@ -71,7 +76,7 @@
     _tablView.estimatedSectionHeaderHeight = 0;
     _tablView.estimatedSectionFooterHeight = 0;
     [self.view addSubview:_tablView];
-    
+
 }
 
 
@@ -80,20 +85,47 @@
     _isHeaderRefresh = YES;
     switch (index) {
         case 0:
+        {
+            _isSubApi= false;
             _selectedIndex = AllOrder;
+        }
             break;
         case 1:
+        {
+            _isSubApi= false;
             _selectedIndex = WatingForOrderPay;
+            
+        }
             break;
         case 2:
-            _selectedIndex = WatingForConsulting;
+        {
+            _isSubApi= YES;
+            _selectedIndex = 0;
+        }
+            break;
+        case 3:
+        {
+            _isSubApi= YES;
+            _selectedIndex = 1;
+        }
             break;
         case 4:
-            _selectedIndex = WatingForComment;
+        {
+            _isSubApi = YES;
+            _selectedIndex = 2;
+        }
+            break;
         case 5:
+        {
+             _isSubApi= false;
             _selectedIndex = FinishComment;
+        }
+            break;
         case 6:
+        {
+            _isSubApi= false;
             _selectedIndex = FinishOrderPay;
+        }
             break;
             
         default:
@@ -129,22 +161,24 @@
     
     HttpsManager *httpsManager = [[HttpsManager alloc] init];
     NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
-    if (orderStatus == AllOrder) {
-        [dic setObject:@"" forKey:@"status"];
-    }
-    else{
-        [dic setObject:[NSString stringWithFormat:@"%d",(int)orderStatus] forKey:@"status"];
-    }
     [dic setObject:[NSString stringWithFormat:@"%d",(int)_page] forKey:@"page"];
-    
     NSString *url = nil;
-    if (orderStatus == AllOrder|| orderStatus == 0 || orderStatus == 4) {
-        url = FetchConsultingOrders;
+    if (_isSubApi == NO) {
+         url = FetchConsultingOrders;
+        if (orderStatus == AllOrder) {
+            [dic setObject:@"" forKey:@"status"];
+        }
+        else
+        {
+            [dic setObject:[NSString stringWithFormat:@"%d",(int)orderStatus] forKey:@"status"];
+        }
     }
     else
     {
         url = FetchConsultingSubOrders;
+        [dic setObject:[NSString stringWithFormat:@"%d",(int)orderStatus] forKey:@"sub_status"];
     }
+    
     [httpsManager getServerAPI:url deliveryDic:dic successful:^(id responseObject) {
         
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
@@ -153,15 +187,31 @@
                 NSDictionary *dataDic = [dic objectForKey:@"data"];
                 if ([[dataDic objectForKey:@"error_code"] integerValue] == 0) {
                     NSArray *itemArray =(NSArray *)[dataDic objectForKey:@"result"];
-                    NSArray *modelArray = [OrderModel fetchOrderModels:itemArray];
                     _pageCount = [[dataDic objectForKey:@"_meta"] objectForKey:@"pageCount"];
-                    if (modelArray.count != 0) {
+                    if (itemArray.count != 0) {
+                        
+                        NSDictionary *dic = [itemArray objectAtIndex:0];
+                        if ([dic objectForKey:@"status"] != nil) {
+                          
+                            [self fetchConsulationMainOrder:itemArray];
+                        }
+                        else
+                        {
+                         
+                            
+                            [self fetchConsulationSubOrder:itemArray];
+                        }
+                        
+                    }
+                    else
+                    {
                         if (_isHeaderRefresh) {
                             [_dataArray removeAllObjects];
+                            //  _tablView.backgroundView.backgroundColor = [UIColor redColor];
                         }
-                        [_dataArray addObjectsFromArray:[OrderModel fetchOrderModels:itemArray]];
-                    }
                     
+                    }
+               
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [_tablView reloadData];
                         _isHeaderRefresh?[_tablView.mj_header endRefreshing]:[_tablView.mj_footer endRefreshing];
@@ -170,14 +220,14 @@
                 }
                 else{
                     _isHeaderRefresh?[_tablView.mj_header endRefreshing]:[_tablView.mj_footer endRefreshing];
-                    [SVHUD showSuccessWithDelay:@"获取数据数据失败!" time:0.8];
+                    [SVHUD showErrorWithDelay:@"获取数据数据失败!" time:0.8];
                 }
             }
             else if([[dic objectForKey:@"code"] integerValue] == 401){
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     _isHeaderRefresh?[_tablView.mj_header endRefreshing]:[_tablView.mj_footer endRefreshing];
-                    [SVHUD showSuccessWithDelay:@"获取数据数据失败!" time:0.8];
+                    [SVHUD showErrorWithDelay:@"获取数据数据失败!" time:0.8];
                 });
             }
             else{ [SVProgressHUD dismiss];}
@@ -185,13 +235,38 @@
         
     } fail:^(id error) {
         _isHeaderRefresh?[_tablView.mj_header endRefreshing]:[_tablView.mj_footer endRefreshing];
-        [SVHUD showSuccessWithDelay:@"获取数据数据失败!" time:0.8];
+        [SVHUD showErrorWithDelay:@"获取数据数据失败!" time:0.8];
     }];
     
 }
 
+//获取主订单的数组信息，然后转为主订单的model数组
+-(void)fetchConsulationMainOrder:(NSArray *)itemArray {
+    
+    if (itemArray.count != 0) {
+        
+        NSArray *modelArray = [ConsultingMainModel fetchConsultingMainModels:itemArray];
+        if (_isHeaderRefresh == YES) {
+            [_dataArray removeAllObjects];
+        }
+        [_dataArray addObjectsFromArray:modelArray];
+    }
+    
+    
+}
 
-
+//获取子订单的数组信息，然后转为主订单的model数组
+-(void)fetchConsulationSubOrder:(NSArray *)itemArray{
+    
+    if (itemArray.count != 0) {
+        
+        NSArray *modelArray = [SubOrderModel fetchOrderSubModels:itemArray];
+        if (_isHeaderRefresh == YES) {
+            [_dataArray removeAllObjects];
+        }
+        [_dataArray addObjectsFromArray:modelArray];
+    }
+}
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     if (section == 0) {
@@ -224,25 +299,195 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    OrderModel *model = _dataArray[indexPath.section];
-    static NSString *waitingForPayID = @"GeneralCellID";
-    NSInteger orderStatus = [model.orderStatus integerValue];
-    ReservatingCell *cell = [tableView dequeueReusableCellWithIdentifier:waitingForPayID];
-    if (cell == nil) {
-        cell = [[ReservatingCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:waitingForPayID];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
-    cell.tag = indexPath.section;
-    [cell setCellStytle:orderStatus];
-    [cell fetchData:model];
-    cell.cancelBlock = ^(NSInteger tag) {
-       // [self cancelAction:tag];
-    };
-    cell.generalBlock = ^(NSInteger tag) {
-       // [self generalBlock:tag];
-    };
-    return cell;
+        static NSString *revervationCell = @"RevervationCell";
+        ConsultingOrdersCell *cell = [tableView dequeueReusableCellWithIdentifier:revervationCell];
+        if (cell == nil) {
+            cell = [[ConsultingOrdersCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:revervationCell];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+        cell.tag = indexPath.section;
+        id object = _dataArray[indexPath.section];
+        if ([object isKindOfClass:[ConsultingMainModel class]]) {
+            
+            ConsultingMainModel *model = _dataArray[indexPath.section];
+            NSInteger orderStatus = [model.orderStatus integerValue];
+            [cell setConsultingOrdersCellStytle:orderStatus];
+            [cell fetchMainData:model];
+            cell.cancelBlock = ^(NSInteger tag) {
+                [self cancelAction:tag];
+            };
+            cell.generalBlock = ^(NSInteger tag) {
+                [self generalAction:tag];
+            };
+            
+        }
+        else
+        {
+            
+            SubOrderModel *model = _dataArray[indexPath.section];
+            NSInteger orderStatus = [model.orderSubStatus integerValue];
+            [cell setConsultingSubOrderCell:orderStatus];
+            [cell fetchSubData:model];
+            cell.cancelBlock = ^(NSInteger tag) {
+                nil;
+            };
+            cell.generalBlock = ^(NSInteger tag) {
+               nil;
+            };
+        }
+
+        return cell;
 }
+
+-(void)cancelAction:(NSUInteger)tag{
+    [AAlertView alert:self message:@"请确认是否取消订单?" confirm:^{
+        [self cancelOrder:tag];
+    } completion:^{
+        nil;
+    }];
+}
+
+-(void)generalAction:(NSUInteger)tag{
+   
+    if (_isSubApi == NO) {
+         OrderModel *model = _dataArray[tag];
+        switch ([model.orderStatus integerValue]) {
+            case WatingForOrderPay:
+            {
+            
+            
+            }
+                break;
+            case WatingForConsulting:
+            {
+            
+            
+            }
+                break;
+            case WatingForComment:
+            {
+            
+            
+            }
+                break;
+            case FinishComment:
+            {
+            
+            
+            }
+                break;
+            case FinishOrderPay:
+            {
+            
+            
+            }
+                break;
+            case AlreadColse:
+            {
+            
+                [AAlertView alert:self message:@"请确认是否删除订单?" confirm:^{
+                    [self deleteOrder:tag];
+                } completion:^{
+                    nil;
+                }];
+                
+            }
+                break;
+            
+        default:
+            break;
+    }
+        
+    }
+    else
+    {
+        
+        
+        
+        
+    }
+}
+
+-(void)deleteOrder:(NSInteger)tag{
+    ConsultingMainModel *model = _dataArray[tag];
+    HttpsManager *httpsManager = [[HttpsManager alloc] init];
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+    NSString *deleteURL = [NSString stringWithFormat:@"%@%@",PostDeleteOrder,model.orderId];
+    NSLog(@"deletdic==>%@",dic);
+    [httpsManager postServerAPI:deleteURL deliveryDic:dic successful:^(id responseObject) {
+        
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            NSDictionary *dic = (NSDictionary *)responseObject;
+            
+            if ([[dic objectForKey:@"code"] integerValue] == 200) {
+                
+                if ([[[dic objectForKey:@"data"] objectForKey:@"error_code"] integerValue] == 0) {
+                    [_dataArray removeObjectAtIndex:tag];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [_tablView reloadData];
+                        [SVHUD showSuccessWithDelay:@"删除订单成功！" time:0.8];
+                    });
+                }
+                else{
+                    [SVHUD showErrorWithDelay:@"删除订单失败!" time:0.8];
+                }
+            }
+            else if([[dic objectForKey:@"code"] integerValue] == 401){
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                   [SVHUD showErrorWithDelay:@"删除订单失败!" time:0.8];
+                });
+            }
+            else{ [SVProgressHUD dismiss];}
+        });
+        
+    } fail:^(id error) {
+       [SVHUD showErrorWithDelay:@"删除订单失败!" time:0.8];
+    }];
+}
+
+-(void)cancelOrder:(NSUInteger)tag{
+    
+    ConsultingMainModel *model = _dataArray[tag];
+    HttpsManager *httpsManager = [[HttpsManager alloc] init];
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+    NSString *cancelURL = [NSString stringWithFormat:@"%@%@",PostCancelOrder,model.orderId];
+    [httpsManager postServerAPI:cancelURL deliveryDic:dic successful:^(id responseObject) {
+        
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            NSDictionary *dic = (NSDictionary *)responseObject;
+            
+            if ([[dic objectForKey:@"code"] integerValue] == 200) {
+                
+                if ([[[dic objectForKey:@"data"] objectForKey:@"error_code"] integerValue] == 0) {
+                    
+                    [_dataArray removeObjectAtIndex:tag];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [_tablView reloadData];
+                        [SVHUD showSuccessWithDelay:@"取消订单成功！" time:0.8];
+                    });
+                    
+                }
+                else
+                {
+                    [SVHUD showErrorWithDelay:@"取消订单失败！" time:0.8];
+                }
+                
+            }
+            else if([[dic objectForKey:@"code"] integerValue] == 401){
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                  [SVHUD showErrorWithDelay:@"取消订单失败！" time:0.8];
+                });
+            }
+            else{ [SVProgressHUD dismiss];}
+        });
+        
+    } fail:^(id error) {
+        [SVHUD showErrorWithDelay:@"取消订单失败！" time:0.8];
+    }];
+}
+
 
 
 -(void)backTo{

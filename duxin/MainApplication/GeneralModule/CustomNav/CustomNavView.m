@@ -32,7 +32,7 @@
     
     _middleBtn = [[CustomBtn alloc] initWithFrame:CGRectMake((SIZE.width-150)/2, Height_StatusBar, 150, 44)];
     
-    _leftBtn = [[CustomBtn alloc] initWithFrame:CGRectMake(0, 5, 64, 64)];
+    _leftBtn = [[CustomBtn alloc] initWithFrame:CGRectMake(0,Height_StatusBar, 45, 45)];
     _leftBtn.backgroundColor = [UIColor clearColor];
     [_leftBtn addTarget:self action:@selector(backAction:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -51,7 +51,7 @@
     
     [self.middleBtn setTitle:title forState:UIControlStateNormal];
     [self.middleBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    self.leftBtn.center = CGPointMake(self.leftBtn.center.x, self.leftBtn.center.y+5);
+//    self.leftBtn.center = CGPointMake(self.leftBtn.center.x,self.center.y+5);
     [self.leftBtn setImage:[UIImage imageNamed:Image(rightImageStr)] forState:UIControlStateNormal];
     [self.middleBtn.titleLabel setFont:FONT_20];
     

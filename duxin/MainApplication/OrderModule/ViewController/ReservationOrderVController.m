@@ -53,6 +53,7 @@
     
     _selectedIndex = AllOrder;
     _tablView = [[UITableView alloc] initWithFrame:CGRectMake(0,bottom(_titleView), SIZE.width, SIZE.height-bottom(_titleView)) style:UITableViewStyleGrouped];
+    _tablView.backgroundView = [[UIImageView alloc] initWithFrame:_tablView.frame];
     _tablView.delegate = self;
     _tablView.dataSource = self;
     _tablView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
@@ -118,15 +119,19 @@
                     NSArray *modelArray = [OrderModel fetchOrderModels:itemArray];
                     _pageCount = [[dataDic objectForKey:@"_meta"] objectForKey:@"pageCount"];
                     if (modelArray.count != 0) {
+                        
                         if (_isHeaderRefresh) {
                             [_dataArray removeAllObjects];
                         }
                             [_dataArray addObjectsFromArray:[OrderModel fetchOrderModels:itemArray]];
+                  
+                        
                     }
                     else
                     {
                         if (_isHeaderRefresh) {
                             [_dataArray removeAllObjects];
+                          //  _tablView.backgroundView.backgroundColor = [UIColor redColor];
                         }
                     }
                     
@@ -138,14 +143,14 @@
                 }
                 else{
                    _isHeaderRefresh?[_tablView.mj_header endRefreshing]:[_tablView.mj_footer endRefreshing];
-                    [SVHUD showSuccessWithDelay:@"获取数据数据失败!" time:0.8];
+                    [SVHUD showErrorWithDelay:@"获取数据数据失败!" time:0.8];
                 }
             }
             else if([[dic objectForKey:@"code"] integerValue] == 401){
             
                 dispatch_async(dispatch_get_main_queue(), ^{
                    _isHeaderRefresh?[_tablView.mj_header endRefreshing]:[_tablView.mj_footer endRefreshing];
-                    [SVHUD showSuccessWithDelay:@"获取数据数据失败!" time:0.8];
+                   [SVHUD showErrorWithDelay:@"获取数据数据失败!" time:0.8];
                 });
             }
             else{ [SVProgressHUD dismiss];}
@@ -153,7 +158,7 @@
         
     } fail:^(id error) {
        _isHeaderRefresh?[_tablView.mj_header endRefreshing]:[_tablView.mj_footer endRefreshing];
-        [SVHUD showSuccessWithDelay:@"获取数据数据失败!" time:0.8];
+       [SVHUD showErrorWithDelay:@"获取数据数据失败!" time:0.8];
     }];
     
 }
@@ -223,7 +228,7 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     cell.tag = indexPath.section;
-    [cell setConsultingOrdersCellStytle:orderStatus];
+    [cell setCellStytle:orderStatus];
     [cell fetchData:model];
     cell.cancelBlock = ^(NSInteger tag) {
         [self cancelAction:tag];
@@ -242,23 +247,12 @@
 
 -(void)cancelAction:(NSUInteger)tag{
     
-    UIAlertController *alertVc = [UIAlertController alertControllerWithTitle:@"提示" message:@"请确认是否取消订单?" preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *cancle = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+    [AAlertView alert:self message:@"请确认是否取消订单?" confirm:^{
+         [self cancelOrder:tag];
+    } completion:^{
         nil;
     }];
-    
-    UIAlertAction *confirm = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [self cancelOrder:tag];
-    }];
-    
-    [alertVc addAction:cancle];
-    [alertVc addAction:confirm];
 
-    [self presentViewController:alertVc animated:YES completion:^{
-        nil;
-    }];
-    
-    
 }
 
 -(void)generalAction:(NSUInteger)tag{
@@ -296,24 +290,11 @@
             break;
         case AlreadColse:
         {
-            
-            UIAlertController *alertVc = [UIAlertController alertControllerWithTitle:@"提示" message:@"请确认是否删除订单?" preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *cancle = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+            [AAlertView alert:self message:@"请确认是否删除订单?" confirm:^{
+                 [self deleteOrder:tag];
+            } completion:^{
                 nil;
             }];
-            
-            UIAlertAction *confirm = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                [self deleteOrder:tag];
-            }];
-            
-            [alertVc addAction:cancle];
-            [alertVc addAction:confirm];
-            
-            [self presentViewController:alertVc animated:YES completion:^{
-                nil;
-            }];
-      
-            
         }
             break;
             
@@ -343,23 +324,22 @@
                     });
                 }
                 else{
-                    [SVHUD showSuccessWithDelay:@"删除订单失败!" time:0.8];
+                    [SVHUD showErrorWithDelay:@"删除订单失败!" time:0.8];
+        
                 }
             }
             else if([[dic objectForKey:@"code"] integerValue] == 401){
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [SVHUD showSuccessWithDelay:@"删除订单失败!" time:0.8];
+                   [SVHUD showErrorWithDelay:@"删除订单失败!" time:0.8];
                 });
             }
             else{ [SVProgressHUD dismiss];}
         });
         
     } fail:^(id error) {
-        [SVHUD showSuccessWithDelay:@"删除订单失败!" time:0.8];
+       [SVHUD showErrorWithDelay:@"删除订单失败!" time:0.8];
     }];
-    
-    
 }
 
 -(void)cancelOrder:(NSUInteger)tag{
@@ -386,21 +366,21 @@
                 }
                 else
                 {
-                    [SVHUD showSuccessWithDelay:@"取消订单失败！" time:0.8];
+                    [SVHUD showErrorWithDelay:@"取消订单失败！" time:0.8];
                 }
                 
                 }
                 else if([[dic objectForKey:@"code"] integerValue] == 401){
   
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [SVHUD showSuccessWithDelay:@"取消订单失败!" time:0.8];
+                        [SVHUD showErrorWithDelay:@"取消订单失败！" time:0.8];
                     });
                 }
                 else{ [SVProgressHUD dismiss];}
             });
             
         } fail:^(id error) {
-            [SVHUD showSuccessWithDelay:@"取消订单失败!" time:0.8];
+           [SVHUD showErrorWithDelay:@"取消订单失败！" time:0.8];
     }];
 }
 

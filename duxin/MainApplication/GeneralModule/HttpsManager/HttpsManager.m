@@ -143,6 +143,8 @@
     return [NSString stringWithFormat:@"%s", ip_names[1]];
 }
 
+
+
 // 判断网络是否可以连接
 -(BOOL) connectedToNetwork
 {

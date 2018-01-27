@@ -67,10 +67,10 @@
             loginView.codeBtn.hidden = NO;
         }
         
-        loginView.codeBlock = ^{
-            [self fetchCodeAction];
+        loginView.codeBlock = ^(JKCountDownButton *sender) {
+            [self configBtn:sender];
         };
-        
+
         [self.view addSubview:loginView];
         [_loginViewArray addObject:loginView];
         
@@ -84,6 +84,34 @@
     [_registerBtn addTarget:self action:@selector(registerAciton:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_registerBtn];
     
+}
+
+-(void)configBtn:(JKCountDownButton *)sender{
+ NSString *mobileString  = ((LoginView *)(_loginViewArray[0])).textField.text;
+    if ([RegularTool isPhoneNumber:mobileString]) {
+        
+        sender.enabled = NO;
+        //button type要 设置成custom 否则会闪动
+        [sender startWithSecond:60];
+        [sender didChange:^NSString *(JKCountDownButton *countDownButton,int second) {
+            if (second == 59) {
+                [self fetchCodeAction];
+                [sender setTitleColor:Color_F1F1F1 forState:UIControlStateNormal];
+            }
+            NSString *title = [NSString stringWithFormat:@"%d秒",second];
+            return title;
+        }];
+        [sender didFinished:^NSString *(JKCountDownButton *countDownButton, int second) {
+            countDownButton.enabled = YES;
+            [sender setTitleColor:Color_5ECAF7 forState:UIControlStateNormal];
+            return @"获取验证码";
+        }];
+        
+    }
+    else
+    {
+        [SVHUD  showErrorWithDelay:@"手机号码错误！" time:0.8f];
+    }
 }
 
 
@@ -139,11 +167,7 @@
                 if ([[dataDic objectForKey:@"error_code"] integerValue] ==0) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                     
-                        [SVProgressHUD showSuccessWithStatus:[dataDic objectForKey:@"msg"]];
-                        // 延迟0.5秒后消失
-                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                            [SVProgressHUD dismiss];
-                        });
+                        [SVHUD showErrorWithDelay:[dataDic objectForKey:@"msg"] time:0.8];
                        
                     });
                 }

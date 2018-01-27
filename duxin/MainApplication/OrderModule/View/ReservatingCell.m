@@ -8,7 +8,6 @@
 
 #import "ReservatingCell.h"
 #import "TagView.h"
-#import "OrderModel.h"
 
 @implementation ReservatingCell
 
@@ -51,18 +50,13 @@
         _lineView.backgroundColor = Color_F1F1F1;
         [self addSubview:_lineView];
         
-        _headerImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, bottom(_lineView)+10, 85, 60)];
-        _headerImageView.backgroundColor = Color_F1F1F1;
-        [_headerImageView.layer setCornerRadius:2.0f];
-        [self addSubview:_headerImageView];
-        
-        _packageTitle = [[UILabel alloc] initWithFrame:CGRectMake(left(_headerImageView)+9,bottom(_lineView)+15,SIZE.width-110, 20)];
+        _packageTitle = [[UILabel alloc] initWithFrame:CGRectMake(13,bottom(_lineView)+15,SIZE.width-110, 20)];
         _packageTitle.backgroundColor = Color_F1F1F1;
         _packageTitle.textColor = Color_1F1F1F;
         _packageTitle.font = [UIFont systemFontOfSize:15.0f];
         [self addSubview:_packageTitle];
         
-        _packageCount = [[UILabel alloc] initWithFrame:CGRectMake(left(_headerImageView)+9,bottom(_packageTitle)+9,20, 20)];
+        _packageCount = [[UILabel alloc] initWithFrame:CGRectMake(13,bottom(_packageTitle)+9,20, 20)];
         _packageCount.backgroundColor = Color_F1F1F1;
         _packageCount.textColor = Color_5ECAF7;
         _packageCount.font = [UIFont systemFontOfSize:15.0f];
@@ -71,14 +65,14 @@
         _packageDetail = [[UILabel alloc] initWithFrame:CGRectMake(left(_packageCount)+9,0,100,20)];
         _packageDetail.backgroundColor = Color_F1F1F1;
         _packageDetail.textColor = Color_BABABA;
-        _packageDetail.center = CGPointMake(_packageDetail.center.x, _packageCount.center.y);
+        _packageDetail.center = CGPointMake(_packageDetail.center.x, _packageCount.center.y+1);
         _packageDetail.font = [UIFont systemFontOfSize:13.0f];
         [self addSubview:_packageDetail];
         
         NSArray *array = @[@{@"image":@"certification",@"title":@"资质认证"},@{@"image":@"transactionGuarantee",@"title":@"交易担保"},@{@"image":@"refund",@"title":@"不满意退款"}];
         [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             NSDictionary *dic = (NSDictionary *)obj;
-            TagView *tagView = [[TagView alloc] initWithFrame:CGRectMake(13+idx*85,bottom(_headerImageView)+6, 85,17)];
+            TagView *tagView = [[TagView alloc] initWithFrame:CGRectMake(13+idx*85,bottom(_packageCount)+15, 85,17)];
             [tagView.headerImagV setImage:[UIImage imageNamed:Image([dic objectForKey:@"image"])]];
             [tagView.titleLab setText:[dic objectForKey:@"title"]];
             tagView.backgroundColor = [UIColor whiteColor];
@@ -192,77 +186,8 @@
     }
 }
 
-//咨询订单页面
--(void)setConsultingOrdersCellStytle:(NSInteger)cellStytleCode{
-    switch (cellStytleCode) {
-        case 0:
-        {
-            _cancelOrderBtn.hidden = NO;
-            _orderTypeLab.text = @"待支付";
-            [_wiatingPayBtn setTitle:@"去支付" forState:UIControlStateNormal];
-            UIColor *color = Color_5ECAF7;
-            [_wiatingPayBtn.layer setBorderColor:color.CGColor];
-            [_wiatingPayBtn setTitleColor:Color_5ECAF7 forState:UIControlStateNormal];
-            
-        }
-            break;
-        case 1:
-        {
-            _cancelOrderBtn.hidden = YES;
-            _orderTypeLab.text = @"待咨询";
-            [_wiatingPayBtn setTitle:@"去咨询" forState:UIControlStateNormal];
-            UIColor *color = Color_5ECAF7;
-            [_wiatingPayBtn.layer setBorderColor:color.CGColor];
-            [_wiatingPayBtn setTitleColor:Color_5ECAF7 forState:UIControlStateNormal];
-            
-        }
-        case 2:
-        {
-            _cancelOrderBtn.hidden = YES;
-            _orderTypeLab.text = @"待评价";
-            [_wiatingPayBtn setTitle:@"去评价" forState:UIControlStateNormal];
-            UIColor *color = Color_5ECAF7;
-            [_wiatingPayBtn.layer setBorderColor:color.CGColor];
-            [_wiatingPayBtn setTitleColor:Color_5ECAF7 forState:UIControlStateNormal];
-            
-        }
-            break;
-        case 3:
-        {
-            _cancelOrderBtn.hidden = YES;
-            _orderTypeLab.text = @"已评价";
-            [_wiatingPayBtn setTitle:@"查看评价" forState:UIControlStateNormal];
-            UIColor *color =Color_FA9E4B;
-            [_wiatingPayBtn.layer setBorderColor:color.CGColor];
-            [_wiatingPayBtn setTitleColor:Color_FA9E4B forState:UIControlStateNormal];
-            
-        }
-        case 4:
-        {
-            _cancelOrderBtn.hidden = YES;
-            _orderTypeLab.text = @"已完成";
-            [_wiatingPayBtn setTitle:@"查看评价" forState:UIControlStateNormal];
-            UIColor *color =Color_FA9E4B;
-            [_wiatingPayBtn.layer setBorderColor:color.CGColor];
-            [_wiatingPayBtn setTitleColor:Color_FA9E4B forState:UIControlStateNormal];
-            
-        }
-            break;
-        case 5:
-        {
-            _cancelOrderBtn.hidden = YES;
-            _orderTypeLab.text = @"已关闭";
-            [_wiatingPayBtn setTitle:@"删除订单" forState:UIControlStateNormal];
-            UIColor *color =Color_FC5268;
-            [_wiatingPayBtn.layer setBorderColor:color.CGColor];
-            [_wiatingPayBtn setTitleColor:Color_FC5268 forState:UIControlStateNormal];
-        }
-            break;
-            
-        default:
-            break;
-    }
-}
+
+
 
 -(void)fetchData:(OrderModel *)model{
     
@@ -284,6 +209,10 @@
     _packagePaymentLab.backgroundColor = [UIColor whiteColor];
     
 }
+
+
+
+
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

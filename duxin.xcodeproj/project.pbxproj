@@ -90,6 +90,11 @@
 		BA3FBB082015871700D863A7 /* ReservationOrderVController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3FBB072015871700D863A7 /* ReservationOrderVController.m */; };
 		BA3FBB0B2015923400D863A7 /* ConsultingOrdersVController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3FBB0A2015923400D863A7 /* ConsultingOrdersVController.m */; };
 		BA3FCBA9201B0E3E00E9DCF7 /* ReservatingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3FCBA8201B0E3E00E9DCF7 /* ReservatingCell.m */; };
+		BA3FCBAC201C24C500E9DCF7 /* SubOrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3FCBAB201C24C500E9DCF7 /* SubOrderModel.m */; };
+		BA3FCBAF201C63EB00E9DCF7 /* ConsultingMainModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3FCBAE201C63EB00E9DCF7 /* ConsultingMainModel.m */; };
+		BA3FCBB2201C85A100E9DCF7 /* ConsultingOrdersCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3FCBB1201C85A100E9DCF7 /* ConsultingOrdersCell.m */; };
+		BA3FCBB5201C8AD100E9DCF7 /* BaseOrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3FCBB4201C8AD100E9DCF7 /* BaseOrderModel.m */; };
+		BA3FCBBC201C97DB00E9DCF7 /* AAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3FCBBB201C97DB00E9DCF7 /* AAlertView.m */; };
 		BA6CD9B02010C48200C36B73 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6CD99C2010C48200C36B73 /* BaseViewController.m */; };
 		BA6CD9B12010C48200C36B73 /* UIColor+Category.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6CD99F2010C48200C36B73 /* UIColor+Category.m */; };
 		BA6CD9B22010C48200C36B73 /* UIColor+SSToolkitAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6CD9A12010C48200C36B73 /* UIColor+SSToolkitAdditions.m */; };
@@ -111,6 +116,7 @@
 		BA6CD9FB201225FC00C36B73 /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6CD9FA201225FC00C36B73 /* AboutUsViewController.m */; };
 		BA6CDA012012D29300C36B73 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6CDA002012D29300C36B73 /* LoginViewController.m */; };
 		BA6CDA042012D2C400C36B73 /* LoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6CDA032012D2C400C36B73 /* LoginView.m */; };
+		BA7246BA201CA1AB0018712B /* JKCountDownButton.m in Sources */ = {isa = PBXBuildFile; fileRef = BA7246B9201CA1AB0018712B /* JKCountDownButton.m */; };
 		BAA1B30220132DDA00CDB437 /* hdamrFileCodec.mm in Sources */ = {isa = PBXBuildFile; fileRef = BAA1B17820132DDA00CDB437 /* hdamrFileCodec.mm */; };
 		BAA1B30320132DDA00CDB437 /* hdwav.mm in Sources */ = {isa = PBXBuildFile; fileRef = BAA1B17A20132DDA00CDB437 /* hdwav.mm */; };
 		BAA1B30420132DDA00CDB437 /* HDVoiceConverter.mm in Sources */ = {isa = PBXBuildFile; fileRef = BAA1B17C20132DDA00CDB437 /* HDVoiceConverter.mm */; };
@@ -493,6 +499,16 @@
 		BA3FBB0A2015923400D863A7 /* ConsultingOrdersVController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConsultingOrdersVController.m; sourceTree = "<group>"; };
 		BA3FCBA7201B0E3E00E9DCF7 /* ReservatingCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReservatingCell.h; sourceTree = "<group>"; };
 		BA3FCBA8201B0E3E00E9DCF7 /* ReservatingCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReservatingCell.m; sourceTree = "<group>"; };
+		BA3FCBAA201C24C500E9DCF7 /* SubOrderModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SubOrderModel.h; sourceTree = "<group>"; };
+		BA3FCBAB201C24C500E9DCF7 /* SubOrderModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SubOrderModel.m; sourceTree = "<group>"; };
+		BA3FCBAD201C63EB00E9DCF7 /* ConsultingMainModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConsultingMainModel.h; sourceTree = "<group>"; };
+		BA3FCBAE201C63EB00E9DCF7 /* ConsultingMainModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConsultingMainModel.m; sourceTree = "<group>"; };
+		BA3FCBB0201C85A100E9DCF7 /* ConsultingOrdersCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConsultingOrdersCell.h; sourceTree = "<group>"; };
+		BA3FCBB1201C85A100E9DCF7 /* ConsultingOrdersCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConsultingOrdersCell.m; sourceTree = "<group>"; };
+		BA3FCBB3201C8AD100E9DCF7 /* BaseOrderModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseOrderModel.h; sourceTree = "<group>"; };
+		BA3FCBB4201C8AD100E9DCF7 /* BaseOrderModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseOrderModel.m; sourceTree = "<group>"; };
+		BA3FCBBA201C97DB00E9DCF7 /* AAlertView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAlertView.h; sourceTree = "<group>"; };
+		BA3FCBBB201C97DB00E9DCF7 /* AAlertView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAlertView.m; sourceTree = "<group>"; };
 		BA5E2A7D2013205600FB278C /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		BA6CD99B2010C48200C36B73 /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		BA6CD99C2010C48200C36B73 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
@@ -537,6 +553,8 @@
 		BA6CDA002012D29300C36B73 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		BA6CDA022012D2C400C36B73 /* LoginView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginView.h; sourceTree = "<group>"; };
 		BA6CDA032012D2C400C36B73 /* LoginView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginView.m; sourceTree = "<group>"; };
+		BA7246B8201CA1AB0018712B /* JKCountDownButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKCountDownButton.h; sourceTree = "<group>"; };
+		BA7246B9201CA1AB0018712B /* JKCountDownButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKCountDownButton.m; sourceTree = "<group>"; };
 		BAA1B17320132DDA00CDB437 /* HDCDDeviceManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDCDDeviceManagerDelegate.h; sourceTree = "<group>"; };
 		BAA1B17420132DDA00CDB437 /* HDCDDeviceManagerProximitySensorDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDCDDeviceManagerProximitySensorDelegate.h; sourceTree = "<group>"; };
 		BAA1B17720132DDA00CDB437 /* hdamrFileCodec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hdamrFileCodec.h; sourceTree = "<group>"; };
@@ -994,6 +1012,8 @@
 				BAAC92B62019F3A7008780CD /* TagView.m */,
 				BA3FCBA7201B0E3E00E9DCF7 /* ReservatingCell.h */,
 				BA3FCBA8201B0E3E00E9DCF7 /* ReservatingCell.m */,
+				BA3FCBB0201C85A100E9DCF7 /* ConsultingOrdersCell.h */,
+				BA3FCBB1201C85A100E9DCF7 /* ConsultingOrdersCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1014,6 +1034,12 @@
 			children = (
 				BA25835B2019E90D0079C854 /* OrderModel.h */,
 				BA25835C2019E90D0079C854 /* OrderModel.m */,
+				BA3FCBAA201C24C500E9DCF7 /* SubOrderModel.h */,
+				BA3FCBAB201C24C500E9DCF7 /* SubOrderModel.m */,
+				BA3FCBAD201C63EB00E9DCF7 /* ConsultingMainModel.h */,
+				BA3FCBAE201C63EB00E9DCF7 /* ConsultingMainModel.m */,
+				BA3FCBB3201C8AD100E9DCF7 /* BaseOrderModel.h */,
+				BA3FCBB4201C8AD100E9DCF7 /* BaseOrderModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1021,6 +1047,7 @@
 		BA0EFD4E2016EF3E00307C78 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				BA3FCBB6201C976100E9DCF7 /* AlertView */,
 				BA25834B2019E83C0079C854 /* SvprocessTool */,
 				BA0EFD4F2016EF5100307C78 /* RegularTool */,
 			);
@@ -1403,6 +1430,15 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		BA3FCBB6201C976100E9DCF7 /* AlertView */ = {
+			isa = PBXGroup;
+			children = (
+				BA3FCBBA201C97DB00E9DCF7 /* AAlertView.h */,
+				BA3FCBBB201C97DB00E9DCF7 /* AAlertView.m */,
+			);
+			path = AlertView;
+			sourceTree = "<group>";
+		};
 		BA5E2A6720131D8300FB278C /* HuanXin */ = {
 			isa = PBXGroup;
 			children = (
@@ -1429,6 +1465,7 @@
 			children = (
 				BAA1B3D1201336EE00CDB437 /* LocalDefine.h */,
 				BA6CD9A62010C48200C36B73 /* Header.h */,
+				BA7246B7201CA1AB0018712B /* JKCountDownButton */,
 				BA0EFD4E2016EF3E00307C78 /* Tools */,
 				BA6CD9C12010D99A00C36B73 /* CustomeBtn */,
 				BA6CD9BD2010D8BF00C36B73 /* CustomNav */,
@@ -1614,6 +1651,15 @@
 				BA03F6DD2012EE47004821DA /* FogotPsViewController.m */,
 			);
 			path = ViewController;
+			sourceTree = "<group>";
+		};
+		BA7246B7201CA1AB0018712B /* JKCountDownButton */ = {
+			isa = PBXGroup;
+			children = (
+				BA7246B8201CA1AB0018712B /* JKCountDownButton.h */,
+				BA7246B9201CA1AB0018712B /* JKCountDownButton.m */,
+			);
+			path = JKCountDownButton;
 			sourceTree = "<group>";
 		};
 		BAA1B16E20132DDA00CDB437 /* HelpDeskUI */ = {
@@ -2730,6 +2776,7 @@
 				BAA1B30B20132DDA00CDB437 /* HDCDDeviceManager+ProximitySensor.m in Sources */,
 				BA6CD9E92011F80600C36B73 /* ChatViewController.m in Sources */,
 				BAA1B39120132DDA00CDB437 /* HDBubbleView+Voice.m in Sources */,
+				BA3FCBAF201C63EB00E9DCF7 /* ConsultingMainModel.m in Sources */,
 				BAA1B33120132DDA00CDB437 /* EMSDWebImageManager.m in Sources */,
 				BA6CD9B02010C48200C36B73 /* BaseViewController.m in Sources */,
 				BAA1B37920132DDA00CDB437 /* HDMessageViewController.m in Sources */,
@@ -2746,6 +2793,7 @@
 				BAA1B32E20132DDA00CDB437 /* EMSDWebImageDecoder.m in Sources */,
 				BA2583382019D90A0079C854 /* EaseMessageTimeCell.m in Sources */,
 				BA3FBB0B2015923400D863A7 /* ConsultingOrdersVController.m in Sources */,
+				BA3FCBAC201C24C500E9DCF7 /* SubOrderModel.m in Sources */,
 				BAA1B32820132DDA00CDB437 /* MWTapDetectingImageView.m in Sources */,
 				BAA1B34120132DDA00CDB437 /* PSTCollectionViewFlowLayout.m in Sources */,
 				BAA1B38520132DDA00CDB437 /* HDBubbleView+Evaluate.m in Sources */,
@@ -2792,6 +2840,7 @@
 				BA2583202019D90A0079C854 /* EaseMessageModel.m in Sources */,
 				BAA1B32720132DDA00CDB437 /* MWPhotoBrowser.m in Sources */,
 				BA2583132019D90A0079C854 /* EMAudioRecorderUtil.m in Sources */,
+				BA7246BA201CA1AB0018712B /* JKCountDownButton.m in Sources */,
 				BA25832C2019D90A0079C854 /* EaseEmotionEscape.m in Sources */,
 				BA07EA0D2014B3A3004CBA1A /* ServiceBtn.m in Sources */,
 				BAA1B33F20132DDA00CDB437 /* PSTCollectionViewController.m in Sources */,
@@ -2823,6 +2872,7 @@
 				BAA1B30D20132DDA00CDB437 /* HDCDDeviceManagerBase.m in Sources */,
 				BAA1B37320132DDA00CDB437 /* FixFopen.c in Sources */,
 				BA25833D2019D90A0079C854 /* EaseBubbleView+Text.m in Sources */,
+				BA3FCBBC201C97DB00E9DCF7 /* AAlertView.m in Sources */,
 				BA6CD9B62010C48200C36B73 /* Reachability.m in Sources */,
 				BAA1B30E20132DDA00CDB437 /* MBProgressHUD+Add.m in Sources */,
 				BAA1B37B20132DDA00CDB437 /* HDViewController.m in Sources */,
@@ -2837,6 +2887,7 @@
 				BAA1B30220132DDA00CDB437 /* hdamrFileCodec.mm in Sources */,
 				BAA1B33220132DDA00CDB437 /* EMSDWebImagePrefetcher.m in Sources */,
 				BAA1B30A20132DDA00CDB437 /* HDCDDeviceManager+Microphone.m in Sources */,
+				BA3FCBB5201C8AD100E9DCF7 /* BaseOrderModel.m in Sources */,
 				BA2583462019D90A0079C854 /* EaseFacialView.m in Sources */,
 				BAA1B37420132DDA00CDB437 /* HDChineseToPinyin.m in Sources */,
 				BA2583192019D90A0079C854 /* amrFileCodec.mm in Sources */,
@@ -2875,6 +2926,7 @@
 				BA2583422019D90A0079C854 /* EaseChatToolbarItem.m in Sources */,
 				BAA1B32C20132DDA00CDB437 /* EMSDImageCache.m in Sources */,
 				BA0EFD522016EF6500307C78 /* RegularTool.m in Sources */,
+				BA3FCBB2201C85A100E9DCF7 /* ConsultingOrdersCell.m in Sources */,
 				BAA1B30C20132DDA00CDB437 /* HDCDDeviceManager+Remind.m in Sources */,
 				BA6CD9F8201225C800C36B73 /* AccountSafeViewController.m in Sources */,
 				BAA1B38320132DDA00CDB437 /* HDArticleView.m in Sources */,

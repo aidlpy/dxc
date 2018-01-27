@@ -22,6 +22,7 @@
 #define FetchUserInfo GET_URL(@"/v1/user/get-user")
 #define PostRegister POST_URL(@"/v1/user/sign")
 #define PostMobileCode POST_URL(@"/v1/common/verification")
+#define PostMobileCodeForPS POST_URL(@"/v1/user/rest-password")
 #define FetchReservationOrders GET_URL(@"/v1/trade/reservation-item")
 #define PostCancelOrder POST_URL(@"/v1/trade/cancel-order/")
 #define PostDeleteOrder POST_URL(@"/v1/trade/delete-main/")

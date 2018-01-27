@@ -16,11 +16,13 @@
 
 #define Height_NavContentBar 44.0f
 
-#define Height_StatusBar (IS_IPHONE_X==YES)?44.0f: 20.0f
+#define Height_StatusBar (IS_IPHONE_X==YES)?44.0f:20.0f
 
 #define Height_NavBar (IS_IPHONE_X==YES)?88.0f: 64.0f
 
 #define Height_TabBar (IS_IPHONE_X==YES)?83.0f: 49.0f
+
+#define IsConsultingMainOrder(status) (status== 10000||status== 1||status== 4)?YES:NO
 
 
 #define SERVICENUMBER [NSString stringWithFormat:@"18851322324"]
@@ -112,6 +114,7 @@
 #import "MBProgressHUD.h"
 #import "SVHUD.h"
 #import "MJRefresh.h"
+#import "AAlertView.h"
 
 
 

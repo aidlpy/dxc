@@ -62,7 +62,7 @@
         if (idx == 0) {
             loginView.textField.keyboardType = UIKeyboardTypePhonePad;
         }
-        loginView.codeBlock = ^{nil;};
+        loginView.codeBlock = ^(JKCountDownButton *sendeer) {nil;};
         [self.view addSubview:loginView];
         [_loginViewArray addObject:loginView];
         
@@ -170,14 +170,14 @@
             else if([[dic objectForKey:@"code"] integerValue] == 401){
                 CacheLoginState(LOGINERROR);
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [SVHUD showSuccessWithDelay:@"请重新登录!" time:0.8];
+                     [SVHUD showErrorWithDelay:@"登录失败！" time:0.8];
                 });
             }
             else{ [SVProgressHUD dismiss];}
         });
         
     } fail:^(id error) {
-            [SVHUD showSuccessWithDelay:@"发送请求失败!" time:0.8];
+            [SVHUD showErrorWithDelay:@"登录失败！" time:0.8];
     }];
     
     

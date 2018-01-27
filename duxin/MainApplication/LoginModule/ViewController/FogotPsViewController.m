@@ -69,9 +69,11 @@
                 loginView.textField.keyboardType = UIKeyboardTypeDefault;
             }
         
-        loginView.codeBlock = ^{
+        
+        loginView.codeBlock = ^(JKCountDownButton *sendeer) {
             [self fetchCodeAction];
         };
+
         [self.view addSubview:loginView];
         [_loginViewArray addObject:loginView];
         

@@ -14,7 +14,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         //Deflaut Height 100PX = 50
-        
+       
         _logoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(23, 16,20,24)];
         _logoImageView.center = CGPointMake(_logoImageView.center.x, h(self)/2);
         _logoImageView.contentMode = UIViewContentModeScaleAspectFit;
@@ -27,7 +27,7 @@
         [_textField setValue:FONT_13 forKeyPath:@"_placeholderLabel.font"];
         [self addSubview:_textField];
         
-        _codeBtn = [[UIButton alloc] initWithFrame:CGRectMake(SIZE.width-110, 0, 100, 22)];
+        _codeBtn = [[JKCountDownButton alloc] initWithFrame:CGRectMake(SIZE.width-110, 0, 100, 22)];
         _codeBtn.center =CGPointMake(_codeBtn.center.x, _textField.center.y);
         _codeBtn.titleLabel.font = [UIFont systemFontOfSize:14.0f];
         [_codeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
@@ -44,12 +44,12 @@
     return self;
 }
 
--(void)fetchCodeAction:(UIButton *)btn{
-    
+-(void)fetchCodeAction:(JKCountDownButton *)sender{
+
     if (_codeBlock) {
-        _codeBlock();
+        _codeBlock(sender);
     }
-    
+
 }
 
 -(void)setLogoImageView:(NSString *)imageStr setPlaceHolder:(NSString *)placeHolder{

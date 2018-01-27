@@ -8,13 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "Header.h"
+#import "JKCountDownButton.h"
 
-typedef void(^fetchCodeBlock)(void);//发送验证码回调
+typedef void(^fetchCodeBlock)(JKCountDownButton *sendeer);//发送验证码回调
 
 @interface LoginView : UIView
 @property(nonatomic,retain)UIImageView *logoImageView;
 @property(nonatomic,retain)UITextField *textField;
-@property(nonatomic,retain)UIButton *codeBtn;
+@property(nonatomic,retain)JKCountDownButton *codeBtn;
 @property(nonatomic,retain)UIView *lineView;
 @property(nonatomic,copy)fetchCodeBlock codeBlock;
 
