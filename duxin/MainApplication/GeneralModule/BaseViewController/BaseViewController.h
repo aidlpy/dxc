@@ -12,4 +12,5 @@
 
 @interface BaseViewController : UIViewController
 @property(nonatomic,retain)CustomNavView *navView;
+-(void)setStatusBarBackgroundColor:(UIColor *)color;
 @end

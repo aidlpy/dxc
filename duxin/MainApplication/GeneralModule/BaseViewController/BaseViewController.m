@@ -21,6 +21,7 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationController.navigationBarHidden = YES;
+
     
     _navView = [[CustomNavView alloc] init];
     _navView.backgroundColor = Color_5DCBF5;
@@ -29,6 +30,15 @@
     _navView.pushBlock = ^(){[weakSelf nextTo];};
     [self.view addSubview:_navView];
     
+}
+
+//设置状态栏颜色
+-(void)setStatusBarBackgroundColor:(UIColor *)color {
+    
+    UIView *statusBar = [[[UIApplication sharedApplication] valueForKey:@"statusBarWindow"] valueForKey:@"statusBar"];
+    if ([statusBar respondsToSelector:@selector(setBackgroundColor:)]) {
+        statusBar.backgroundColor = color;
+    }
 }
 
 -(void)nextTo{};

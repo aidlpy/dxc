@@ -9,6 +9,9 @@ target 'duxin' do
   pod 'IQKeyboardManager'
   pod 'SVProgressHUD'
   pod 'SDWebImage', '~>3.8'
+  pod 'MJExtension', '~> 3.0.13'
+  pod 'Masonry'
+
  
 
   # Pods for duxin
