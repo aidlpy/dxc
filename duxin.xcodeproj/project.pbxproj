@@ -122,6 +122,7 @@
 		BA85A9E2201D84D80077ED50 /* CommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BA85A9E1201D84D80077ED50 /* CommentCell.m */; };
 		BA85A9E5201D96DB0077ED50 /* CommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BA85A9E4201D96DB0077ED50 /* CommentModel.m */; };
 		BA85A9E8201DA7860077ED50 /* CommentFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = BA85A9E7201DA7860077ED50 /* CommentFooter.m */; };
+		BA85A9EB201DD6740077ED50 /* UILabel+Category.m in Sources */ = {isa = PBXBuildFile; fileRef = BA85A9EA201DD6740077ED50 /* UILabel+Category.m */; };
 		BAA1B30220132DDA00CDB437 /* hdamrFileCodec.mm in Sources */ = {isa = PBXBuildFile; fileRef = BAA1B17820132DDA00CDB437 /* hdamrFileCodec.mm */; };
 		BAA1B30320132DDA00CDB437 /* hdwav.mm in Sources */ = {isa = PBXBuildFile; fileRef = BAA1B17A20132DDA00CDB437 /* hdwav.mm */; };
 		BAA1B30420132DDA00CDB437 /* HDVoiceConverter.mm in Sources */ = {isa = PBXBuildFile; fileRef = BAA1B17C20132DDA00CDB437 /* HDVoiceConverter.mm */; };
@@ -570,6 +571,8 @@
 		BA85A9E4201D96DB0077ED50 /* CommentModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CommentModel.m; sourceTree = "<group>"; };
 		BA85A9E6201DA7860077ED50 /* CommentFooter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommentFooter.h; sourceTree = "<group>"; };
 		BA85A9E7201DA7860077ED50 /* CommentFooter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CommentFooter.m; sourceTree = "<group>"; };
+		BA85A9E9201DD6740077ED50 /* UILabel+Category.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UILabel+Category.h"; sourceTree = "<group>"; };
+		BA85A9EA201DD6740077ED50 /* UILabel+Category.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UILabel+Category.m"; sourceTree = "<group>"; };
 		BAA1B17320132DDA00CDB437 /* HDCDDeviceManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDCDDeviceManagerDelegate.h; sourceTree = "<group>"; };
 		BAA1B17420132DDA00CDB437 /* HDCDDeviceManagerProximitySensorDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDCDDeviceManagerProximitySensorDelegate.h; sourceTree = "<group>"; };
 		BAA1B17720132DDA00CDB437 /* hdamrFileCodec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hdamrFileCodec.h; sourceTree = "<group>"; };
@@ -1521,6 +1524,8 @@
 				BA6CD9A32010C48200C36B73 /* UIImageView+Category.m */,
 				BA6CD9A42010C48200C36B73 /* UITextField+Category.h */,
 				BA6CD9A52010C48200C36B73 /* UITextField+Category.m */,
+				BA85A9E9201DD6740077ED50 /* UILabel+Category.h */,
+				BA85A9EA201DD6740077ED50 /* UILabel+Category.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -2911,6 +2916,7 @@
 				BAA1B30E20132DDA00CDB437 /* MBProgressHUD+Add.m in Sources */,
 				BAA1B37B20132DDA00CDB437 /* HDViewController.m in Sources */,
 				BAA1B31D20132DDA00CDB437 /* MJRefreshStateHeader.m in Sources */,
+				BA85A9EB201DD6740077ED50 /* UILabel+Category.m in Sources */,
 				BAA1B33920132DDA00CDB437 /* UIImageView+EMHighlightedWebCache.m in Sources */,
 				BA2583492019D90A0079C854 /* EaseConversationCell.m in Sources */,
 				BAA1B39A20132DDB00CDB437 /* HDRecordView.m in Sources */,

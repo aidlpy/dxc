@@ -134,22 +134,7 @@ bool checktType(NSString *str)
     return number;
 }
 
-+(NSString*)getpercent:(float)percent
-{
-    NSString *str = [NSString stringWithFormat:@"%f",percent];
-    NSString *number = [NSString new];
-    int i ;
-    for (i = 0; i<str.length; i++) {
-        NSString *temp = [str substringWithRange:NSMakeRange(i, 1)];
-        if ([temp isEqualToString:@"."]) {
-            number = [str substringWithRange:NSMakeRange(i+1,2)];
-            if ([number isEqualToString:@"00"]) {
-                number = @"100";
-            }
-        }
-    }
-    return number;
-}
+
 
 +(CGFloat)sizeWidth:(UILabel *)label
 {
@@ -160,5 +145,8 @@ bool checktType(NSString *str)
     
     return size.width;
 }
+
+
+
 
 @end

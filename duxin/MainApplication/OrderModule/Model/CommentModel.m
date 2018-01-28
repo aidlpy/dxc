@@ -13,11 +13,12 @@
     self =[super init];
     if (self) {
         _cellHeight = 120.0f;
+        _footerHeight = 0.001f;
     }
     return self;
 }
 
--(NSArray *)transferCommentModels:(NSArray *)array{
++(NSArray *)transferCommentModels:(NSArray *)array{
     
     
     NSMutableArray *pocketArray = [[NSMutableArray alloc] initWithCapacity:0];

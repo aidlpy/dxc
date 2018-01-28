@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CommentModel.h"
 
 @interface CommentFooter : UIView
 @property(nonatomic,retain)UIImageView *headerImageView;
-@property(nonatomic,retain)UITextView *textView;
+@property(nonatomic,retain)UILabel *textLabel;
+-(void)updateUI:(CommentModel *)model;
 @end

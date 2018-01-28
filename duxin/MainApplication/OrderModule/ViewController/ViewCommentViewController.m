@@ -31,11 +31,6 @@
 -(void)initData{
     
     _dataArray = [[NSMutableArray alloc] initWithCapacity:0];
-    [_dataArray addObject:[CommentModel new]];
-    [_dataArray addObject:[CommentModel new]];
-    [_dataArray addObject:[CommentModel new]];
-    [_dataArray addObject:[CommentModel new]];
-    [_dataArray addObject:[CommentModel new]];
     
 }
 
@@ -50,9 +45,6 @@
     _tableView.dataSource = self;
     _tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [self fetchData];
-    }];
-    _tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
-        nil;
     }];
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableView.estimatedRowHeight = 0;
@@ -78,20 +70,23 @@
             if ([[responseObject objectForKey:@"code"] integerValue] ==200) {
                 
                 NSDictionary *dataDic = [responseObject objectForKey:@"data"];
+                NSArray *commentArray = [dataDic objectForKey:@"result"];
                 if ([[dataDic objectForKey:@"error_code"] integerValue] == 0) {
+                    NSArray *modelArray = [CommentModel transferCommentModels:commentArray];
+                    [_dataArray removeAllObjects];
+                    [_dataArray addObjectsFromArray:modelArray];
                     
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        
-                        
-                        
+                        [_tableView reloadData];
+                        [_tableView.mj_header endRefreshing];
                     });
                   
                 }
                 else
                 {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        
-                        
+                        [SVHUD showErrorWithDelay:@"获取评价失败" time:0.8f];
+                        [_tableView.mj_header endRefreshing];
                     });
                 }
                 
@@ -99,8 +94,8 @@
             else
             {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    
-                    
+                    [SVHUD showErrorWithDelay:@"获取评价失败" time:0.8f];
+                    [_tableView.mj_header endRefreshing];
                 });
                 
             }
@@ -109,6 +104,7 @@
         
     } fail:^(id error) {
         [SVHUD showErrorWithDelay:@"获取评价失败!" time:0.8f];
+        [_tableView.mj_header endRefreshing];
     }];
  
 }
@@ -121,16 +117,11 @@
     }
 }
 
--(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
-    
-    CommentFooter *commontView = [[CommentFooter alloc] init];
-    commontView.backgroundColor = [UIColor whiteColor];
-    return commontView;
-    
-}
+
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return 57.0f;
+    
+    return 0.001f;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -146,7 +137,7 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CommentModel *model = _dataArray[indexPath.section];
-    return model.cellHeight;
+    return model.cellHeight+model.footerHeight;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -158,7 +149,8 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     cell.tag = indexPath.section;
-    [cell fillInCellFooter:nil];
+    [cell fillInCellFooter:_dataArray[indexPath.section]];
+
     return cell;
 }
 

@@ -21,5 +21,5 @@
 @property(nonatomic,assign)CGFloat cellHeight;
 @property(nonatomic,assign)CGFloat footerHeight;
 
--(NSArray *)transferCommentModels:(NSArray *)array;
++(NSArray *)transferCommentModels:(NSArray *)array;
 @end

@@ -22,6 +22,8 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
+        self.clipsToBounds = YES;
+        
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(14, 25, 70, 20)];
         _titleLabel.textColor = [UIColor blackColor];
         _titleLabel.font = [UIFont systemFontOfSize:15.5f];
@@ -43,11 +45,14 @@
         _lineView.backgroundColor = Color_F1F1F1;
         [self addSubview:_lineView];
         
-        _commentLab = [[UILabel alloc] initWithFrame:CGRectMake(10,bottom(_lineView)+20, SIZE.width-20, 40)];
+        _commentLab = [[UILabel alloc] initWithFrame:CGRectMake(14,bottom(_lineView)+17.5, SIZE.width-24, 40)];
         _commentLab.numberOfLines = 0;
         _commentLab.backgroundColor = Color_F1F1F1;
         _commentLab.textColor = [UIColor blackColor];
         [self addSubview:_commentLab];
+        
+        _footerView = [[CommentFooter alloc]  initWithFrame:CGRectMake(0, bottom(_commentLab)+10, SIZE.width,40)];
+        [self addSubview:_footerView];
     
     }
     return  self;
@@ -55,9 +60,18 @@
 }
 
 -(void)fillInCellFooter:(CommentModel *)model{
-    _titleLabel.backgroundColor = [UIColor whiteColor];
-    _titleLabel.text =@"深度咨询";
     
+    _titleLabel.backgroundColor = [UIColor whiteColor];
+    _timeLabel.backgroundColor = [UIColor whiteColor];
+    _countLabl.backgroundColor = [UIColor whiteColor];
+    _commentLab.backgroundColor = [UIColor whiteColor];
+    
+    [_footerView updateUI:model];
+    
+    _titleLabel.text =@"深度咨询";
+    _timeLabel.text = model.commentEvaluationAt;
+    _commentLab.text = model.commentEvaluation;
+    _countLabl.text = [NSString stringWithFormat:@"第%@次",model.commentIndex];
     
 }
 
