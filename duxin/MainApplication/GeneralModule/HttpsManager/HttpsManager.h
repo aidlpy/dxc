@@ -28,6 +28,7 @@
 #define PostDeleteOrder POST_URL(@"/v1/trade/delete-main/")
 #define FetchConsultingOrders GET_URL(@"/v1/trade/consultation-item")
 #define FetchConsultingSubOrders GET_URL(@"/v1/consultation/sub-item")
+#define FetchOrderComments GET_URL(@"/v1/consultation/query-consultation-evaluation/")
 
 
 typedef void (^RequestSuccessfulBlock)(id responseObject);

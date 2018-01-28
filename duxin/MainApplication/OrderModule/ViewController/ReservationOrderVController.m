@@ -123,6 +123,7 @@
                         if (_isHeaderRefresh) {
                             [_dataArray removeAllObjects];
                         }
+                        
                             [_dataArray addObjectsFromArray:[OrderModel fetchOrderModels:itemArray]];
                   
                         

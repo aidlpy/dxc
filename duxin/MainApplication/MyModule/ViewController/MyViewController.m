@@ -17,6 +17,7 @@
 #import "MyDynamicViewController.h"
 #import "ReservationOrderVController.h"
 #import "ConsultingOrdersVController.h"
+#import "MyInfoViewController.h"
 
 @interface MyViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
@@ -61,11 +62,18 @@
     
     if ([FetchLoginState isEqualToString:LOGINSUCCESS]) {
         
+        MyInfoViewController *vc = [MyInfoViewController new];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+        
+        
     }
     else{
+        
         LoginViewController *vc = [[LoginViewController alloc] init];
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
         [self.navigationController presentViewController:nav animated:YES completion:nil];
+        
     }
     
  

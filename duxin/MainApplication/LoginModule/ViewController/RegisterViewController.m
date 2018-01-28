@@ -88,8 +88,8 @@
 
 -(void)configBtn:(JKCountDownButton *)sender{
  NSString *mobileString  = ((LoginView *)(_loginViewArray[0])).textField.text;
-    if ([RegularTool isPhoneNumber:mobileString]) {
-        
+    if ([RegularTool isPhoneNumber:mobileString])
+    {
         sender.enabled = NO;
         //button type要 设置成custom 否则会闪动
         [sender startWithSecond:60];
@@ -166,9 +166,7 @@
                 NSDictionary *dataDic = [dic objectForKey:@"data"];
                 if ([[dataDic objectForKey:@"error_code"] integerValue] ==0) {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                    
-                        [SVHUD showErrorWithDelay:[dataDic objectForKey:@"msg"] time:0.8];
-                       
+                        [SVHUD showSuccessWithDelay:[dataDic objectForKey:@"msg"] time:0.8];
                     });
                 }
                 else
@@ -229,9 +227,7 @@
             {
         
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [SVProgressHUD dismiss];
-                    [SVProgressHUD showSuccessWithStatus:@"注册成功！"];
-                    [self.navigationController popViewControllerAnimated:YES];
+                    [SVHUD showSuccessWithDelay:@"注册成功！" time:0.8];
                 });
                 
             }
@@ -239,23 +235,20 @@
             if([[dic objectForKey:@"code"] integerValue] == 401){
                
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [SVProgressHUD dismiss];
-                    [SVProgressHUD showErrorWithStatus:@"注册失败！"];
+                 [SVHUD showSuccessWithDelay:@"注册失败！" time:0.8];
                 });
             }
             else
             {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [SVProgressHUD dismiss];
-                    [SVProgressHUD showErrorWithStatus:@"注册失败！"];
+                  [SVHUD showSuccessWithDelay:@"注册失败！" time:0.8];
                 });
             }
             
         });
         
     } fail:^(id error) {
-        [SVProgressHUD dismiss];
-        [SVProgressHUD showErrorWithStatus:@"网络连接失败!"];
+            [SVHUD showSuccessWithDelay:@"注册失败！" time:0.8];
     }];
 }
 

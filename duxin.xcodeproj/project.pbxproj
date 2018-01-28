@@ -117,6 +117,11 @@
 		BA6CDA012012D29300C36B73 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6CDA002012D29300C36B73 /* LoginViewController.m */; };
 		BA6CDA042012D2C400C36B73 /* LoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6CDA032012D2C400C36B73 /* LoginView.m */; };
 		BA7246BA201CA1AB0018712B /* JKCountDownButton.m in Sources */ = {isa = PBXBuildFile; fileRef = BA7246B9201CA1AB0018712B /* JKCountDownButton.m */; };
+		BA85A9DC201D7DFD0077ED50 /* GCD.m in Sources */ = {isa = PBXBuildFile; fileRef = BA85A9DB201D7DFD0077ED50 /* GCD.m */; };
+		BA85A9DF201D83040077ED50 /* ViewCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA85A9DE201D83040077ED50 /* ViewCommentViewController.m */; };
+		BA85A9E2201D84D80077ED50 /* CommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BA85A9E1201D84D80077ED50 /* CommentCell.m */; };
+		BA85A9E5201D96DB0077ED50 /* CommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BA85A9E4201D96DB0077ED50 /* CommentModel.m */; };
+		BA85A9E8201DA7860077ED50 /* CommentFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = BA85A9E7201DA7860077ED50 /* CommentFooter.m */; };
 		BAA1B30220132DDA00CDB437 /* hdamrFileCodec.mm in Sources */ = {isa = PBXBuildFile; fileRef = BAA1B17820132DDA00CDB437 /* hdamrFileCodec.mm */; };
 		BAA1B30320132DDA00CDB437 /* hdwav.mm in Sources */ = {isa = PBXBuildFile; fileRef = BAA1B17A20132DDA00CDB437 /* hdwav.mm */; };
 		BAA1B30420132DDA00CDB437 /* HDVoiceConverter.mm in Sources */ = {isa = PBXBuildFile; fileRef = BAA1B17C20132DDA00CDB437 /* HDVoiceConverter.mm */; };
@@ -555,6 +560,16 @@
 		BA6CDA032012D2C400C36B73 /* LoginView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginView.m; sourceTree = "<group>"; };
 		BA7246B8201CA1AB0018712B /* JKCountDownButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKCountDownButton.h; sourceTree = "<group>"; };
 		BA7246B9201CA1AB0018712B /* JKCountDownButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKCountDownButton.m; sourceTree = "<group>"; };
+		BA85A9DA201D7DFD0077ED50 /* GCD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GCD.h; sourceTree = "<group>"; };
+		BA85A9DB201D7DFD0077ED50 /* GCD.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GCD.m; sourceTree = "<group>"; };
+		BA85A9DD201D83040077ED50 /* ViewCommentViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewCommentViewController.h; sourceTree = "<group>"; };
+		BA85A9DE201D83040077ED50 /* ViewCommentViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewCommentViewController.m; sourceTree = "<group>"; };
+		BA85A9E0201D84D80077ED50 /* CommentCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommentCell.h; sourceTree = "<group>"; };
+		BA85A9E1201D84D80077ED50 /* CommentCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CommentCell.m; sourceTree = "<group>"; };
+		BA85A9E3201D96DB0077ED50 /* CommentModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommentModel.h; sourceTree = "<group>"; };
+		BA85A9E4201D96DB0077ED50 /* CommentModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CommentModel.m; sourceTree = "<group>"; };
+		BA85A9E6201DA7860077ED50 /* CommentFooter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommentFooter.h; sourceTree = "<group>"; };
+		BA85A9E7201DA7860077ED50 /* CommentFooter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CommentFooter.m; sourceTree = "<group>"; };
 		BAA1B17320132DDA00CDB437 /* HDCDDeviceManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDCDDeviceManagerDelegate.h; sourceTree = "<group>"; };
 		BAA1B17420132DDA00CDB437 /* HDCDDeviceManagerProximitySensorDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDCDDeviceManagerProximitySensorDelegate.h; sourceTree = "<group>"; };
 		BAA1B17720132DDA00CDB437 /* hdamrFileCodec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hdamrFileCodec.h; sourceTree = "<group>"; };
@@ -1014,6 +1029,10 @@
 				BA3FCBA8201B0E3E00E9DCF7 /* ReservatingCell.m */,
 				BA3FCBB0201C85A100E9DCF7 /* ConsultingOrdersCell.h */,
 				BA3FCBB1201C85A100E9DCF7 /* ConsultingOrdersCell.m */,
+				BA85A9E0201D84D80077ED50 /* CommentCell.h */,
+				BA85A9E1201D84D80077ED50 /* CommentCell.m */,
+				BA85A9E6201DA7860077ED50 /* CommentFooter.h */,
+				BA85A9E7201DA7860077ED50 /* CommentFooter.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1025,6 +1044,8 @@
 				BA3FBB072015871700D863A7 /* ReservationOrderVController.m */,
 				BA3FBB092015923400D863A7 /* ConsultingOrdersVController.h */,
 				BA3FBB0A2015923400D863A7 /* ConsultingOrdersVController.m */,
+				BA85A9DD201D83040077ED50 /* ViewCommentViewController.h */,
+				BA85A9DE201D83040077ED50 /* ViewCommentViewController.m */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -1040,6 +1061,8 @@
 				BA3FCBAE201C63EB00E9DCF7 /* ConsultingMainModel.m */,
 				BA3FCBB3201C8AD100E9DCF7 /* BaseOrderModel.h */,
 				BA3FCBB4201C8AD100E9DCF7 /* BaseOrderModel.m */,
+				BA85A9E3201D96DB0077ED50 /* CommentModel.h */,
+				BA85A9E4201D96DB0077ED50 /* CommentModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1047,6 +1070,7 @@
 		BA0EFD4E2016EF3E00307C78 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				BA85A9D9201D7DE20077ED50 /* Thread */,
 				BA3FCBB6201C976100E9DCF7 /* AlertView */,
 				BA25834B2019E83C0079C854 /* SvprocessTool */,
 				BA0EFD4F2016EF5100307C78 /* RegularTool */,
@@ -1660,6 +1684,15 @@
 				BA7246B9201CA1AB0018712B /* JKCountDownButton.m */,
 			);
 			path = JKCountDownButton;
+			sourceTree = "<group>";
+		};
+		BA85A9D9201D7DE20077ED50 /* Thread */ = {
+			isa = PBXGroup;
+			children = (
+				BA85A9DA201D7DFD0077ED50 /* GCD.h */,
+				BA85A9DB201D7DFD0077ED50 /* GCD.m */,
+			);
+			path = Thread;
 			sourceTree = "<group>";
 		};
 		BAA1B16E20132DDA00CDB437 /* HelpDeskUI */ = {
@@ -2849,6 +2882,7 @@
 				BA25833C2019D90A0079C854 /* EaseBubbleView+Location.m in Sources */,
 				BAA1B33C20132DDA00CDB437 /* NSIndexPath+PSTCollectionViewAdditions.m in Sources */,
 				BA2583362019D90A0079C854 /* EaseCustomMessageCell.m in Sources */,
+				BA85A9E8201DA7860077ED50 /* CommentFooter.m in Sources */,
 				BA2583172019D90A0079C854 /* EMCDDeviceManager+Remind.m in Sources */,
 				BA2583142019D90A0079C854 /* EMCDDeviceManager+Media.m in Sources */,
 				BAA1B32D20132DDA00CDB437 /* EMSDWebImageCompat.m in Sources */,
@@ -2917,6 +2951,7 @@
 				BAA1B36220132DDA00CDB437 /* HRecordView.m in Sources */,
 				BAA1B3C72013343000CDB437 /* SCLoginManager.m in Sources */,
 				BA6CD9CD201196FE00C36B73 /* MyCell.m in Sources */,
+				BA85A9DF201D83040077ED50 /* ViewCommentViewController.m in Sources */,
 				BAA1B36A20132DDA00CDB437 /* NSDateFormatter+Category.m in Sources */,
 				BAA52F9020104C3B005DA87F /* FoundViewController.m in Sources */,
 				BAA1B38E20132DDA00CDB437 /* HDBubbleView+Track.m in Sources */,
@@ -2932,6 +2967,7 @@
 				BAA1B38320132DDA00CDB437 /* HDArticleView.m in Sources */,
 				BA6CD9B22010C48200C36B73 /* UIColor+SSToolkitAdditions.m in Sources */,
 				BAA1B36820132DDA00CDB437 /* HEvaluationDegreeModel.m in Sources */,
+				BA85A9E2201D84D80077ED50 /* CommentCell.m in Sources */,
 				BA25831F2019D90A0079C854 /* EaseConversationModel.m in Sources */,
 				BAA1B33420132DDA00CDB437 /* NSData+EMImageContentType.m in Sources */,
 				BA2583472019D90A0079C854 /* EaseChatBarMoreView.m in Sources */,
@@ -2941,6 +2977,7 @@
 				BA2583482019D90A0079C854 /* EaseRecordView.m in Sources */,
 				BA07EA172014BD39004CBA1A /* AccountSafeCell.m in Sources */,
 				BAA1B39820132DDA00CDB437 /* HDTextView.m in Sources */,
+				BA85A9DC201D7DFD0077ED50 /* GCD.m in Sources */,
 				BA07E9F820144B01004CBA1A /* AppDelegate.m in Sources */,
 				BAA1B35F20132DDA00CDB437 /* CommodityInfoView.m in Sources */,
 				BAA1B3CD2013352A00CDB437 /* HDLeaveMsgViewController.m in Sources */,
@@ -2980,6 +3017,7 @@
 				BAA1B38A20132DDA00CDB437 /* HDBubbleView+Location.m in Sources */,
 				BAA1B32620132DDA00CDB437 /* MWPhoto.m in Sources */,
 				BA25834E2019E83C0079C854 /* SVHUD.m in Sources */,
+				BA85A9E5201D96DB0077ED50 /* CommentModel.m in Sources */,
 				BAA1B31B20132DDA00CDB437 /* MJRefreshGifHeader.m in Sources */,
 				BAA1B33D20132DDA00CDB437 /* PSTCollectionView.m in Sources */,
 				BAA1B31020132DDA00CDB437 /* MJRefreshAutoFooter.m in Sources */,

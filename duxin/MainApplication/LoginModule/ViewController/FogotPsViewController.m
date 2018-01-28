@@ -70,8 +70,8 @@
             }
         
         
-        loginView.codeBlock = ^(JKCountDownButton *sendeer) {
-            [self fetchCodeAction];
+        loginView.codeBlock = ^(JKCountDownButton *sender) {
+            [self fetchCode:sender];
         };
 
         [self.view addSubview:loginView];
@@ -89,6 +89,38 @@
     
 }
 
+
+-(void)fetchCode:(JKCountDownButton *)sender{
+    
+    NSString *mobileString  = ((LoginView *)(_loginViewArray[0])).textField.text;
+    if ([RegularTool isPhoneNumber:mobileString])
+    {
+        sender.enabled = NO;
+        //button type要 设置成custom 否则会闪动
+        [sender startWithSecond:60];
+        [sender didChange:^NSString *(JKCountDownButton *countDownButton,int second) {
+            if (second == 59) {
+                [self fetchCodeAction];
+                [sender setTitleColor:Color_F1F1F1 forState:UIControlStateNormal];
+            }
+            NSString *title = [NSString stringWithFormat:@"%d秒",second];
+            return title;
+        }];
+        [sender didFinished:^NSString *(JKCountDownButton *countDownButton, int second) {
+            countDownButton.enabled = YES;
+            [sender setTitleColor:Color_5ECAF7 forState:UIControlStateNormal];
+            return @"获取验证码";
+        }];
+        
+    }
+    else
+    {
+        [SVHUD  showErrorWithDelay:@"手机号码错误！" time:0.8f];
+    }
+    
+    
+}
+
 -(void)fetchCodeAction{
     
     NSString *mobileString = ((LoginView *)(_loginViewArray[0])).textField.text;
@@ -98,7 +130,7 @@
         NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
         [dic setObject:((LoginView *)(_loginViewArray[0])).textField.text forKey:@"username"];
         [dic setObject:@"application/json" forKey:@"Content-Type"];
-        [httpsManager postServerAPI:PostMobileCode deliveryDic:dic successful:^(id responseObject) {
+        [httpsManager postServerAPI:PostMobileCodeForPS deliveryDic:dic successful:^(id responseObject) {
             
             dispatch_async(dispatch_get_global_queue(0, 0), ^{
                 NSDictionary *dic = (NSDictionary *)responseObject;
@@ -108,7 +140,7 @@
                     if ([[dataDic objectForKey:@"error_code"] integerValue] ==0) {
                         dispatch_async(dispatch_get_main_queue(), ^{
                             
-                            [SVHUD showSuccessWithDelay:[dataDic objectForKey:@"msg"] time:0.8];
+                            [SVHUD showSuccessWithDelay:@"发送验证码成功！" time:0.8];
                 
                         });
                     }
@@ -124,20 +156,20 @@
                     if([[dic objectForKey:@"code"] integerValue] == 401){
                         
                         dispatch_async(dispatch_get_main_queue(), ^{
-                            [SVHUD showErrorWithDelay:@"获取验证码失败！" time:0.8];
+                            [SVHUD showErrorWithDelay:@"发送验证码失败！" time:0.8];
                         });
                     }
                     else
                     {
                         dispatch_async(dispatch_get_main_queue(), ^{
-                            [SVHUD showErrorWithDelay:@"获取验证码失败！" time:0.8];
+                            [SVHUD showErrorWithDelay:@"发送验证码失败！" time:0.8];
                         });
                     }
                 
             });
             
         } fail:^(id error) {
-            [SVHUD showErrorWithDelay:@"获取验证码失败！" time:0.8];
+            [SVHUD showErrorWithDelay:@"发送验证码失败！" time:0.8];
         }];
         
         
@@ -200,9 +232,7 @@
             {
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [SVProgressHUD dismiss];
-                    [SVProgressHUD showSuccessWithStatus:@"找回密码成功！"];
-                    [self.navigationController popViewControllerAnimated:YES];
+                    [SVHUD showSuccessWithDelay:@"修改密码成功！" time:0.8];
                 });
                 
             }
@@ -210,23 +240,21 @@
                 if([[dic objectForKey:@"code"] integerValue] == 401){
                     
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [SVProgressHUD dismiss];
-                        [SVProgressHUD showErrorWithStatus:@"找回密码失败！"];
+                        [SVHUD showSuccessWithDelay:@"修改密码失败！" time:0.8];
+           
                     });
                 }
                 else
                 {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [SVProgressHUD dismiss];
-                        [SVProgressHUD showErrorWithStatus:@"找回密码失败！"];
+                       [SVHUD showSuccessWithDelay:@"修改密码失败！" time:0.8];
                     });
                 }
             
         });
         
     } fail:^(id error) {
-        [SVProgressHUD dismiss];
-        [SVProgressHUD showErrorWithStatus:@"网络连接失败!"];
+            [SVHUD showSuccessWithDelay:@"修改密码失败！" time:0.8];
     }];
     
     

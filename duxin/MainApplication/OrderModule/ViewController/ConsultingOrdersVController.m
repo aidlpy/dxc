@@ -12,6 +12,7 @@
 #import "ConsultingOrdersCell.h"
 #import "ConsultingMainModel.h"
 #import "SubOrderModel.h"
+#import "ViewCommentViewController.h"
 
 @interface ConsultingOrdersVController ()<UITableViewDelegate,UITableViewDataSource>
 {
@@ -332,7 +333,7 @@
                 nil;
             };
             cell.generalBlock = ^(NSInteger tag) {
-               nil;
+                [self generalAction:tag];
             };
         }
 
@@ -347,39 +348,23 @@
     }];
 }
 
+//判断主订单和子订单的状态
 -(void)generalAction:(NSUInteger)tag{
    
     if (_isSubApi == NO) {
-         OrderModel *model = _dataArray[tag];
+        //主订单的状态
+        ConsultingMainModel *model = _dataArray[tag];
+        NSLog(@"orderStatus==>%@",model.orderStatus);
         switch ([model.orderStatus integerValue]) {
             case WatingForOrderPay:
             {
-            
-            
-            }
-                break;
-            case WatingForConsulting:
-            {
-            
+                
             
             }
                 break;
-            case WatingForComment:
+            case 3:
             {
-            
-            
-            }
-                break;
-            case FinishComment:
-            {
-            
-            
-            }
-                break;
-            case FinishOrderPay:
-            {
-            
-            
+                [self viewComment:model.orderId];
             }
                 break;
             case AlreadColse:
@@ -401,11 +386,41 @@
     }
     else
     {
-        
+        //子订单的状态判断
+        SubOrderModel *model = _dataArray[tag];
+        switch ([model.orderSubStatus integerValue]) {
+            case 0:
+            {
+                
+            }
+                break;
+            case 1:
+            {
+                
+            }
+                break;
+            case 2:
+            {
+                [self viewComment:model.orderId];
+            }
+                break;
+            default:
+                break;
+        }
         
         
         
     }
+}
+
+
+-(void)viewComment:(NSString *)orderId{
+    
+    ViewCommentViewController *vc = [[ViewCommentViewController alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
+    vc.orderId = orderId;
+    [self.navigationController pushViewController:vc animated:YES];
+    
 }
 
 -(void)deleteOrder:(NSInteger)tag{
