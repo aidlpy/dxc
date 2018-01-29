@@ -73,6 +73,7 @@
 		BAA52F872010451C005DA87F /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BAA52F862010451C005DA87F /* MainViewController.m */; };
 		BAA52F9020104C3B005DA87F /* FoundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BAA52F8F20104C3B005DA87F /* FoundViewController.m */; };
 		BAAC92B72019F3A7008780CD /* TagView.m in Sources */ = {isa = PBXBuildFile; fileRef = BAAC92B62019F3A7008780CD /* TagView.m */; };
+		E77DDB6D201F6148004066C8 /* ShAllCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E77DDB6C201F6148004066C8 /* ShAllCommentViewController.m */; };
 		E7AFA134201DCA6800A4643B /* ShConsultantCommentDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E7AFA129201DCA6800A4643B /* ShConsultantCommentDetailModel.m */; };
 		E7AFA135201DCA6800A4643B /* ShConsultantCommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E7AFA12B201DCA6800A4643B /* ShConsultantCommentModel.m */; };
 		E7AFA136201DCA6800A4643B /* ShConsultantInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E7AFA12D201DCA6800A4643B /* ShConsultantInfoModel.m */; };
@@ -692,6 +693,8 @@
 		BAAC92B52019F3A7008780CD /* TagView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TagView.h; sourceTree = "<group>"; };
 		BAAC92B62019F3A7008780CD /* TagView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TagView.m; sourceTree = "<group>"; };
 		C64F07869E8AECBB02E0B393 /* Pods-duxin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-duxin.debug.xcconfig"; path = "Pods/Target Support Files/Pods-duxin/Pods-duxin.debug.xcconfig"; sourceTree = "<group>"; };
+		E77DDB6B201F6148004066C8 /* ShAllCommentViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShAllCommentViewController.h; sourceTree = "<group>"; };
+		E77DDB6C201F6148004066C8 /* ShAllCommentViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShAllCommentViewController.m; sourceTree = "<group>"; };
 		E7AFA128201DCA6800A4643B /* ShConsultantCommentDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShConsultantCommentDetailModel.h; sourceTree = "<group>"; };
 		E7AFA129201DCA6800A4643B /* ShConsultantCommentDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShConsultantCommentDetailModel.m; sourceTree = "<group>"; };
 		E7AFA12A201DCA6800A4643B /* ShConsultantCommentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShConsultantCommentModel.h; sourceTree = "<group>"; };
@@ -1694,6 +1697,8 @@
 				BA07EA0A2014B3A2004CBA1A /* ServiceViewController.m */,
 				E7AFA140201DCAC100A4643B /* ShConsultantDetailInfoViewController.h */,
 				E7AFA141201DCAC100A4643B /* ShConsultantDetailInfoViewController.m */,
+				E77DDB6B201F6148004066C8 /* ShAllCommentViewController.h */,
+				E77DDB6C201F6148004066C8 /* ShAllCommentViewController.m */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -4704,6 +4709,7 @@
 				E7AFAA4B201DDD8D00A4643B /* EMSDWebImagePrefetcher.m in Sources */,
 				E7AFAA43201DDD8D00A4643B /* MWZoomingScrollView.m in Sources */,
 				E7AFA40C201DCBD200A4643B /* UIWebVIew+SwipeGesture.m in Sources */,
+				E77DDB6D201F6148004066C8 /* ShAllCommentViewController.m in Sources */,
 				E7AFAA95201DDD8E00A4643B /* HDBubbleView+RobotMenu.m in Sources */,
 				E7AFAA8A201DDD8D00A4643B /* HDMessageCell.m in Sources */,
 				E7AFAA9C201DDD8E00A4643B /* HDFaceView.m in Sources */,

@@ -14,6 +14,8 @@
 #import "ShConsultantCommentDetailModel.h"
 #import "ShConsultantPackageModel.h"
 #import "UILabel+SuggestSize.h"
+#import "NSString+Util.h"
+#import "ShAllCommentViewController.h"
 
 
 #define HEIGHT_15 15
@@ -22,12 +24,14 @@
 #define HEIGHT_300 300
 #define HEIGHT_60 60
 
+#define COMMENT_NUM 2 //评价默认展示条数
+
 #define SH_CONSULTEINFO_CELL @"ShConsultantDetailTableViewCell"
 
 #define SH_CONSULTEJUDGE_CELL @"ShConsultantJudgeTableViewCell"
 
 
-@interface ShConsultantDetailInfoViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface ShConsultantDetailInfoViewController ()<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate>
 
 @property (strong, nonatomic) UITableView *consultTableview;
 @property (strong, nonatomic) NSMutableArray *dataArray;
@@ -49,6 +53,8 @@
 @property (strong, nonatomic) UIButton *introduceBtn;
 @property (strong, nonatomic) UIButton *judgeBtn;
 @property (strong, nonatomic) UIView *introduceLine;
+@property (assign, nonatomic) BOOL hasLeft;//介绍 NO 评价 YES
+
 
 @property (strong, nonatomic) ShConsultantInfoModel *consultantInfoModel;//咨询师详情数据
 @property (strong, nonatomic) ShConsultantCommentModel *commentModel;
@@ -85,7 +91,8 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     self.navView.hidden = YES;
-    self.tagArray = @[@"恋爱观音",@"情绪压力",@"个人成长"];
+    self.hasLeft = NO;
+    self.tagArray = @[@"恋爱观念",@"情绪压力",@"个人成长"];
     self.footerHeight = 420;
     self.introduceHeight = 100;
     
@@ -144,10 +151,9 @@
 -(void)getCommentsData
 {
     NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
-    [dic setObject:@"3" forKey:@"id"];
+    [dic setObject:self.strID forKey:@"id"];
     [dic setObject:@"1" forKey:@"pageNum"];
     [dic setObject:@"10" forKey:@"limit"];
-
     @weakify(self)
     [[LKProtocolNetworkEngine sharedInstance] protocolWithUrl:FetchConsultantComment
         requestDictionary:dic
@@ -159,14 +165,33 @@
                 
                 self.commentModel = responseC.result;
                 self.commentListArray = [ShConsultantCommentDetailModel mj_objectArrayWithKeyValuesArray:self.commentModel.list];
+                __block  CGFloat allHeight = 0;
+                [self.commentListArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    ShConsultantCommentDetailModel *detailModel = obj;
+                    NSString *strEvaluation = detailModel.evaluation;
+                    CGSize size = [strEvaluation sizeWithFont:FONT_14 constrainedToWidth:SIZE.width - 113];
+                    CGFloat cellHeight = 123;
+                    if (size.height>=20) {
+                        allHeight = allHeight + size.height + cellHeight;
+                    }else{
+                        allHeight = allHeight + 20 + cellHeight;
+                    }
+                    if (idx == COMMENT_NUM - 1) {
+                        *stop = YES;
+                    }
+                }];
                 
+                self.footerHeight = allHeight + 50;
+
+                [self.consultTableview reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
                 [self.footerRightTableView reloadData];
-                
+
             }else{
                 [SVProgressHUD showWithStatus:responseC.msg];
             }
         }];
 }
+
 
 -(void)createUI
 {
@@ -199,7 +224,9 @@
     [self.attentionBtn layoutButtonWithEdgeInsetsStyle:UIButtonEdgeInsetsStyleLeft imageTitleSpace:6];
     self.attentionBtn.frame = CGRectMake(0, line.frame.size.height, SIZE.width/2 + 40, self.bottomView.frame.size.height - line.frame.size.height);
     [self.attentionBtn setTitle:@"关注" forState:UIControlStateNormal];
+    self.attentionBtn.adjustsImageWhenDisabled = NO;
     [self.attentionBtn setImage:[UIImage imageNamed:Image(@"consultantUnAttenion")] forState:UIControlStateNormal];
+    [self.attentionBtn setImage:[UIImage imageNamed:Image(@"consultantUnAttenion")] forState:UIControlStateHighlighted];
     [self.attentionBtn setTitleColor:Color_8D989C forState:UIControlStateNormal];
     [self.attentionBtn addTarget:self action:@selector(attentionBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [self.bottomView addSubview:self.attentionBtn];
@@ -207,8 +234,10 @@
     self.chatBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.chatBtn layoutButtonWithEdgeInsetsStyle:UIButtonEdgeInsetsStyleLeft imageTitleSpace:6];
     self.chatBtn.frame = CGRectMake(self.attentionBtn.frame.size.width, self.attentionBtn.frame.origin.y, SIZE.width - self.attentionBtn.frame.size.width, self.bottomView.frame.size.height - line.frame.size.height);
+    self.chatBtn.adjustsImageWhenDisabled = NO;
     [self.chatBtn setTitle:@"私聊" forState:UIControlStateNormal];
     [self.chatBtn setImage:[UIImage imageNamed:Image(@"sonsultantChat")] forState:UIControlStateNormal];
+    [self.chatBtn setImage:[UIImage imageNamed:Image(@"sonsultantChat")] forState:UIControlStateHighlighted];
     self.chatBtn.backgroundColor = Color_5DCBF5;
     [self.bottomView addSubview:self.chatBtn];
 
@@ -236,7 +265,7 @@
             return 0;
         }
     }else{
-        return 2;
+        return COMMENT_NUM;
     }
    
 }
@@ -246,14 +275,12 @@
         if (indexPath.section == 1) {
             
             ShConsultantDetailTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:SH_CONSULTEINFO_CELL];
-            
             if (!cell) {
                 cell = [[ShConsultantDetailTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:SH_CONSULTEINFO_CELL];
             }
-          
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
             ShConsultantPackageModel *packageModel = self.packageArray[indexPath.row];
             [cell reloadUI:packageModel];
-
             [cell setFrame:CGRectMake(0, 0, SIZE.width, HEIGHT_60)];
             return cell;
         }
@@ -261,10 +288,11 @@
     }else{
 
             ShConsultantJudgeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:SH_CONSULTEJUDGE_CELL];
-            
             if (!cell) {
                 cell = [[ShConsultantJudgeTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:SH_CONSULTEJUDGE_CELL];
             }
+           cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
             if (indexPath.row == 1) {
                 cell.line.hidden = YES;
             }
@@ -272,7 +300,6 @@
         if ( indexPath.row < self.commentListArray.count) {
             ShConsultantCommentDetailModel *detailModel = self.commentListArray[indexPath.row];
             [cell reloadUI:detailModel];
-            
         }
             //commentLabel  距左边 13 + 60 + 10 距右 30
             //cell 高度 13 + 60 + 10 + 40 + 10 + 20 + 10
@@ -371,15 +398,16 @@
         [headerView addSubview:self.backImageView];
         
         self.backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.backBtn.frame = CGRectMake(10, 10, 30, 30);
-        [self.backBtn setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
-        self.backBtn.backgroundColor = [UIColor whiteColor];
+        self.backBtn.frame = CGRectMake(5, 10, 30, 30);
+        [self.backBtn setImage:[UIImage imageNamed:Image(@"whiteLeftArrow")] forState:UIControlStateNormal];
+        [self.backBtn setImage:[UIImage imageNamed:Image(@"whiteLeftArrow")] forState:UIControlStateHighlighted];
         [self.backBtn addTarget:self action:@selector(backBtnClick) forControlEvents:UIControlEventTouchUpInside];
         [headerView addSubview:self.backBtn];
         
         self.shareBtn= [UIButton buttonWithType:UIButtonTypeCustom];
         self.shareBtn.frame = CGRectMake(SIZE.width - 40, 10, 30, 30);
         [self.shareBtn setImage:[UIImage imageNamed:Image(@"consultantShare")] forState:UIControlStateNormal];
+        [self.shareBtn setImage:[UIImage imageNamed:Image(@"consultantShare")] forState:UIControlStateHighlighted];
         [self.shareBtn addTarget:self action:@selector(shareBtnClick) forControlEvents:UIControlEventTouchUpInside];
         [headerView addSubview:self.shareBtn];
         
@@ -529,7 +557,12 @@
         [self.introduceBtn addTarget:self action:@selector(introduceBtnClick) forControlEvents:UIControlEventTouchUpInside];
         [headerView addSubview:self.introduceBtn];
         
-        self.introduceLine = [[UIView alloc] initWithFrame:CGRectMake(0, HEIGHT_45 - 2, self.introduceBtn.frame.size.width, 2)];
+        self.introduceLine = [[UIView alloc] init];
+        if (self.hasLeft) {
+            self.introduceLine.frame = CGRectMake(self.introduceBtn.frame.size.width, HEIGHT_45 - 2, self.introduceBtn.frame.size.width, 2);
+        }else{
+            self.introduceLine.frame = CGRectMake(0, HEIGHT_45 - 2, self.introduceBtn.frame.size.width, 2);
+        }
         self.introduceLine.backgroundColor = Color_5DCBF5;
         [headerView addSubview:self.introduceLine];
         
@@ -551,13 +584,21 @@
 {
     UIView *footerView = [[UIView alloc] init];
     if (section == 2) {
+        
         if (!self.footerSection2View) {
             self.footerSection2View = [[UIView alloc] init];
             self.footerSection2View.backgroundColor = [UIColor whiteColor];
             self.footerSection2View.frame = CGRectMake(0, 0, SIZE.width, self.footerHeight);
             self.footerSection2View.backgroundColor = [UIColor whiteColor];
-            self.footerScrollView = [[UIScrollView alloc] initWithFrame:self.footerSection2View.frame];
-            self.footerScrollView.contentSize = CGSizeMake(SIZE.width*2, self.footerScrollView.frame.size.height);
+            
+            self.footerScrollView = [[UIScrollView alloc] init];
+            self.footerScrollView.frame = CGRectMake(0, 0, SIZE.width, self.footerHeight);
+
+            self.footerScrollView.contentSize = CGSizeMake(SIZE.width*2, self.footerHeight);
+            self.footerScrollView.showsVerticalScrollIndicator = FALSE;
+            self.footerScrollView.showsHorizontalScrollIndicator = FALSE;
+            self.footerScrollView.pagingEnabled = YES;
+            self.footerScrollView.delegate = self;
             [self.footerSection2View addSubview:self.footerScrollView];
             
             self.footerLeftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SIZE.width, self.footerLeftView.frame.size.height)];
@@ -588,12 +629,13 @@
             [self.spreadAllBtn addTarget:self action:@selector(spreadAllBtnClick) forControlEvents:UIControlEventTouchUpInside];
             [self.footerLeftView addSubview:self.spreadAllBtn];
             
-            self.footerRightTableView = [[UITableView alloc] initWithFrame:CGRectMake(SIZE.width, 0, SIZE.width, self.footerHeight) style:UITableViewStyleGrouped];
+            self.footerRightTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+            self.footerRightTableView.frame= CGRectMake(SIZE.width, 0, SIZE.width, self.footerHeight);
             self.footerRightTableView.tag = 2;
             self.footerRightTableView.delegate = self;
             self.footerRightTableView.dataSource = self;
             self.footerRightTableView.bounces = NO;
-            self.footerRightTableView.scrollEnabled = NO;
+            self.footerRightTableView.scrollEnabled = YES;
             self.footerRightTableView.separatorColor = [UIColor clearColor];
             self.footerRightTableView.backgroundColor = [UIColor whiteColor];
             [self.footerRightTableView registerClass:[ShConsultantJudgeTableViewCell class] forCellReuseIdentifier:SH_CONSULTEJUDGE_CELL];
@@ -601,6 +643,9 @@
             self.footerRightTableView.showsVerticalScrollIndicator = FALSE;
             [self.footerScrollView addSubview:self.footerRightTableView];
         }
+        self.footerSection2View.frame = CGRectMake(0, 0, SIZE.width, self.footerHeight);
+        self.footerScrollView.frame = CGRectMake(0, 0, SIZE.width, self.footerHeight);
+        self.footerRightTableView.frame= CGRectMake(SIZE.width, 0, SIZE.width, self.footerHeight);
 
         return self.footerSection2View;
         
@@ -637,6 +682,28 @@
     
 }
 
+#pragma mark --UIScrollViewDelegate--
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    //ScrollView中根据滚动距离来判断当前页数
+    NSInteger page = (NSInteger)self.footerScrollView.contentOffset.x/self.footerScrollView.frame.size.width;
+    if (page == 1) {
+        [UIView animateWithDuration:0.1 animations:^{
+            self.introduceLine.frame = CGRectMake(self.introduceBtn.frame.size.width, HEIGHT_45 - 2, self.introduceBtn.frame.size.width, 2);
+            self.hasLeft = YES;
+            
+        }];
+    }else{
+        [UIView animateWithDuration:0.1 animations:^{
+            self.introduceLine.frame = CGRectMake(0, HEIGHT_45 - 2, self.introduceBtn.frame.size.width, 2);
+            self.hasLeft = NO;
+            
+        }];
+        
+    }
+    
+}
+
 
 -(void)clickBtnAction
 {
@@ -648,6 +715,7 @@
 {
     [UIView animateWithDuration:0.1 animations:^{
         self.introduceLine.frame = CGRectMake(0, HEIGHT_45 - 2, self.introduceBtn.frame.size.width, 2);
+        self.hasLeft = NO;
         self.footerScrollView.contentOffset = CGPointMake(0, 0);
 
     }];
@@ -659,6 +727,7 @@
 {
     [UIView animateWithDuration:0.1 animations:^{
         self.introduceLine.frame = CGRectMake(self.introduceBtn.frame.size.width, HEIGHT_45 - 2, self.introduceBtn.frame.size.width, 2);
+        self.hasLeft = YES;
         self.footerScrollView.contentOffset = CGPointMake(SIZE.width, 0);
 
     }];
@@ -667,6 +736,11 @@
 #pragma mark --more comment btn click action --
 -(void)btnMoreCommentClick
 {
+    ShAllCommentViewController *commentVC = [[ShAllCommentViewController alloc] init];
+    commentVC.hidesBottomBarWhenPushed = YES ;
+    commentVC.strID = @"3";
+    [self.navigationController pushViewController:commentVC animated:YES];
+    
     
 }
 #pragma mark --spread all introduce btn click action --

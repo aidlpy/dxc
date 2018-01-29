@@ -86,6 +86,7 @@
     
     ShConsultantDetailInfoViewController *consultantInfoVC = [[ShConsultantDetailInfoViewController alloc] init];
     consultantInfoVC.hidesBottomBarWhenPushed = YES ;
+    consultantInfoVC.strID = @"3";
     [self.navigationController pushViewController:consultantInfoVC animated:YES];
     
 }

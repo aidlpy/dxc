@@ -42,7 +42,7 @@
  */
 @property (assign, nonatomic) NSInteger order_number;
 /**
- *
+ *  评论
  */
 @property (strong, nonatomic) NSString *evaluation;
 /**
