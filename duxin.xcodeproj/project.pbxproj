@@ -76,6 +76,7 @@
 		E77DDB6D201F6148004066C8 /* ShAllCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E77DDB6C201F6148004066C8 /* ShAllCommentViewController.m */; };
 		E77DDB70201F7D07004066C8 /* ShConsultAttentionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E77DDB6F201F7D07004066C8 /* ShConsultAttentionModel.m */; };
 		E77DDB73201F80DC004066C8 /* ShConsultAttentionInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E77DDB72201F80DC004066C8 /* ShConsultAttentionInfoModel.m */; };
+		E77DDB76201F843B004066C8 /* ShCredentialsCertifyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E77DDB75201F843B004066C8 /* ShCredentialsCertifyViewController.m */; };
 		E7AFA134201DCA6800A4643B /* ShConsultantCommentDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E7AFA129201DCA6800A4643B /* ShConsultantCommentDetailModel.m */; };
 		E7AFA135201DCA6800A4643B /* ShConsultantCommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E7AFA12B201DCA6800A4643B /* ShConsultantCommentModel.m */; };
 		E7AFA136201DCA6800A4643B /* ShConsultantInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E7AFA12D201DCA6800A4643B /* ShConsultantInfoModel.m */; };
@@ -701,6 +702,8 @@
 		E77DDB6F201F7D07004066C8 /* ShConsultAttentionModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShConsultAttentionModel.m; sourceTree = "<group>"; };
 		E77DDB71201F80DC004066C8 /* ShConsultAttentionInfoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShConsultAttentionInfoModel.h; sourceTree = "<group>"; };
 		E77DDB72201F80DC004066C8 /* ShConsultAttentionInfoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShConsultAttentionInfoModel.m; sourceTree = "<group>"; };
+		E77DDB74201F843B004066C8 /* ShCredentialsCertifyViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShCredentialsCertifyViewController.h; sourceTree = "<group>"; };
+		E77DDB75201F843B004066C8 /* ShCredentialsCertifyViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShCredentialsCertifyViewController.m; sourceTree = "<group>"; };
 		E7AFA128201DCA6800A4643B /* ShConsultantCommentDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShConsultantCommentDetailModel.h; sourceTree = "<group>"; };
 		E7AFA129201DCA6800A4643B /* ShConsultantCommentDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShConsultantCommentDetailModel.m; sourceTree = "<group>"; };
 		E7AFA12A201DCA6800A4643B /* ShConsultantCommentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShConsultantCommentModel.h; sourceTree = "<group>"; };
@@ -1705,6 +1708,8 @@
 				E7AFA141201DCAC100A4643B /* ShConsultantDetailInfoViewController.m */,
 				E77DDB6B201F6148004066C8 /* ShAllCommentViewController.h */,
 				E77DDB6C201F6148004066C8 /* ShAllCommentViewController.m */,
+				E77DDB74201F843B004066C8 /* ShCredentialsCertifyViewController.h */,
+				E77DDB75201F843B004066C8 /* ShCredentialsCertifyViewController.m */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -4806,6 +4811,7 @@
 				E7AFA9E6201DDD8D00A4643B /* EMCDDeviceManager+Remind.m in Sources */,
 				E7AFAA75201DDD8D00A4643B /* UIResponder+HRouter.m in Sources */,
 				E7AFA9E4201DDD8D00A4643B /* EMCDDeviceManager+Microphone.m in Sources */,
+				E77DDB76201F843B004066C8 /* ShCredentialsCertifyViewController.m in Sources */,
 				E7AFA3EB201DCBD100A4643B /* UITextField+Shake.m in Sources */,
 				E7AFAA52201DDD8D00A4643B /* UIImageView+EMHighlightedWebCache.m in Sources */,
 				E7AFAA7C201DDD8D00A4643B /* FixFopen.c in Sources */,

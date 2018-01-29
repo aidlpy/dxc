@@ -16,6 +16,7 @@
 #import "UILabel+SuggestSize.h"
 #import "NSString+Util.h"
 #import "ShAllCommentViewController.h"
+#import "ShCredentialsCertifyViewController.h"
 
 
 #define HEIGHT_15 15
@@ -504,7 +505,8 @@
         bottomView3.textAlignment = NSTextAlignmentCenter;
         [headerView addSubview:bottomView3];
         
-    
+        
+
     }
     else if (section == 1)
     {
@@ -707,7 +709,10 @@
 
 -(void)clickBtnAction
 {
-    
+    ShCredentialsCertifyViewController *certifyVC = [ShCredentialsCertifyViewController new];
+    certifyVC.hidesBottomBarWhenPushed = YES ;
+    certifyVC.strName = self.consultantInfoModel.name;
+    [self.navigationController pushViewController:certifyVC animated:YES];
 }
 
 #pragma mark --introduce btn click action--
