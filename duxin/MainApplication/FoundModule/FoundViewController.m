@@ -14,7 +14,7 @@
 }
 @end
 
-static NSString *url = @"https://www.baidu.com";
+static NSString *url = @"http://h5.uat.37du.xin/#/found";
 @implementation FoundViewController
 
 - (void)viewDidLoad {

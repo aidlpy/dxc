@@ -18,7 +18,7 @@
 }
 @end
 
-static NSString *url = @"https://www.baidu.com";
+static NSString *url = @"http://h5.uat.37du.xin/#/";
 
 @implementation MainViewController
 
@@ -44,6 +44,7 @@ static NSString *url = @"https://www.baidu.com";
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [SVProgressHUD show];
+
     NSMutableURLRequest *requestUrl = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
     [_webView loadRequest:requestUrl];
 }

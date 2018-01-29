@@ -32,9 +32,14 @@
         model.commentFid = [modelDic objectForKey:@"fid"];
         model.commentIndex = [modelDic objectForKey:@"index"];
         model.commentOrderNumber = [modelDic objectForKey:@"order_number"];
-        model.commentReply = [modelDic objectForKey:@"order_number"];
+
+        if (![[modelDic objectForKey:@"reply"] isEqualToString:@""]) {
+           model.commentReply = [modelDic objectForKey:@"reply"];
+            NSLog(@"model.commentReply==>%@",model.commentReply);
+        }
         model.commentReplyAt = [modelDic objectForKey:@"reply_at"];
         model.commentStart = [modelDic objectForKey:@"start"];
+        model.commentAvatar = [modelDic objectForKey:@"avatar"];
         [pocketArray addObject:model];
         
     }];

@@ -26,18 +26,19 @@
         
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(14, 25, 70, 20)];
         _titleLabel.textColor = [UIColor blackColor];
-        _titleLabel.font = [UIFont systemFontOfSize:15.5f];
-        _titleLabel.backgroundColor = Color_F1F1F1;
+        _titleLabel.font = [UIFont systemFontOfSize:16.0f];
+        _titleLabel.backgroundColor = Color_1F1F1F;
         [self addSubview:_titleLabel];
         
-        _timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(left(_titleLabel)+5, 0,120, 20)];
+        _timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(left(_titleLabel)+5, 0,150, 20)];
         _timeLabel.center = CGPointMake(_timeLabel.center.x,_titleLabel.center.y);
         _timeLabel.textColor = _titleLabel.textColor;
-        _timeLabel.backgroundColor = Color_F1F1F1;
+        _timeLabel.backgroundColor = Color_1F1F1F;
         [self addSubview:_timeLabel];
         
-        _countLabl = [[UILabel alloc] initWithFrame:CGRectMake(SIZE.width-65, 0, 60, 20)];
+        _countLabl = [[UILabel alloc] initWithFrame:CGRectMake(SIZE.width-110, 0, 100, 20)];
         _countLabl.center = CGPointMake(_countLabl.center.x,_titleLabel.center.y);
+        _countLabl.textAlignment = NSTextAlignmentRight;
         _countLabl.backgroundColor = Color_F1F1F1;
         [self addSubview:_countLabl];
         
@@ -47,16 +48,16 @@
         
         _commentLab = [[UILabel alloc] initWithFrame:CGRectMake(14,bottom(_lineView)+17.5, SIZE.width-24, 40)];
         _commentLab.numberOfLines = 0;
-        _commentLab.backgroundColor = Color_F1F1F1;
+        _commentLab.lineBreakMode = NSLineBreakByCharWrapping;
+        _commentLab.font = [UIFont systemFontOfSize:14.0f];
         _commentLab.textColor = [UIColor blackColor];
         [self addSubview:_commentLab];
         
-        _footerView = [[CommentFooter alloc]  initWithFrame:CGRectMake(0, bottom(_commentLab)+10, SIZE.width,40)];
+        _footerView = [[CommentFooter alloc]  initWithFrame:CGRectMake(0, bottom(_commentLab)+10, SIZE.width,38)];
         [self addSubview:_footerView];
     
     }
     return  self;
-    
 }
 
 -(void)fillInCellFooter:(CommentModel *)model{
@@ -66,14 +67,21 @@
     _countLabl.backgroundColor = [UIColor whiteColor];
     _commentLab.backgroundColor = [UIColor whiteColor];
     
+    _titleLabel.text =@"深度咨询";
+    [_countLabl setCommentTimeText:model.commentIndex];
+    _timeLabel.text = [model.commentEvaluationAt timeWithTimeIntervalString];
     [_footerView updateUI:model];
     
-    _titleLabel.text =@"深度咨询";
-    _timeLabel.text = model.commentEvaluationAt;
-    _commentLab.text = model.commentEvaluation;
-    _countLabl.text = [NSString stringWithFormat:@"第%@次",model.commentIndex];
+    _commentLab.text =[NSString stringWithFormat:@"%@",model.commentEvaluation];
+    // CGFloat commentHight = [_countLabl getSpaceLabelHeight:_commentLab.text withFont:_commentLab.font withWidth:w(_countLabl)]
+    CGSize commentSize = [_commentLab sizeThatFits:CGSizeMake(w(_commentLab), 0)];
+    [_commentLab setHeight:commentSize.height];
+    model.cellHeight = commentSize.height+90;
     
+    [_footerView setOriginY:bottom(_commentLab)+10];
+        
 }
+
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

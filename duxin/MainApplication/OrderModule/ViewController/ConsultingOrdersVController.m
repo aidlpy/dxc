@@ -13,6 +13,7 @@
 #import "ConsultingMainModel.h"
 #import "SubOrderModel.h"
 #import "ViewCommentViewController.h"
+#import "CommentViewController.h"
 
 @interface ConsultingOrdersVController ()<UITableViewDelegate,UITableViewDataSource>
 {
@@ -396,7 +397,7 @@
                 break;
             case 1:
             {
-                
+                [self goToComment:model.orderId];
             }
                 break;
             case 2:
@@ -407,9 +408,6 @@
             default:
                 break;
         }
-        
-        
-        
     }
 }
 
@@ -419,6 +417,15 @@
     ViewCommentViewController *vc = [[ViewCommentViewController alloc] init];
     vc.hidesBottomBarWhenPushed = YES;
     vc.orderId = orderId;
+    [self.navigationController pushViewController:vc animated:YES];
+    
+}
+
+-(void)goToComment:(NSString *)orderId{
+    
+    CommentViewController *vc =[[CommentViewController alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
+    vc.isMainOrder =!_isSubApi;
     [self.navigationController pushViewController:vc animated:YES];
     
 }
@@ -476,7 +483,13 @@
                 
                 if ([[[dic objectForKey:@"data"] objectForKey:@"error_code"] integerValue] == 0) {
                     
-                    [_dataArray removeObjectAtIndex:tag];
+                    if (_selectedIndex == AllOrder) {
+                        model.orderStatus = @"5";
+                    }
+                    else{
+                        [_dataArray removeObjectAtIndex:tag];
+                    }
+                  
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [_tablView reloadData];
                         [SVHUD showSuccessWithDelay:@"取消订单成功！" time:0.8];

@@ -18,6 +18,7 @@
 @property(nonatomic,copy)NSString *commentReply;
 @property(nonatomic,copy)NSString *commentReplyAt;
 @property(nonatomic,copy)NSString *commentStart;
+@property(nonatomic,copy)NSString *commentAvatar;
 @property(nonatomic,assign)CGFloat cellHeight;
 @property(nonatomic,assign)CGFloat footerHeight;
 

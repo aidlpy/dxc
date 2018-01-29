@@ -9,6 +9,7 @@
 #import "ReservationOrderVController.h"
 #import "OrderTitleView.h"
 #import "ReservatingCell.h"
+#import "CommentViewController.h"
 
 
 @interface ReservationOrderVController ()<UITableViewDelegate,UITableViewDataSource>
@@ -273,7 +274,9 @@
             break;
         case WatingForComment:
         {
-            
+            CommentViewController *vc = [[CommentViewController alloc] init];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
             
         }
             break;
@@ -358,7 +361,13 @@
                 
                 if ([[[dic objectForKey:@"data"] objectForKey:@"error_code"] integerValue] == 0) {
                     
-                    [_dataArray removeObjectAtIndex:tag];
+                    if (_selectedIndex == AllOrder) {
+                        model.orderStatus = @"5";
+                    }
+                    else{
+                        [_dataArray removeObjectAtIndex:tag];
+                    }
+                    
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [_tablView reloadData];
                         [SVHUD showSuccessWithDelay:@"取消订单成功！" time:0.8];

@@ -21,14 +21,18 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationController.navigationBarHidden = YES;
-
-    
     _navView = [[CustomNavView alloc] init];
     _navView.backgroundColor = Color_5DCBF5;
     __block typeof(self) weakSelf = self;
     _navView.backBlock =^(){[weakSelf backTo];};
     _navView.pushBlock = ^(){[weakSelf nextTo];};
     [self.view addSubview:_navView];
+    
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.hidden = YES;
     
 }
 

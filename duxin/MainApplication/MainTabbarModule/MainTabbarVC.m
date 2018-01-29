@@ -80,7 +80,7 @@
             vc.tabBarItem.image = [[UIImage imageNamed:Image(_tabbarImageArray[idx])] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
             vc.tabBarItem.selectedImage = [[UIImage imageNamed:Image(_tabbarSelectedArray[idx])] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
             UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:viewController];
-    
+            [vc.navigationController.navigationBar setHidden:YES];
             [_viewControllers addObject:nav];
         
     }];

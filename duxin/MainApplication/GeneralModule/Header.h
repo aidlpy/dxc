@@ -70,17 +70,13 @@
 #define  Color_57CAFA COLOR(@"57CAFA")
 #define  Color_FC5268 COLOR(@"FC5268")
 #define  Color_FA9E4B COLOR(@"FA9E4B")
-
-//sh
-#define  Color_2B2B2B COLOR(@"2B2B2B")
-#define  Color_8BBAC4 COLOR(@"8BBAC4")
-#define  Color_57CAF7 COLOR(@"57CAF7")
-#define  Color_BABABA COLOR(@"BABABA")
+#define  Color_FB9F3F COLOR(@"FB9F3F")
+#define  Color_E5E5E5 COLOR(@"E5E5E5")
 #define  Color_8D989C COLOR(@"8D989C")
+#define  Color_8BBAC4 COLOR(@"8BBAC4")
+#define  Color_2B2B2B COLOR(@"2B2B2B")
 #define  Color_CBE3E8 COLOR(@"CBE3E8")
-
-
-
+#define  Color_57CAF7 COLOR(@"57CAF7")
 
 #define A100 @"FF"
 #define A95 @"F2"
@@ -126,12 +122,14 @@
 #import "MJRefresh.h"
 #import "AAlertView.h"
 #import "GCD.h"
+#import "UILabel+Category.h"
+#import "NSString+Category.h"
+#import "CustomTextView.h"
 
 //SH
 #import "UIButton+Sh.h"
 #import "LKProtocolNetworkEngine.h"
 #import <Masonry.h>
-
 
 
 //systemFontOfSize
