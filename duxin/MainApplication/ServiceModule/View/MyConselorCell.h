@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Header.h"
+#import "ShConsultantInfoModel.h"
 
 @interface MyConselorCell : UITableViewCell
 @property(nonatomic,retain)UIImageView *headerImageView;
@@ -16,4 +17,6 @@
 @property(nonatomic,retain)UIView *lineView;
 
 -(void)setDefaultStytle;
+
+-(void)reloadUI:(ShConsultantInfoModel *)attentionModel;
 @end

@@ -54,6 +54,11 @@
     [_titleLab setBackgroundColor:Color_F1F1F1];    
     
 }
+-(void)reloadUI:(ShConsultantInfoModel *)attentionModel
+{
+    [self.headerImageView sd_setImageWithURL:[NSURL URLWithString:attentionModel.avatar] placeholderImage:Image(@"")];
+    self.titleLab.text =attentionModel.name;
+}
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

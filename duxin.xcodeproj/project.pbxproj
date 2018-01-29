@@ -74,6 +74,8 @@
 		BAA52F9020104C3B005DA87F /* FoundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BAA52F8F20104C3B005DA87F /* FoundViewController.m */; };
 		BAAC92B72019F3A7008780CD /* TagView.m in Sources */ = {isa = PBXBuildFile; fileRef = BAAC92B62019F3A7008780CD /* TagView.m */; };
 		E77DDB6D201F6148004066C8 /* ShAllCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E77DDB6C201F6148004066C8 /* ShAllCommentViewController.m */; };
+		E77DDB70201F7D07004066C8 /* ShConsultAttentionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E77DDB6F201F7D07004066C8 /* ShConsultAttentionModel.m */; };
+		E77DDB73201F80DC004066C8 /* ShConsultAttentionInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E77DDB72201F80DC004066C8 /* ShConsultAttentionInfoModel.m */; };
 		E7AFA134201DCA6800A4643B /* ShConsultantCommentDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E7AFA129201DCA6800A4643B /* ShConsultantCommentDetailModel.m */; };
 		E7AFA135201DCA6800A4643B /* ShConsultantCommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E7AFA12B201DCA6800A4643B /* ShConsultantCommentModel.m */; };
 		E7AFA136201DCA6800A4643B /* ShConsultantInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E7AFA12D201DCA6800A4643B /* ShConsultantInfoModel.m */; };
@@ -695,6 +697,10 @@
 		C64F07869E8AECBB02E0B393 /* Pods-duxin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-duxin.debug.xcconfig"; path = "Pods/Target Support Files/Pods-duxin/Pods-duxin.debug.xcconfig"; sourceTree = "<group>"; };
 		E77DDB6B201F6148004066C8 /* ShAllCommentViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShAllCommentViewController.h; sourceTree = "<group>"; };
 		E77DDB6C201F6148004066C8 /* ShAllCommentViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShAllCommentViewController.m; sourceTree = "<group>"; };
+		E77DDB6E201F7D07004066C8 /* ShConsultAttentionModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShConsultAttentionModel.h; sourceTree = "<group>"; };
+		E77DDB6F201F7D07004066C8 /* ShConsultAttentionModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShConsultAttentionModel.m; sourceTree = "<group>"; };
+		E77DDB71201F80DC004066C8 /* ShConsultAttentionInfoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShConsultAttentionInfoModel.h; sourceTree = "<group>"; };
+		E77DDB72201F80DC004066C8 /* ShConsultAttentionInfoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShConsultAttentionInfoModel.m; sourceTree = "<group>"; };
 		E7AFA128201DCA6800A4643B /* ShConsultantCommentDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShConsultantCommentDetailModel.h; sourceTree = "<group>"; };
 		E7AFA129201DCA6800A4643B /* ShConsultantCommentDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShConsultantCommentDetailModel.m; sourceTree = "<group>"; };
 		E7AFA12A201DCA6800A4643B /* ShConsultantCommentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShConsultantCommentModel.h; sourceTree = "<group>"; };
@@ -2147,6 +2153,10 @@
 				E7AFA131201DCA6800A4643B /* ShConsultantProfileModel.m */,
 				E7AFA132201DCA6800A4643B /* ShUserModel.h */,
 				E7AFA133201DCA6800A4643B /* ShUserModel.m */,
+				E77DDB6E201F7D07004066C8 /* ShConsultAttentionModel.h */,
+				E77DDB6F201F7D07004066C8 /* ShConsultAttentionModel.m */,
+				E77DDB71201F80DC004066C8 /* ShConsultAttentionInfoModel.h */,
+				E77DDB72201F80DC004066C8 /* ShConsultAttentionInfoModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -4841,6 +4851,7 @@
 				BA0EFD522016EF6500307C78 /* RegularTool.m in Sources */,
 				BA3FCBB2201C85A100E9DCF7 /* ConsultingOrdersCell.m in Sources */,
 				E7AFA392201DCBD100A4643B /* CALayer+UIColor.m in Sources */,
+				E77DDB73201F80DC004066C8 /* ShConsultAttentionInfoModel.m in Sources */,
 				E7AFA3EE201DCBD100A4643B /* UITextView+Select.m in Sources */,
 				E7AFAA57201DDD8D00A4643B /* PSTCollectionViewCell.m in Sources */,
 				E7AFAA5C201DDD8D00A4643B /* PSTCollectionViewLayout.m in Sources */,
@@ -4899,6 +4910,7 @@
 				E7AFA3A0201DCBD100A4643B /* UIButton+CountDown.m in Sources */,
 				BA6CD9B12010C48200C36B73 /* UIColor+Category.m in Sources */,
 				E7AFA354201DCBD100A4643B /* NSBundle+AppIcon.m in Sources */,
+				E77DDB70201F7D07004066C8 /* ShConsultAttentionModel.m in Sources */,
 				E7AFA419201DCBD200A4643B /* LKProtocolNetworkEngine.m in Sources */,
 				E7AFA149201DCB9600A4643B /* SHModel.m in Sources */,
 				E7AFA3A5201DCBD100A4643B /* UIColor+HEX.m in Sources */,

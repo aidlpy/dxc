@@ -10,32 +10,36 @@
 #import "MyConselorCell.h"
 #import "CounselorDetailVC.h"
 #import "ShConsultantDetailInfoViewController.h"
-
+#import "ShConsultAttentionModel.h"
+#import "ShConsultantInfoModel.h"
 
 @interface MyCounselorVC ()<UITableViewDelegate,UITableViewDataSource>
 {
     UITableView *_tableView;
     
-    
 }
+@property (strong, nonatomic) ShConsultAttentionModel *attentionModel;
+@property (strong, nonatomic) NSMutableArray *attentionArray;
+
 @end
 
 @implementation MyCounselorVC
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the sview.
-    [self initData];
-    [self initUI];
+    
+    self.attentionArray = [[NSMutableArray alloc] initWithCapacity:0];
+    [self createUI];
+    [self getAttentionInfoData];
     
 }
 
--(void)initData{
-    
-
-}
-
--(void)initUI{
+-(void)createUI{
     
     self.view.backgroundColor = [UIColor whiteColor];
     [self.navView setBackStytle:@"我的咨询师" rightImage:@"whiteLeftArrow"];
@@ -53,10 +57,29 @@
     [self.view addSubview:_tableView];
     
 }
+#pragma mark --get attention info data--
+-(void)getAttentionInfoData
+{
+    @weakify(self)
+    [[LKProtocolNetworkEngine sharedInstance] protocolWithUrl:FetchConsultantMyFollow
+            requestDictionary:nil
+             responseModelCls:[ShConsultAttentionModel class]
+            completionHandler:^(LMModel *response,SHModel *responseC, NSError *error) {
+                @normalize(self)
+                if (response.code == 200 && responseC.error_code == 0) {
+                    self.attentionModel = responseC.result;
+                    self.attentionArray = [ShConsultantInfoModel mj_objectArrayWithKeyValuesArray:self.attentionModel.list];
+                    [_tableView reloadData];
+                    
+                }else{
+                    [SVProgressHUD showErrorWithStatus:responseC.msg];
+                }
+            }];
+}
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 2;
+    return self.attentionArray.count;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -75,14 +98,12 @@
     }
     cell.tag = indexPath.row;
     [cell setDefaultStytle];
+    ShConsultantInfoModel *infoModel = self.attentionArray[indexPath.row];
+    [cell reloadUI:infoModel];
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-//    CounselorDetailVC *vc = [[CounselorDetailVC alloc] init];
-//    vc.hidesBottomBarWhenPushed = YES ;
-//    [self.navigationController pushViewController:vc animated:YES];
     
     ShConsultantDetailInfoViewController *consultantInfoVC = [[ShConsultantDetailInfoViewController alloc] init];
     consultantInfoVC.hidesBottomBarWhenPushed = YES ;

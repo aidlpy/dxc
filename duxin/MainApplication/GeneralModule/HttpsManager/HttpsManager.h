@@ -32,8 +32,10 @@
 
 
 //SH
-#define FetchConsultantInfo  GET_URL(@"/v1/user/psychologist-homepage/")
-#define FetchConsultantComment  GET_URL(@"/v1/user/home-reviews/1")
+#define FetchConsultantInfo  GET_URL(@"/v1/user/psychologist-homepage/")//咨询师详情
+#define FetchConsultantComment  GET_URL(@"/v1/user/home-reviews/1")//评论
+#define FetchConsultantMyFollow  GET_URL(@"/v1/user/my-follow") //我关注的咨询师
+
 
 
 

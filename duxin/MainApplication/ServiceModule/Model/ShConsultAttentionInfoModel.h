@@ -1,14 +1,14 @@
 //
-//  ShUserModel.h
+//  ShConsultAttentionInfoModel.h
 //  duxin
 //
-//  Created by felix on 2018/1/28.
+//  Created by felix on 2018/1/30.
 //  Copyright © 2018年 37duxin. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
-@interface ShUserModel : NSObject
+@interface ShConsultAttentionInfoModel : NSObject
 /**
  *  用户ID
  */
@@ -20,13 +20,9 @@
 /**
  *  用户昵称
  */
-@property (strong, nonatomic) NSString *nickname;
+@property (strong, nonatomic) NSString *name;
 /**
  *  性别(1:男,2:女,0:保密)
  */
 @property (assign, nonatomic) NSInteger gender;
-/**
- *  注册设备来源(0:Android,1:iOS,2:PC)
- */
-@property (assign, nonatomic) NSInteger device;
 @end
