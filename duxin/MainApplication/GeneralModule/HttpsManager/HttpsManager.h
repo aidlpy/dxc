@@ -31,6 +31,12 @@
 #define FetchOrderComments GET_URL(@"/v1/consultation/query-consultation-evaluation/")
 
 
+//SH
+#define FetchConsultantInfo  GET_URL(@"/v1/user/psychologist-homepage/")
+#define FetchConsultantComment  GET_URL(@"/v1/user/home-reviews/1")
+
+
+
 typedef void (^RequestSuccessfulBlock)(id responseObject);
 typedef void (^RequestFailureBlock)(id error);
 

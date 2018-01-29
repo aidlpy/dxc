@@ -19,6 +19,8 @@
 @property (nonatomic, strong) UIView *backgroundStarView;
 
 @property (nonatomic, assign) NSInteger numberOfStars;
+@property (nonatomic, assign) BOOL hasChange;//是否可以改变评分，默认为NO
+
 
 @end
 
@@ -31,7 +33,7 @@
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
-    return [self initWithFrame:frame numberOfStars:DEFALUT_STAR_NUMBER];
+    return [self initWithFrame:frame numberOfStars:DEFALUT_STAR_NUMBER canChange:NO];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
@@ -42,9 +44,10 @@
     return self;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame numberOfStars:(NSInteger)numberOfStars {
+- (instancetype)initWithFrame:(CGRect)frame numberOfStars:(NSInteger)numberOfStars canChange:(BOOL)canChange {
     if (self = [super initWithFrame:frame]) {
         _numberOfStars = numberOfStars;
+        _hasChange = canChange;
         [self buildDataAndUI];
     }
     return self;
@@ -63,11 +66,14 @@
     [self addSubview:self.backgroundStarView];
     [self addSubview:self.foregroundStarView];
     
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userTapRateView:)];
-    tapGesture.numberOfTapsRequired = 1;
-    [self addGestureRecognizer:tapGesture];
-    UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(userPanRateView:)];
-    [self addGestureRecognizer:pan];
+    if (_hasChange == YES) {
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userTapRateView:)];
+        tapGesture.numberOfTapsRequired = 1;
+        [self addGestureRecognizer:tapGesture];
+        UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(userPanRateView:)];
+        [self addGestureRecognizer:pan];
+    }
+   
 }
 
 - (void)userTapRateView:(UITapGestureRecognizer *)gesture {

@@ -9,6 +9,8 @@
 #import "MyCounselorVC.h"
 #import "MyConselorCell.h"
 #import "CounselorDetailVC.h"
+#import "ShConsultantDetailInfoViewController.h"
+
 
 @interface MyCounselorVC ()<UITableViewDelegate,UITableViewDataSource>
 {
@@ -78,9 +80,13 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    CounselorDetailVC *vc = [[CounselorDetailVC alloc] init];
-    vc.hidesBottomBarWhenPushed = YES ;
-    [self.navigationController pushViewController:vc animated:YES];
+//    CounselorDetailVC *vc = [[CounselorDetailVC alloc] init];
+//    vc.hidesBottomBarWhenPushed = YES ;
+//    [self.navigationController pushViewController:vc animated:YES];
+    
+    ShConsultantDetailInfoViewController *consultantInfoVC = [[ShConsultantDetailInfoViewController alloc] init];
+    consultantInfoVC.hidesBottomBarWhenPushed = YES ;
+    [self.navigationController pushViewController:consultantInfoVC animated:YES];
     
 }
 

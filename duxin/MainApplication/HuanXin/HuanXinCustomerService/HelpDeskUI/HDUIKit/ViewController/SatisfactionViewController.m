@@ -127,7 +127,7 @@
 - (CWStarRateView*)starRateView
 {
     if (_starRateView == nil) {
-        _starRateView = [[CWStarRateView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(_textLabel.frame) + kViewSpace, kHDScreenWidth - 20, 40) numberOfStars:5];
+        _starRateView = [[CWStarRateView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(_textLabel.frame) + kViewSpace, kHDScreenWidth - 20, 40) numberOfStars:5 canChange:YES];
         _starRateView.scorePercent = 1.0;
         _starRateView.allowIncompleteStar = YES;
         _starRateView.hasAnimation = YES;
