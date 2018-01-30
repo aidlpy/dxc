@@ -129,7 +129,6 @@
 }
 
 #pragma mark --get comment data--
-#pragma mark --get consultant comment data--
 -(void)getCommentsData:(BOOL)isHeader
 {
     NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
@@ -180,9 +179,10 @@
 }
 
 -(void)backTo{
-    
+
     [self.navigationController popViewControllerAnimated:YES];
 }
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

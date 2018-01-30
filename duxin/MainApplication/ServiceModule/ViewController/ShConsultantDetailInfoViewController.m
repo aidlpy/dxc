@@ -84,6 +84,7 @@
 {
     self.navigationController.navigationBar.hidden = YES;
     [UIApplication sharedApplication].statusBarStyle=UIStatusBarStyleLightContent;
+    
     [self setStatusBarBackgroundColor:Color_5DCBF5];
 }
 
@@ -91,7 +92,7 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navView.hidden = YES;
+//    self.navView.hidden = YES;
     self.hasLeft = NO;
     self.tagArray = @[@"恋爱观念",@"情绪压力",@"个人成长"];
     self.footerHeight = 420;
@@ -113,7 +114,7 @@
 -(void)getConstultDetailData
 {
     NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
-    [dic setObject:@"3" forKey:@"id"];
+    [dic setObject:self.strID forKey:@"id"];
     @weakify(self)
     [[LKProtocolNetworkEngine sharedInstance] protocolWithUrl:FetchConsultantInfo
         requestDictionary:dic
@@ -125,19 +126,13 @@
                 self.consultantInfoModel = responseC.result;
                 
                 self.packageArray = [ShConsultantPackageModel mj_objectArrayWithKeyValuesArray:self.consultantInfoModel.consultationPackage];
-                
-                [self.photoImagView sd_setImageWithURL:[NSURL URLWithString:self.consultantInfoModel.avatar] placeholderImage:nil];
-                self.nameLabel.text = self.consultantInfoModel.name;
-                [self.addressBtn setTitle:self.consultantInfoModel.area forState:UIControlStateNormal];
-                self.leftTagNum.text = [NSString stringWithFormat:@"%zd",self.consultantInfoModel.praise];
-                self.centerTagNum.text = [NSString stringWithFormat:@"%zd",self.consultantInfoModel.orderCount];
-                self.rightTagNum.text =[NSString stringWithFormat:@"%zd",self.consultantInfoModel.followCount];
-                
+              
                 if (self.consultantInfoModel.IsFollow == YES) {
                     [self.attentionBtn setImage:[UIImage imageNamed:Image(@"consultantAttenion")] forState:UIControlStateNormal];
                 }else{
                     [self.attentionBtn setImage:[UIImage imageNamed:Image(@"consultantUnAttenion")] forState:UIControlStateNormal];
                 }
+                self.introduceLabel.text = self.consultantInfoModel.introduction;
                 
                 [self.consultTableview reloadData];
                 //计算 介绍 的高度 
@@ -418,10 +413,11 @@
         self.photoImagView.backgroundColor = Color_5DCBF5;
         self.photoImagView.layer.borderColor = Color_CBE3E8.CGColor;
         self.photoImagView.layer.borderWidth = 1;
+        [self.photoImagView sd_setImageWithURL:[NSURL URLWithString:self.consultantInfoModel.avatar] placeholderImage:nil];
         [headerView addSubview:self.photoImagView];
         
         self.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, self.photoImagView.frame.origin.y + self.photoImagView.frame.size.height + 6, SIZE.width - 80 * 2, 20)];
-        self.nameLabel.text = @"莫菲菲";
+        self.nameLabel.text = self.consultantInfoModel.name;
         self.nameLabel.textAlignment= NSTextAlignmentCenter;
         self.nameLabel.textColor = [UIColor whiteColor];
         self.nameLabel.font = FONT_15;
@@ -430,7 +426,7 @@
         self.addressBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [self.addressBtn layoutButtonWithEdgeInsetsStyle:UIButtonEdgeInsetsStyleLeft imageTitleSpace:6];
         self.addressBtn.frame = CGRectMake(80, self.nameLabel.frame.origin.y + self.nameLabel.frame.size.height + 5, SIZE.width - 80 * 2, 20);
-        [self.addressBtn setTitle:@"上海浦东新区" forState:UIControlStateNormal];
+        [self.addressBtn setTitle:self.consultantInfoModel.area forState:UIControlStateNormal];
         [self.addressBtn setImage:[UIImage imageNamed:Image(@"consultantLocation")] forState:UIControlStateNormal];
         [self.addressBtn layoutButtonWithEdgeInsetsStyle:UIButtonEdgeInsetsStyleLeft imageTitleSpace:6];
         self.addressBtn.titleLabel.font = FONT_12;
@@ -460,11 +456,12 @@
         
         
         self.leftTagNum = [[UILabel alloc] initWithFrame:CGRectMake(0, labelPoineY + labelHeight + 24, SIZE.width/3, 20)];
-        self.leftTagNum.text = @"100";
         self.leftTagNum.textColor = [UIColor whiteColor];
         self.leftTagNum.font = FONT_15;
         self.leftTagNum.textAlignment = NSTextAlignmentCenter;
+        self.leftTagNum.text = [NSString stringWithFormat:@"%zd",self.consultantInfoModel.praise];
         [headerView addSubview:self.leftTagNum];
+        
         
         UILabel * bottomView1 = [[UILabel alloc] initWithFrame:CGRectMake(self.leftTagNum.frame.origin.x, self.leftTagNum.frame.origin.y + self.leftTagNum.frame.size.height, self.leftTagNum.frame.size.width, 15)];
         bottomView1.text = @"收到感谢";
@@ -476,7 +473,7 @@
         
         
         self.centerTagNum = [[UILabel alloc] initWithFrame:CGRectMake(SIZE.width/3, self.leftTagNum.frame.origin.y, self.leftTagNum.frame.size.width, self.leftTagNum.frame.size.height)];
-        self.centerTagNum.text = @"200";
+        self.centerTagNum.text = [NSString stringWithFormat:@"%zd",self.consultantInfoModel.orderCount];
         self.centerTagNum.textColor = [UIColor whiteColor];
         self.centerTagNum.font = FONT_15;
         self.centerTagNum.textAlignment = NSTextAlignmentCenter;
@@ -491,7 +488,7 @@
         [headerView addSubview:bottomView2];
         
         self.rightTagNum = [[UILabel alloc] initWithFrame:CGRectMake(SIZE.width/3 * 2, self.leftTagNum.frame.origin.y, self.leftTagNum.frame.size.width, self.leftTagNum.frame.size.height)];
-        self.rightTagNum.text = @"300";
+        self.rightTagNum.text =[NSString stringWithFormat:@"%zd",self.consultantInfoModel.followCount];
         self.rightTagNum.textColor = [UIColor whiteColor];
         self.rightTagNum.font = FONT_15;
         self.rightTagNum.textAlignment = NSTextAlignmentCenter;
@@ -510,6 +507,7 @@
     }
     else if (section == 1)
     {
+        headerView.frame = CGRectMake(0, 0, SIZE.width, HEIGHT_45);
         NSMutableArray *titleArr = [[NSMutableArray alloc] init];
         [titleArr addObject:@"资质认证"];
         [titleArr addObject:@"交易担保"];
@@ -526,6 +524,7 @@
             btn.frame = CGRectMake(btnPointX, btnPointY, btnWidth,btnHeight);
             [btn setTitle:obj forState:UIControlStateNormal];
             [btn setImage:imageArr[idx] forState:UIControlStateNormal];
+            [btn setImage:imageArr[idx] forState:UIControlStateHighlighted];
             [btn setTitleColor:Color_1F1F1F forState:UIControlStateNormal];
             btn.titleLabel.font = FONT_13;
             [btn layoutButtonWithEdgeInsetsStyle:UIButtonEdgeInsetsStyleLeft imageTitleSpace:5];
@@ -595,15 +594,16 @@
             
             self.footerScrollView = [[UIScrollView alloc] init];
             self.footerScrollView.frame = CGRectMake(0, 0, SIZE.width, self.footerHeight);
-
             self.footerScrollView.contentSize = CGSizeMake(SIZE.width*2, self.footerHeight);
             self.footerScrollView.showsVerticalScrollIndicator = FALSE;
             self.footerScrollView.showsHorizontalScrollIndicator = FALSE;
             self.footerScrollView.pagingEnabled = YES;
             self.footerScrollView.delegate = self;
+            self.footerScrollView.scrollEnabled = NO;
             [self.footerSection2View addSubview:self.footerScrollView];
             
-            self.footerLeftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SIZE.width, self.footerLeftView.frame.size.height)];
+            self.footerLeftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SIZE.width, self.footerScrollView.frame.size.height)];
+            self.footerLeftView.userInteractionEnabled = YES;
             [self.footerScrollView addSubview:self.footerLeftView];
             
             
@@ -751,7 +751,6 @@
 #pragma mark --spread all introduce btn click action --
 -(void)spreadAllBtnClick
 {
-    NSLog(@"spread All Btn Click");
 
     CGSize size = [self.introduceLabel suggestedSizeForWidth:SIZE.width - 20];
     self.introduceHeight = size.height;
@@ -776,15 +775,44 @@
 #pragma mark --attention btn click action --
 -(void)attentionBtnClick
 {
-    if (self.consultantInfoModel.IsFollow == YES) {
-        self.consultantInfoModel.IsFollow = NO;
-        [self.attentionBtn setImage:[UIImage imageNamed:Image(@"consultantUnAttenion")] forState:UIControlStateNormal];
-    }else{
-        self.consultantInfoModel.IsFollow = NO;
-        [self.attentionBtn setImage:[UIImage imageNamed:Image(@"consultantAttenion")] forState:UIControlStateNormal];
-    }
     
+    [self judgeFollow:self.consultantInfoModel.IsFollow];
+   
 }
+
+#pragma mark --yes or no follow data--
+-(void)judgeFollow:(BOOL)isFollow
+{
+    NSString *strUrl;
+    if (isFollow) {//取消关注
+        strUrl = FetchUnFollowConsultant;
+    }
+    else{//关注
+        strUrl = FetchFollowConsultant;
+    }
+    strUrl = [NSString stringWithFormat:@"%@%@",strUrl,self.strID];
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+    [dic setObject:self.strID forKey:@"id"];
+    [[LKProtocolNetworkEngine sharedInstance] protocolWithRequestMethod:@"POST"
+                 requestUrl:strUrl
+               requestModel:dic
+           responseModelCls:[SHModel class]
+        completionHandler:^(LMModel *response,SHModel *responseC, NSError *error) {
+              if (response.code == 200 && responseC.error_code == 0) {
+                  [SVProgressHUD showSuccessWithStatus:responseC.msg];
+                  if (isFollow) {
+                      self.consultantInfoModel.IsFollow = NO;
+                      [self.attentionBtn setImage:[UIImage imageNamed:Image(@"consultantUnAttenion")] forState:UIControlStateNormal];
+                  }else{
+                      self.consultantInfoModel.IsFollow = YES;
+                      [self.attentionBtn setImage:[UIImage imageNamed:Image(@"consultantAttenion")] forState:UIControlStateNormal];
+                  }
+              }else{
+                  [SVProgressHUD showErrorWithStatus:responseC.msg];
+              }
+          }];
+}
+
 
 
 

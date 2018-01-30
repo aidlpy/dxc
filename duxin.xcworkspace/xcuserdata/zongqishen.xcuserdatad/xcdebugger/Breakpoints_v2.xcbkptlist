@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "duxin/MainApplication/ServiceModule/ViewController/ShConsultantDetailInfoViewController.m"
-            timestampString = "538936107.138896"
+            filePath = "duxin/MainApplication/System/net/LKProtocolNetworkEngine.m"
+            timestampString = "539004754.145831"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "749"
-            endingLineNumber = "749"
-            landmarkName = "-btnMoreCommentClick"
+            startingLineNumber = "108"
+            endingLineNumber = "108"
+            landmarkName = "-protocolWithRequestMethod:requestUrl:requestDictionary:responseModelCls:completionHandler:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

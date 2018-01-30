@@ -30,7 +30,7 @@
     //creat a  Label at the middle place of navigationBar
     //创建一个label在navigationBar中间
     
-    _middleBtn = [[CustomBtn alloc] initWithFrame:CGRectMake((SIZE.width-150)/2, Height_StatusBar, 150, 44)];
+    _middleBtn = [[CustomBtn alloc] initWithFrame:CGRectMake((SIZE.width-250)/2, Height_StatusBar, 250, 44)];
     
     _leftBtn = [[CustomBtn alloc] initWithFrame:CGRectMake(0,Height_StatusBar, 45, 45)];
     _leftBtn.backgroundColor = [UIColor clearColor];

@@ -26,12 +26,14 @@
         [_headerImageView.layer setCornerRadius:_headerImageView.frame.size.height/2];
         [_headerImageView.layer setBorderWidth:0.5f];
         [_headerImageView.layer setBorderColor:Color_F1F1F1.CGColor];
+        [_headerImageView setBackgroundColor:Color_F1F1F1];
         [self addSubview:_headerImageView];
         
         _titleLab = [[UILabel alloc] initWithFrame:CGRectMake(left(_headerImageView)+13, 0, 100, 20)];
         _titleLab.center = CGPointMake(_titleLab.center.x, _headerImageView.center.y);
         _titleLab.font = [UIFont systemFontOfSize:13.5f];
         _titleLab.textColor = [UIColor colorWithHexString:@"#1F1F1F"];
+        _titleLab.backgroundColor = [UIColor whiteColor];
         [self addSubview:_titleLab];
         
         _rightArrow = [[UIImageView alloc] initWithFrame:CGRectMake(SIZE.width-24,0,11,14)];
@@ -47,16 +49,9 @@
     return  self;
     
 }
-
--(void)setDefaultStytle{
-    
-    [_headerImageView setBackgroundColor:Color_F1F1F1];
-    [_titleLab setBackgroundColor:Color_F1F1F1];    
-    
-}
 -(void)reloadUI:(ShConsultantInfoModel *)attentionModel
 {
-    [self.headerImageView sd_setImageWithURL:[NSURL URLWithString:attentionModel.avatar] placeholderImage:Image(@"")];
+//    [self.headerImageView sd_setImageWithURL:[NSURL URLWithString:attentionModel.avatar] placeholderImage:Image(@".jpg")];
     self.titleLab.text =attentionModel.name;
 }
 

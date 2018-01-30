@@ -55,7 +55,8 @@
     self.scrollView = [[UIScrollView alloc] init];
     self.scrollView.showsVerticalScrollIndicator = FALSE;
     self.scrollView.showsHorizontalScrollIndicator = FALSE;
-    self.scrollView.contentSize = CGSizeMake(SIZE.width, SIZE.height + 100);
+    self.scrollView.contentSize = CGSizeMake(SIZE.width ,SIZE.height +100);
+    self.scrollView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.scrollView];
     [self.scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(Height_NavBar);
@@ -68,28 +69,29 @@
     self.imageArray = @[[UIImage imageNamed:Image(@"consultantQualify")],[UIImage imageNamed:Image(@"consultantGuarantee")],[UIImage imageNamed:Image(@"consultantRefund")]];
     
     UIView *viewCertify = [[UIView alloc] init];
+    viewCertify.frame = CGRectMake(10, 10, SIZE.width - 20, 200);
     viewCertify.layer.cornerRadius = 2;
     viewCertify.clipsToBounds = YES;
     viewCertify.layer.borderColor = Color_EEEEEE.CGColor;
     viewCertify.layer.borderWidth = 0.5;
     [self.scrollView addSubview:viewCertify];
-    [viewCertify mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(10);
-        make.top.mas_equalTo(10);
-        make.right.mas_equalTo(-10);
-        make.height.mas_equalTo(200);
-    }];
+//    [viewCertify mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.mas_equalTo(10);
+//        make.top.mas_equalTo(10);
+//        make.right.mas_equalTo(-10);
+//        make.height.mas_equalTo(200);
+//    }];
     
    
     UIButton *btnCertify =[UIButton buttonWithType:UIButtonTypeCustom];
     [btnCertify setTitle:self.titleArray[0] forState:UIControlStateNormal];
     [btnCertify setImage:self.imageArray[0] forState:UIControlStateNormal];
     [btnCertify setTitleColor:Color_1F1F1F forState:UIControlStateNormal];
-    btnCertify.titleLabel.font = FONT_13;
+    btnCertify.titleLabel.font = FONT_15;
     [btnCertify layoutButtonWithEdgeInsetsStyle:UIButtonEdgeInsetsStyleLeft imageTitleSpace:5];
     [viewCertify addSubview:btnCertify];
     [btnCertify mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(15);
+        make.left.mas_equalTo(4);
         make.top.mas_equalTo(15);
         make.width.mas_equalTo(100);
         make.height.mas_equalTo(30);
@@ -97,6 +99,7 @@
     
     self.imageCertify = [[UIImageView alloc] init];
     [self.imageCertify sd_setImageWithURL:[NSURL URLWithString:self.strURL] placeholderImage:[UIImage imageNamed:Image(@"")]];
+    self.imageCertify.backgroundColor = Color_EEEEEE;
     [viewCertify addSubview:self.imageCertify];
     [self.imageCertify mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(60);
@@ -125,11 +128,11 @@
     [btnGuarantee setTitle:self.titleArray[1] forState:UIControlStateNormal];
     [btnGuarantee setImage:self.imageArray[1] forState:UIControlStateNormal];
     [btnGuarantee setTitleColor:Color_1F1F1F forState:UIControlStateNormal];
-    btnGuarantee.titleLabel.font = FONT_13;
+    btnGuarantee.titleLabel.font = FONT_15;
     [btnGuarantee layoutButtonWithEdgeInsetsStyle:UIButtonEdgeInsetsStyleLeft imageTitleSpace:5];
     [viewGuarantee addSubview:btnGuarantee];
     [btnGuarantee mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(15);
+        make.left.mas_equalTo(4);
         make.top.mas_equalTo(15);
         make.width.mas_equalTo(100);
         make.height.mas_equalTo(30);
@@ -137,7 +140,7 @@
     
     self.labelGuarantee = [[UILabel alloc] init];
     self.labelGuarantee.text = @"交易资金平台监督，若专家违约，由37度心给予现金赔付，保障每一位用户权益";
-    self.labelGuarantee.font = FONT_11;
+    self.labelGuarantee.font = FONT_13;
     self.labelGuarantee.textColor = Color_1F1F1F;
     self.labelGuarantee.numberOfLines = 0;
     self.labelGuarantee.lineBreakMode = UILineBreakModeWordWrap;
@@ -167,19 +170,19 @@
     [btnRefund setTitle:self.titleArray[2] forState:UIControlStateNormal];
     [btnRefund setImage:self.imageArray[2] forState:UIControlStateNormal];
     [btnRefund setTitleColor:Color_1F1F1F forState:UIControlStateNormal];
-    btnRefund.titleLabel.font = FONT_13;
+    btnRefund.titleLabel.font = FONT_15;
     [btnRefund layoutButtonWithEdgeInsetsStyle:UIButtonEdgeInsetsStyleLeft imageTitleSpace:5];
     [viewRefund addSubview:btnRefund];
     [btnRefund mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15);
         make.top.mas_equalTo(15);
-        make.width.mas_equalTo(100);
+        make.width.mas_equalTo(140);
         make.height.mas_equalTo(30);
     }];
     
     self.labelRefund = [[UILabel alloc] init];
     self.labelRefund.text = @"交易资金平台监督，若专家违约，由37度心给予现金赔付，保障每一位用户权益";
-    self.labelRefund.font = FONT_11;
+    self.labelRefund.font = FONT_13;
     self.labelRefund.textColor = Color_1F1F1F;
     self.labelRefund.numberOfLines = 0;
     self.labelRefund.lineBreakMode = UILineBreakModeWordWrap;
@@ -194,14 +197,14 @@
     
     UILabel *canLabel= [[UILabel alloc] init];
     canLabel.text = @"如有任何问题，可拨打客服电话";
-    canLabel.font = FONT_11;
+    canLabel.font = FONT_13;
     canLabel.textColor = Color_1F1F1F;
     canLabel.numberOfLines = 0;
     canLabel.lineBreakMode = UILineBreakModeWordWrap;
-    [self.view addSubview:canLabel];
+    [self.scrollView addSubview:canLabel];
     [canLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(55);
-        make.right.mas_equalTo(-55);
+        make.left.mas_equalTo(45);
+        make.right.mas_equalTo(-45);
         make.top.equalTo(viewRefund.mas_bottom).offset(20);
         make.height.mas_equalTo(20);
     }];
@@ -209,8 +212,9 @@
     self.phoneNumBtn =[UIButton buttonWithType:UIButtonTypeCustom];
     [self.phoneNumBtn setTitle:@"400-123-1234" forState:UIControlStateNormal];
     [self.phoneNumBtn setTitleColor:Color_5DCBF5 forState:UIControlStateNormal];
-    self.phoneNumBtn.titleLabel.font = FONT_11;
-    [self.view addSubview:self.phoneNumBtn];
+    self.phoneNumBtn.titleLabel.font = FONT_13;
+    [self.phoneNumBtn addTarget:self action:@selector(phoneNumBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.scrollView addSubview:self.phoneNumBtn];
     [self.phoneNumBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(canLabel.mas_left);
         make.top.equalTo(canLabel.mas_bottom);
@@ -219,9 +223,9 @@
     
     self.timeLabel= [[UILabel alloc] init];
     self.timeLabel.text = @"早8:00 - 凌晨2:00";
-    self.timeLabel.font = FONT_11;
+    self.timeLabel.font = FONT_13;
     self.timeLabel.textColor = Color_1F1F1F;
-    [self.view addSubview:self.timeLabel];
+    [self.scrollView addSubview:self.timeLabel];
     [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.phoneNumBtn.mas_right).offset(5);
         make.right.mas_equalTo(-20);
@@ -231,9 +235,9 @@
 
     UILabel *serviceLabel= [[UILabel alloc] init];
     serviceLabel.text = @"或联系在线客服";
-    serviceLabel.font = FONT_11;
+    serviceLabel.font = FONT_13;
     serviceLabel.textColor = Color_1F1F1F;
-    [self.view addSubview:serviceLabel];
+    [self.scrollView addSubview:serviceLabel];
     [serviceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(canLabel.mas_left);
         make.right.mas_equalTo(-55);
@@ -241,6 +245,16 @@
         make.height.mas_equalTo(canLabel.mas_height);
     }];
     
+}
+//拨打电话
+-(void)phoneNumBtnClick
+{
+    
+    NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"tel:%@",@"400-123-1234"];
+    UIWebView * callWebview = [[UIWebView alloc] init];
+    [callWebview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:str]]];
+    [self.view addSubview:callWebview];
+ 
 }
 
 - (void)didReceiveMemoryWarning {

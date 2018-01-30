@@ -12,6 +12,7 @@
 #import "ShConsultantDetailInfoViewController.h"
 #import "ShConsultAttentionModel.h"
 #import "ShConsultantInfoModel.h"
+#import "ShConsultAttentionInfoModel.h"
 
 @interface MyCounselorVC ()<UITableViewDelegate,UITableViewDataSource>
 {
@@ -55,7 +56,9 @@
     _tableView.estimatedSectionHeaderHeight = 0;
     _tableView.estimatedSectionFooterHeight = 0;
     [self.view addSubview:_tableView];
-    
+    _tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+        [self getAttentionInfoData];
+    }];
 }
 #pragma mark --get attention info data--
 -(void)getAttentionInfoData
@@ -63,12 +66,19 @@
     @weakify(self)
     [[LKProtocolNetworkEngine sharedInstance] protocolWithUrl:FetchConsultantMyFollow
             requestDictionary:nil
-             responseModelCls:[ShConsultAttentionModel class]
+             responseModelCls:[ShConsultAttentionInfoModel class]
             completionHandler:^(LMModel *response,SHModel *responseC, NSError *error) {
                 @normalize(self)
                 if (response.code == 200 && responseC.error_code == 0) {
                     self.attentionModel = responseC.result;
-                    self.attentionArray = [ShConsultantInfoModel mj_objectArrayWithKeyValuesArray:self.attentionModel.list];
+//                    self.attentionArray = [ShConsultAttentionModel mj_objectArrayWithKeyValuesArray:self.attentionModel.list];
+                    
+                    ShConsultAttentionInfoModel *model = [[ShConsultAttentionInfoModel alloc] init];
+                    model.name = @"蒋梦婷";
+                    model.avatar = @"http://via.placeholder.com/100*100";
+                    model.to_user_id = 1;
+                    [self.attentionArray addObject:model];
+                    
                     [_tableView reloadData];
                     
                 }else{
@@ -97,7 +107,6 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     cell.tag = indexPath.row;
-    [cell setDefaultStytle];
     ShConsultantInfoModel *infoModel = self.attentionArray[indexPath.row];
     [cell reloadUI:infoModel];
     return cell;

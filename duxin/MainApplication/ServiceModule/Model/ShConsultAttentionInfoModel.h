@@ -12,7 +12,7 @@
 /**
  *  用户ID
  */
-@property (assign, nonatomic) NSInteger id;
+@property (assign, nonatomic) NSInteger to_user_id;
 /**
  *  用户头像
  */
