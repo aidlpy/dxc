@@ -21,8 +21,5 @@
  *  用户昵称
  */
 @property (strong, nonatomic) NSString *name;
-/**
- *  性别(1:男,2:女,0:保密)
- */
-@property (assign, nonatomic) NSInteger gender;
+
 @end

@@ -793,7 +793,7 @@
     strUrl = [NSString stringWithFormat:@"%@%@",strUrl,self.strID];
     NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
     [dic setObject:self.strID forKey:@"id"];
-    [[LKProtocolNetworkEngine sharedInstance] protocolWithRequestMethod:@"POST"
+    [[LKProtocolNetworkEngine sharedInstance] protocolWithRequestMethod:REQUEST_METHOD_POST
                  requestUrl:strUrl
                requestModel:dic
            responseModelCls:[SHModel class]

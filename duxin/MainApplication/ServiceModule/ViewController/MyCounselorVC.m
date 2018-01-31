@@ -66,19 +66,13 @@
     @weakify(self)
     [[LKProtocolNetworkEngine sharedInstance] protocolWithUrl:FetchConsultantMyFollow
             requestDictionary:nil
-             responseModelCls:[ShConsultAttentionInfoModel class]
+             responseModelCls:[ShConsultAttentionModel class]
             completionHandler:^(LMModel *response,SHModel *responseC, NSError *error) {
                 @normalize(self)
                 if (response.code == 200 && responseC.error_code == 0) {
+                    
                     self.attentionModel = responseC.result;
-//                    self.attentionArray = [ShConsultAttentionModel mj_objectArrayWithKeyValuesArray:self.attentionModel.list];
-                    
-                    ShConsultAttentionInfoModel *model = [[ShConsultAttentionInfoModel alloc] init];
-                    model.name = @"蒋梦婷";
-                    model.avatar = @"http://via.placeholder.com/100*100";
-                    model.to_user_id = 1;
-                    [self.attentionArray addObject:model];
-                    
+                    self.attentionArray = [ShConsultAttentionInfoModel mj_objectArrayWithKeyValuesArray:self.attentionModel.list];
                     [_tableView reloadData];
                     
                 }else{

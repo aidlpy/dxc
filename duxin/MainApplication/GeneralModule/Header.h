@@ -29,6 +29,21 @@
 #define Image(name) [NSString stringWithFormat:@"Images.bundle/%@",name]
 #define COLOR(string) [UIColor colorWithHexString:string]
 
+/**
+ *  成功Code
+ */
+#define CODE_STATUS_SUCCESS 200
+/**
+ *  成功 error_code
+ */
+#define ERRORCODE_STATUS_SUCCESS 0
+/**
+ *  请求方法
+ */
+#define REQUEST_METHOD_POST                         @"POST"
+#define REQUEST_METHOD_GET                          @"GET"
+
+
 //拼两个字符串
 #define NStringAppending(str1,str2)   [NSString stringWithFormat:@"%@%@",str1,str2]
 #define  COLORA(string,alpha) [UIColor colorWithHex:NStringAppending(string,alpha)]
@@ -131,6 +146,9 @@
 #import "UIButton+Sh.h"
 #import "LKProtocolNetworkEngine.h"
 #import <Masonry.h>
+#import "ShProtocolNetworkEngine.h"
+#import <LYEmptyView/LYEmptyViewHeader.h>
+
 
 
 

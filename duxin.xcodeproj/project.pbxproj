@@ -526,6 +526,12 @@
 		E7AFAAB2201DDDA800A4643B /* HelpDesk.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E7AFA881201DDD8C00A4643B /* HelpDesk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E7AFAAB3201DDDAF00A4643B /* HyphenateLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7AFA9D8201DDD8D00A4643B /* HyphenateLite.framework */; };
 		E7AFAAB4201DDDAF00A4643B /* HyphenateLite.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E7AFA9D8201DDD8D00A4643B /* HyphenateLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E7D45C8D2022074600FE7CFA /* ShCollectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D45C8C2022074600FE7CFA /* ShCollectViewController.m */; };
+		E7D45C9020220CAE00FE7CFA /* ShCollectTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D45C8F20220CAE00FE7CFA /* ShCollectTableViewCell.m */; };
+		E7D45C93202211C700FE7CFA /* ShCollectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D45C92202211C700FE7CFA /* ShCollectModel.m */; };
+		E7D45C9620221DAC00FE7CFA /* ShCollectDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D45C9520221DAC00FE7CFA /* ShCollectDetailModel.m */; };
+		E7D45C9920221E6F00FE7CFA /* ShCollectMagazineModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D45C9820221E6F00FE7CFA /* ShCollectMagazineModel.m */; };
+		E7D45C9F2022255200FE7CFA /* ShProtocolNetworkEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D45C9E2022255200FE7CFA /* ShProtocolNetworkEngine.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1603,6 +1609,18 @@
 		E7AFA9D7201DDD8D00A4643B /* Triangle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Triangle@2x.png"; sourceTree = "<group>"; };
 		E7AFA9D8201DDD8D00A4643B /* HyphenateLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HyphenateLite.framework; sourceTree = "<group>"; };
 		E7AFA9D9201DDD8D00A4643B /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		E7D45C8B2022074600FE7CFA /* ShCollectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShCollectViewController.h; sourceTree = "<group>"; };
+		E7D45C8C2022074600FE7CFA /* ShCollectViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShCollectViewController.m; sourceTree = "<group>"; };
+		E7D45C8E20220CAE00FE7CFA /* ShCollectTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShCollectTableViewCell.h; sourceTree = "<group>"; };
+		E7D45C8F20220CAE00FE7CFA /* ShCollectTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShCollectTableViewCell.m; sourceTree = "<group>"; };
+		E7D45C91202211C700FE7CFA /* ShCollectModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShCollectModel.h; sourceTree = "<group>"; };
+		E7D45C92202211C700FE7CFA /* ShCollectModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShCollectModel.m; sourceTree = "<group>"; };
+		E7D45C9420221DAC00FE7CFA /* ShCollectDetailModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShCollectDetailModel.h; sourceTree = "<group>"; };
+		E7D45C9520221DAC00FE7CFA /* ShCollectDetailModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShCollectDetailModel.m; sourceTree = "<group>"; };
+		E7D45C9720221E6F00FE7CFA /* ShCollectMagazineModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShCollectMagazineModel.h; sourceTree = "<group>"; };
+		E7D45C9820221E6F00FE7CFA /* ShCollectMagazineModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShCollectMagazineModel.m; sourceTree = "<group>"; };
+		E7D45C9D2022255200FE7CFA /* ShProtocolNetworkEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShProtocolNetworkEngine.h; sourceTree = "<group>"; };
+		E7D45C9E2022255200FE7CFA /* ShProtocolNetworkEngine.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShProtocolNetworkEngine.m; sourceTree = "<group>"; };
 		FB7BCD384DA25EB1455F0FA8 /* libPods-duxinTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-duxinTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -1691,6 +1709,8 @@
 				E7AFA13D201DCA9C00A4643B /* ShConsultantDetailTableViewCell.m */,
 				E7AFA13C201DCA9C00A4643B /* ShConsultantJudgeTableViewCell.h */,
 				E7AFA13A201DCA9B00A4643B /* ShConsultantJudgeTableViewCell.m */,
+				E7D45C8E20220CAE00FE7CFA /* ShCollectTableViewCell.h */,
+				E7D45C8F20220CAE00FE7CFA /* ShCollectTableViewCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1710,6 +1730,8 @@
 				E77DDB6C201F6148004066C8 /* ShAllCommentViewController.m */,
 				E77DDB74201F843B004066C8 /* ShCredentialsCertifyViewController.h */,
 				E77DDB75201F843B004066C8 /* ShCredentialsCertifyViewController.m */,
+				E7D45C8B2022074600FE7CFA /* ShCollectViewController.h */,
+				E7D45C8C2022074600FE7CFA /* ShCollectViewController.m */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -2162,6 +2184,12 @@
 				E77DDB6F201F7D07004066C8 /* ShConsultAttentionModel.m */,
 				E77DDB71201F80DC004066C8 /* ShConsultAttentionInfoModel.h */,
 				E77DDB72201F80DC004066C8 /* ShConsultAttentionInfoModel.m */,
+				E7D45C91202211C700FE7CFA /* ShCollectModel.h */,
+				E7D45C92202211C700FE7CFA /* ShCollectModel.m */,
+				E7D45C9420221DAC00FE7CFA /* ShCollectDetailModel.h */,
+				E7D45C9520221DAC00FE7CFA /* ShCollectDetailModel.m */,
+				E7D45C9720221E6F00FE7CFA /* ShCollectMagazineModel.h */,
+				E7D45C9820221E6F00FE7CFA /* ShCollectMagazineModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -3130,6 +3158,8 @@
 				E7AFA336201DCBD000A4643B /* LKPrecompile.h */,
 				E7AFA337201DCBD000A4643B /* LKProtocolNetworkEngine.h */,
 				E7AFA338201DCBD000A4643B /* LKProtocolNetworkEngine.m */,
+				E7D45C9D2022255200FE7CFA /* ShProtocolNetworkEngine.h */,
+				E7D45C9E2022255200FE7CFA /* ShProtocolNetworkEngine.m */,
 				E7AFA339201DCBD000A4643B /* LKProtocolNetworkOperation.h */,
 				E7AFA33A201DCBD000A4643B /* LKProtocolNetworkOperation.m */,
 				E7AFA33B201DCBD000A4643B /* LKSingleton.h */,
@@ -4543,6 +4573,7 @@
 				E7AFAAA0201DDD8E00A4643B /* HDImageView.m in Sources */,
 				E7AFA36B201DCBD100A4643B /* NSNumber+Round.m in Sources */,
 				E7AFAA45201DDD8D00A4643B /* EMSDImageCache.m in Sources */,
+				E7D45C9020220CAE00FE7CFA /* ShCollectTableViewCell.m in Sources */,
 				BA3FCBA9201B0E3E00E9DCF7 /* ReservatingCell.m in Sources */,
 				E7AFA3EF201DCBD100A4643B /* UIView+Animation.m in Sources */,
 				E7AFA391201DCBD100A4643B /* CAAnimation+EasingEquations.m in Sources */,
@@ -4652,6 +4683,7 @@
 				E7AFA35B201DCBD100A4643B /* NSDate+Formatter.m in Sources */,
 				E7AFAA8D201DDD8D00A4643B /* HDBubbleView+Article.m in Sources */,
 				E7AFA3AD201DCBD100A4643B /* UIDevice+PasscodeStatus.m in Sources */,
+				E7D45C9F2022255200FE7CFA /* ShProtocolNetworkEngine.m in Sources */,
 				E7AFAA40201DDD8D00A4643B /* MWPhotoBrowser.m in Sources */,
 				E7AFAA86201DDD8D00A4643B /* HFormWebViewController.m in Sources */,
 				E7AFAA35201DDD8D00A4643B /* MJRefreshNormalHeader.m in Sources */,
@@ -4715,6 +4747,7 @@
 				E7AFAA32201DDD8D00A4643B /* MJRefreshBackNormalFooter.m in Sources */,
 				E7AFAA5E201DDD8D00A4643B /* PSTGridLayoutInfo.m in Sources */,
 				E7AFA355201DCBD100A4643B /* NSData+Base64.m in Sources */,
+				E7D45C8D2022074600FE7CFA /* ShCollectViewController.m in Sources */,
 				E7AFA9E9201DDD8D00A4643B /* wav.mm in Sources */,
 				BAA52F872010451C005DA87F /* MainViewController.m in Sources */,
 				E7AFA3DD201DCBD100A4643B /* UIScrollView+Pages.m in Sources */,
@@ -4874,11 +4907,13 @@
 				BA85A9E2201D84D80077ED50 /* CommentCell.m in Sources */,
 				E7AFA346201DCBD100A4643B /* NSFetchRequest+Extensions.m in Sources */,
 				E7AFAA78201DDD8D00A4643B /* HDEmoji.m in Sources */,
+				E7D45C9620221DAC00FE7CFA /* ShCollectDetailModel.m in Sources */,
 				E7AFA3C1201DCBD100A4643B /* UIImage+Vector.m in Sources */,
 				E7AFA3E7201DCBD100A4643B /* UITableViewCell+NIB.m in Sources */,
 				E7AFA9FA201DDD8D00A4643B /* EaseEmojiEmoticons.m in Sources */,
 				E7AFAA3D201DDD8D00A4643B /* MWGridCell.m in Sources */,
 				E7AFAA64201DDD8D00A4643B /* CWStarRateView.m in Sources */,
+				E7D45C93202211C700FE7CFA /* ShCollectModel.m in Sources */,
 				E7AFA3CC201DCBD100A4643B /* UINavigationBar+Awesome.m in Sources */,
 				E7AFA9F0201DDD8D00A4643B /* EaseUserModel.m in Sources */,
 				E7AFAA5A201DDD8D00A4643B /* PSTCollectionViewFlowLayout.m in Sources */,
@@ -4987,6 +5022,7 @@
 				E7AFAA0B201DDD8D00A4643B /* EaseBubbleView+Location.m in Sources */,
 				E7AFA37B201DCBD100A4643B /* NSString+DictionaryValue.m in Sources */,
 				E7AFAA2F201DDD8D00A4643B /* MJRefreshAutoNormalFooter.m in Sources */,
+				E7D45C9920221E6F00FE7CFA /* ShCollectMagazineModel.m in Sources */,
 				E7AFA389201DCBD100A4643B /* NSTimer+Blocks.m in Sources */,
 				E7AFA35D201DCBD100A4643B /* NSDate+TimeAgo.m in Sources */,
 				E7AFA41B201DCBD200A4643B /* MKNetworkEngine.m in Sources */,
