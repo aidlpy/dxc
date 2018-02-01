@@ -133,12 +133,12 @@
             
         case 2:
         {
-//            MyCounselorVC *vc  = [[MyCounselorVC alloc] init];
-//            vc.hidesBottomBarWhenPushed = YES;
-//            [self.navigationController pushViewController:vc animated:YES];
-            ShCollectViewController *vc  = [[ShCollectViewController alloc] init];
+            MyCounselorVC *vc  = [[MyCounselorVC alloc] init];
             vc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:vc animated:YES];
+//            ShCollectViewController *vc  = [[ShCollectViewController alloc] init];
+//            vc.hidesBottomBarWhenPushed = YES;
+//            [self.navigationController pushViewController:vc animated:YES];
             
         }
             break;
