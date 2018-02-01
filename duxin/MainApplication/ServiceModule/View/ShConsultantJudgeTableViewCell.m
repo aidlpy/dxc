@@ -8,7 +8,7 @@
 
 #import "ShConsultantJudgeTableViewCell.h"
 
-#define CELL_HEIGHT 10 + 60 + 10 + 40 + 10 + 20 + 10  = 
+#define CELL_HEIGHT 10 + 60 + 10 + 40 + 10 + 20 + 10
 
 @implementation ShConsultantJudgeTableViewCell
 
@@ -93,8 +93,8 @@
     [self.contentView addSubview:self.line];
     [self.contentView addSubview:self.line];
     [self.line mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(0);
-        make.right.mas_equalTo(0);
+        make.left.mas_equalTo(10);
+        make.right.mas_equalTo(-10);
         make.bottom.mas_equalTo(0);
         make.height.mas_equalTo(1);
     }];
@@ -115,7 +115,7 @@
     }else{
         self.sexImageView.hidden = YES;
     }
-    self.timeLabel.text  = @"今天20：10 来自Android客户端";
+    self.timeLabel.text  = @"今天20：10   来自Android客户端";
 
     switch (commentModel.user.device) {
         case 0:
@@ -132,6 +132,13 @@
     
     self.startNum.scorePercent = commentModel.start / 5;
     self.commentLabel.text = commentModel.evaluation;
+    
+    [self.line mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(10);
+        make.right.mas_equalTo(-10);
+        make.bottom.mas_equalTo(0);
+        make.height.mas_equalTo(1);
+    }];
 
 }
 - (void)awakeFromNib {

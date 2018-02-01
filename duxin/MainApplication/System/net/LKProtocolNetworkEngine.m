@@ -92,8 +92,11 @@ IMPLEMENT_SINGLETON(LKProtocolNetworkEngine);
     [self protocolWithUrl:url requestDictionary:requestModel.keyValues responseModelCls:responseModelCls useCache:useCache forceReload:forceReload completionHandler:completionHandler];
 }
 
+//两层结构模式
 - (void) protocolWithRequestMethod:(NSString *)method requestUrl:(NSString *)url requestModel:(NSObject *) requestModel responseModelCls:(Class) responseModelCls completionHandler:(void (^)(LMModel * response,SHModel *responseC,NSError* error)) completionHandler {
-    [self protocolWithRequestMethod:method requestUrl:url requestDictionary:requestModel.keyValues responseModelCls:responseModelCls useCache:NO forceReload:YES completionHandler:completionHandler];
+    
+    [self protocolWithRequestMethod:method requestUrl:url requestDictionary:requestModel.keyValues responseModelCls:responseModelCls useCache:NO forceReload:YES  completionHandler:completionHandler];
+
 }
 
 - (void) protocolWithRequestMethod:(NSString *)method requestUrl:(NSString *)url requestModel:(NSObject *) requestModel responseModelCls:(Class) responseModelCls useCache:(BOOL)useCache forceReload:(BOOL)forceReload completionHandler:(void (^)(LMModel * response,SHModel *responseC,NSError* error)) completionHandler
@@ -104,18 +107,22 @@ IMPLEMENT_SINGLETON(LKProtocolNetworkEngine);
 - (void) protocolWithRequestMethod:(NSString *)method requestUrl:(NSString *)url requestDictionary:(NSDictionary *) requestDict responseModelCls:(Class) responseModelCls  completionHandler:(void (^)(LMModel * response,SHModel *responseC,NSError* error)) completionHandler
 {
     [self protocolWithRequestMethod:method requestUrl:url requestDictionary:requestDict responseModelCls:responseModelCls useCache:NO completionHandler:completionHandler];
+    
 }
 
+//两层结构模式
 - (void) protocolWithUrl:(NSString *)url requestDictionary:(NSDictionary *) requestDict responseModelCls:(Class) responseModelCls useCache:(BOOL)useCache  completionHandler:(void (^)(LMModel * response,SHModel *responseC,NSError* error)) completionHandler {
     
     [self protocolWithUrl:url requestDictionary:requestDict responseModelCls:responseModelCls useCache:useCache forceReload:YES completionHandler:completionHandler];
 }
 
+
 - (void) protocolWithRequestMethod:(NSString *)method requestUrl:(NSString *)url requestDictionary:(NSDictionary *) requestDict responseModelCls:(Class) responseModelCls useCache:(BOOL)useCache  completionHandler:(void (^)(LMModel * response,SHModel *responseC,NSError* error)) completionHandler {
     [self protocolWithRequestMethod:method requestUrl:url requestDictionary:requestDict responseModelCls:responseModelCls useCache:useCache forceReload:YES completionHandler:completionHandler];
 }
 
-- (void) protocolWithRequestMethod:(NSString *)method requestUrl:(NSString *)url requestDictionary:(NSDictionary *) requestDict responseModelCls:(Class) responseModelCls responseCenterModelCls:(Class) responseCenterModelCls useCache:(BOOL)useCache forceReload:(BOOL)forceReload completionHandler:(void (^)(LMModel * response,SHModel *responseC,NSError* error)) completionHandler {
+
+- (void) protocolWithRequestMethod:(NSString *)method requestUrl:(NSString *)url requestDictionary:(NSDictionary *) requestDict responseModelCls:(Class) responseModelCls useCache:(BOOL)useCache forceReload:(BOOL)forceReload completionHandler:(void (^)(LMModel * response,SHModel *responseC,NSError* error)) completionHandler  {
     NSString *allURL;
     
     if (![url hasPrefix:@"http"]) {

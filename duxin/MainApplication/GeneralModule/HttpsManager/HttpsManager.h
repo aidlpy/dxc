@@ -40,8 +40,14 @@
 #define PostModifyMobileNumber POST_URL(@"/v1/user/modify-username")
 
 //SH
-#define FetchConsultantInfo  GET_URL(@"/v1/user/psychologist-homepage/")
-#define FetchConsultantComment  GET_URL(@"/v1/user/home-reviews/1")
+#define FetchConsultantInfo  GET_URL(@"/v1/user/psychologist-homepage/")//咨询师详情
+#define FetchConsultantComment  GET_URL(@"/v1/user/home-reviews/1")//评论
+#define FetchConsultantMyFollow  GET_URL(@"/v1/user/my-follow") //我关注的咨询师
+#define FetchFollowConsultant  GET_URL(@"/v1/user/follow/") //关注咨询师
+#define FetchUnFollowConsultant  GET_URL(@"/v1/user/un-follow/") //取消关注咨询师
+#define FetchUnFollowConsultant  GET_URL(@"/v1/magazine/my-collection") //获取我收藏的文章列表
+
+
 
 
 
