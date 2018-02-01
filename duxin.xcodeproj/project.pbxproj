@@ -5233,7 +5233,7 @@
 					"$(PROJECT_DIR)/duxin/MainApplication/HuanXin/HuanXinCustomerService",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = /Users/37duxin/Desktop/37duxinCNew/duxin/MainApplication/HuanXin/PrefixHeader.pch;
+				GCC_PREFIX_HEADER = "/Users/zongqishen/Desktop/BDL/37度心/iOS/duxin/MainApplication/HuanXin/PrefixHeader.pch";
 				INFOPLIST_FILE = duxin/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -5265,7 +5265,7 @@
 					"$(PROJECT_DIR)/duxin/MainApplication/HuanXin/HuanXinCustomerService",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = /Users/37duxin/Desktop/37duxinCNew/duxin/MainApplication/HuanXin/PrefixHeader.pch;
+				GCC_PREFIX_HEADER = "/Users/zongqishen/Desktop/BDL/37度心/iOS/duxin/MainApplication/HuanXin/PrefixHeader.pch";
 				INFOPLIST_FILE = duxin/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (

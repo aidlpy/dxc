@@ -11,6 +11,7 @@ target 'duxin' do
   pod 'SDWebImage', '~>3.8'
   pod 'MJExtension', '~> 3.0.13'
   pod 'Masonry'
+  pod 'LYEmptyView'
 
  
 

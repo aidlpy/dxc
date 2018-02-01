@@ -10,15 +10,15 @@
 
 @interface ShUserModel : NSObject
 /**
- *  发布评论用户ID
+ *  用户ID
  */
 @property (assign, nonatomic) NSInteger id;
 /**
- *  发布评论用户头像
+ *  用户头像
  */
 @property (strong, nonatomic) NSString *avatar;
 /**
- *  发布评论用户昵称
+ *  用户昵称
  */
 @property (strong, nonatomic) NSString *nickname;
 /**
