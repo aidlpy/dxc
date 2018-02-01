@@ -53,7 +53,7 @@
     [self.middleBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 //    self.leftBtn.center = CGPointMake(self.leftBtn.center.x,self.center.y+5);
     [self.leftBtn setImage:[UIImage imageNamed:Image(rightImageStr)] forState:UIControlStateNormal];
-    [self.middleBtn.titleLabel setFont:FONT_20];
+    [self.middleBtn.titleLabel setFont:FONT_18];
     
 }
 

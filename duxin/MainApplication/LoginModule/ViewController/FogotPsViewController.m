@@ -41,7 +41,7 @@
 -(void)initUI{
     
     self.view.backgroundColor = [UIColor whiteColor];
-    [self.navView setBackStytle:@"找回密码" rightImage:@"whiteLeftArrow"];
+    [self.navView setBackStytle:_navTilte rightImage:@"whiteLeftArrow"];
     
     [_dataArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
@@ -128,9 +128,9 @@
         
         HttpsManager *httpsManager = [[HttpsManager alloc] init];
         NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
-        [dic setObject:((LoginView *)(_loginViewArray[0])).textField.text forKey:@"username"];
+        [dic setObject:mobileString forKey:@"username"];
         [dic setObject:@"application/json" forKey:@"Content-Type"];
-        [httpsManager postServerAPI:PostMobileCodeForPS deliveryDic:dic successful:^(id responseObject) {
+        [httpsManager postServerAPI:PostReigsteredMobileCode deliveryDic:dic successful:^(id responseObject) {
             
             dispatch_async(dispatch_get_global_queue(0, 0), ^{
                 NSDictionary *dic = (NSDictionary *)responseObject;
@@ -221,9 +221,9 @@
     HttpsManager *httpsManager = [[HttpsManager alloc] init];
     NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
     [dic setObject:((LoginView *)(_loginViewArray[0])).textField.text forKey:@"username"];
-    [dic setObject:((LoginView *)(_loginViewArray[2])).textField.text forKey:@"password"];
+    [dic setObject:((LoginView *)(_loginViewArray[2])).textField.text forKey:[FetchLoginState isEqualToString:LOGINSUCCESS]?@"new_password":@"password"];
     [dic setObject:((LoginView *)(_loginViewArray[1])).textField.text forKey:@"code"];
-    [httpsManager postServerAPI:PostRegister deliveryDic:dic successful:^(id responseObject) {
+    [httpsManager postServerAPI:[FetchLoginState isEqualToString:LOGINSUCCESS]?PostMobileCodeForPS:PostMobileCodeForPSUnLogin deliveryDic:dic successful:^(id responseObject) {
         
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             NSDictionary *dic = (NSDictionary *)responseObject;

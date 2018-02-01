@@ -27,6 +27,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>需要访问您的照片</string>
 	<key>NSCameraUsageDescription</key>
 	<string>需要访问您的摄像机</string>
 	<key>NSLocationWhenInUseUsageDescription</key>

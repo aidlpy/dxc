@@ -7,24 +7,156 @@
 //
 
 #import "MyFoucsViewController.h"
+#import "MyfoucsCell.h"
+#import "ConsultingModel.h"
+#import "ShConsultantDetailInfoViewController.h"
 
-@interface MyFoucsViewController ()
-
+@interface MyFoucsViewController ()<UITableViewDelegate,UITableViewDataSource>
+{
+    UITableView *_tableView;
+    NSMutableArray *_dataArray;
+}
 @end
 
 @implementation MyFoucsViewController
 
+-(void)fetchData{
+    HttpsManager *httpsManager = [[HttpsManager alloc] init];
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+    [httpsManager getServerAPI:FetchMyConsultingList deliveryDic:dic successful:^(id responseObject) {
+
+           dispatch_async(dispatch_get_global_queue(0, 0), ^{
+
+               NSDictionary *dataDic = [(NSDictionary *)responseObject objectForKey:@"data"] ;
+               NSDictionary *resultDic = [dataDic objectForKey:@"result"];
+               if ([[dataDic objectForKey:@"error_code"]  integerValue] == 0) {
+
+                   NSArray *dicArray =[resultDic objectForKey:@"list"];
+                   NSArray *modelArray = [ConsultingModel fetchFoucsModel:dicArray];
+                   [_dataArray removeAllObjects];
+                   [_dataArray addObjectsFromArray:modelArray];
+                   
+                   if (_dataArray.count != 0) {
+
+                       dispatch_async(dispatch_get_main_queue(), ^{
+                           [_tableView reloadData];
+                           [_tableView.mj_header endRefreshing];
+
+                       });
+
+                   }else{
+
+                       [self errorWarning];
+
+                   }
+               }
+               else
+               {
+                   [self errorWarning];
+               }
+
+           });
+
+
+    } fail:^(id error) {
+        [self errorWarning];
+    }];
+
+
+
+}
+
+-(void)errorWarning{
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+      
+        [SVHUD showErrorWithDelay:@"获取关注咨询师失败!" time:0.8f];
+        
+    });
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self initData];
     [self initUI];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [_tableView.mj_header beginRefreshing];
+    
+}
+
+-(void)initData{
+    
+    _dataArray = [[NSMutableArray alloc] initWithCapacity:0];
+    
 }
 
 -(void)initUI{
     
     self.view.backgroundColor = [UIColor whiteColor];
     [self.navView setBackStytle:@"我的关注" rightImage:@"whiteLeftArrow"];
+    
+    //设置列表属性
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, h(self.navView), SIZE.width, SIZE.height-h(self.navView)) style:UITableViewStylePlain];
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    _tableView.backgroundView = [UIImageView new];
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    _tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [self fetchData];
+    }];
+    _tableView.estimatedRowHeight = 0;
+    _tableView.estimatedSectionHeaderHeight = 0;
+    _tableView.estimatedSectionFooterHeight = 0;
+    [self.view addSubview:_tableView];
 }
+
+
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    
+    return _dataArray.count;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 72.0f;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+
+    ConsultingModel *model = _dataArray[indexPath.row];
+    static NSString *myfoucsCellID = @"MyfoucsCell";
+    MyfoucsCell *cell = [tableView dequeueReusableCellWithIdentifier:myfoucsCellID];
+    if (cell == nil) {
+        cell = [[MyfoucsCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:myfoucsCellID];
+
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
+    cell.tag = indexPath.row;
+    [cell.headerImageView sd_setImageWithURL:[NSURL URLWithString:model.avatar]];
+    cell.titleLab.text = model.name;
+    return cell;
+
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    ConsultingModel *model = _dataArray[indexPath.row];
+    ShConsultantDetailInfoViewController *vc = [ShConsultantDetailInfoViewController new];
+    vc.hidesBottomBarWhenPushed = YES;
+    vc.conslutingID = model.toUserid;
+    [self.navigationController pushViewController:vc animated:YES];
+    
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

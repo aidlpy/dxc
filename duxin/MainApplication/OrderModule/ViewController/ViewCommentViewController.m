@@ -23,7 +23,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+
     [self initData];
     [self initUI];
 }
@@ -59,10 +59,9 @@
 
 -(void)fetchData
 {
-    
     HttpsManager *httpsManager = [[HttpsManager alloc] init];
     NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithCapacity:0];
-    NSString *urlString = [NSString stringWithFormat:@"%@%@",FetchOrderComments,@"61"];
+    NSString *urlString = [NSString stringWithFormat:@"%@%@",FetchOrderComments,_orderId];
     [httpsManager getServerAPI:urlString deliveryDic:dic successful:^(id responseObject) {
        
           dispatch_async(dispatch_get_global_queue(0, 0), ^{
@@ -84,29 +83,26 @@
                 }
                 else
                 {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [SVHUD showErrorWithDelay:@"获取评价失败" time:0.8f];
-                        [_tableView.mj_header endRefreshing];
-                    });
+                  [self errorWaring];
                 }
-                
             }
             else
             {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [SVHUD showErrorWithDelay:@"获取评价失败" time:0.8f];
-                    [_tableView.mj_header endRefreshing];
-                });
-                
+                [self errorWaring];
             }
-              
           });
         
     } fail:^(id error) {
-        [SVHUD showErrorWithDelay:@"获取评价失败!" time:0.8f];
-        [_tableView.mj_header endRefreshing];
+        [self errorWaring];
     }];
  
+}
+
+-(void)errorWaring{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [SVHUD showErrorWithDelay:@"获取评价失败" time:0.8f];
+        [_tableView.mj_header endRefreshing];
+    });
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{

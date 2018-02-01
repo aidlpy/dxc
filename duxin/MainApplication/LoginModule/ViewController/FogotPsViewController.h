@@ -9,5 +9,5 @@
 #import "BaseViewController.h"
 
 @interface FogotPsViewController : BaseViewController
-
+@property(nonatomic,copy)NSString *navTilte;
 @end

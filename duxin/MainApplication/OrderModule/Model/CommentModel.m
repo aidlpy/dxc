@@ -29,15 +29,23 @@
         model.commentConsultant = [modelDic objectForKey:@"consultant"];
         model.commentEvaluation = [modelDic objectForKey:@"evaluation"];
         model.commentEvaluationAt = [modelDic objectForKey:@"evaluation_at"];
-        model.commentFid = [modelDic objectForKey:@"fid"];
+  
+        if (![[modelDic objectForKey:@"fid"] isEqual:[NSNull null]]){
+            model.commentFid = [modelDic objectForKey:@"fid"];
+        }
+        
         model.commentIndex = [modelDic objectForKey:@"index"];
         model.commentOrderNumber = [modelDic objectForKey:@"order_number"];
 
-        if (![[modelDic objectForKey:@"reply"] isEqualToString:@""]) {
-           model.commentReply = [modelDic objectForKey:@"reply"];
-            NSLog(@"model.commentReply==>%@",model.commentReply);
+        if (![[modelDic objectForKey:@"reply"] isEqual:[NSNull null]]) {
+            model.commentReply = [modelDic objectForKey:@"reply"];
         }
-        model.commentReplyAt = [modelDic objectForKey:@"reply_at"];
+        if (![[modelDic objectForKey:@"reply_at"] isEqual:[NSNull null]]){
+            model.commentReplyAt = [modelDic objectForKey:@"reply_at"];
+        }
+      
+
+        
         model.commentStart = [modelDic objectForKey:@"start"];
         model.commentAvatar = [modelDic objectForKey:@"avatar"];
         [pocketArray addObject:model];

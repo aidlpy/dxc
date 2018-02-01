@@ -23,13 +23,21 @@
 #define PostRegister POST_URL(@"/v1/user/sign")
 #define PostMobileCode POST_URL(@"/v1/common/verification")
 #define PostMobileCodeForPS POST_URL(@"/v1/user/rest-password")
-#define FetchReservationOrders GET_URL(@"/v1/trade/reservation-item")
+#define PostReigsteredMobileCode POST_URL(@"/v1/common/get-code")
+#define PostMobileCodeForPSUnLogin POST_URL(@"/v1/user/modify-password")
+#define FetchReservationOrders GET_URL( @"/v1/trade/reservation-item")
 #define PostCancelOrder POST_URL(@"/v1/trade/cancel-order/")
 #define PostDeleteOrder POST_URL(@"/v1/trade/delete-main/")
 #define FetchConsultingOrders GET_URL(@"/v1/trade/consultation-item")
 #define FetchConsultingSubOrders GET_URL(@"/v1/consultation/sub-item")
 #define FetchOrderComments GET_URL(@"/v1/consultation/query-consultation-evaluation/")
-
+#define FetchConsultinProfile GET_URL(@"/v1/consultation/user-profile/")
+#define postReservationComment POST_URL(@"/v1/reservation/active-evaluation/")
+#define postConsultingComment POST_URL(@"/v1/consultation/active-evaluation/")
+#define postImageURL POST_URL(@"/v1/file/avatar")
+#define postModifyPersonalInfo POST_URL(@"/v1/user/basic-save")
+#define FetchMyConsultingList GET_URL(@"/v1/user/my-follow")
+#define PostModifyMobileNumber POST_URL(@"/v1/user/modify-username")
 
 //SH
 #define FetchConsultantInfo  GET_URL(@"/v1/user/psychologist-homepage/")
@@ -45,4 +53,5 @@ typedef void (^RequestFailureBlock)(id error);
 -(void)getServerAPI:(NSString *)api deliveryDic:(NSMutableDictionary *)dic successful:(RequestSuccessfulBlock)successBlock fail:(RequestFailureBlock)failBlock;
 -(void)postServerAPI:(NSString *)api deliveryDic:(NSMutableDictionary *)dic successful:(RequestSuccessfulBlock)successBlock fail:(RequestFailureBlock)failBlock;
 -(NSString *)deviceIPAdress;
+-(void)postServerAPI:(NSString*)urlStr Paramater:(NSDictionary*)para data:(NSData*)data name:(NSString*)fileName andContentType:(NSString *)cotentype successful:(RequestSuccessfulBlock )successBlock fail:(RequestFailureBlock )failBlock;
 @end

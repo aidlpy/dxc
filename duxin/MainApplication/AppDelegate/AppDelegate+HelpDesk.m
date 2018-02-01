@@ -82,8 +82,6 @@
         NSLog(@"%d",initError.code);
         
     }
-    
-
 }
 
 -(void)initIMchat{

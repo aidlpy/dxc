@@ -24,6 +24,10 @@
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
     [self tabbarView];
+    
+    NSString *v = [HChatClient sharedClient].imSdkVersion;
+    NSString *s = [HChatClient sharedClient].sdkVersion;
+    NSLog(@"v----%@--s---%@",v,s);
     [self.window makeKeyAndVisible];
     
     return YES;

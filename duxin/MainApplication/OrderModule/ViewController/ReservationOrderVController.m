@@ -10,6 +10,7 @@
 #import "OrderTitleView.h"
 #import "ReservatingCell.h"
 #import "CommentViewController.h"
+#import "ViewCommentViewController.h"
 
 
 @interface ReservationOrderVController ()<UITableViewDelegate,UITableViewDataSource>
@@ -262,33 +263,32 @@
     switch ([model.orderStatus integerValue]) {
         case WatingForOrderPay:
         {
-            
+            //支付界面
             
         }
             break;
         case WatingForConsulting:
         {
-            
+          
+            [self cancelOrder:tag];
             
         }
             break;
         case WatingForComment:
         {
-            CommentViewController *vc = [[CommentViewController alloc] init];
-            vc.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:vc animated:YES];
+            [self goToComment:model.orderId];
             
         }
             break;
         case FinishComment:
         {
             
-            
+            [self viewComment:model.orderId];
         }
             break;
         case FinishOrderPay:
         {
-            
+             [self viewComment:model.orderId];
             
         }
             break;
@@ -306,6 +306,26 @@
             break;
     }
 }
+
+-(void)goToComment:(NSString *)orderId{
+    
+    CommentViewController *vc =[[CommentViewController alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
+    vc.orderId = orderId;
+    vc.isMainOrder =NO;
+    [self.navigationController pushViewController:vc animated:YES];
+    
+}
+
+-(void)viewComment:(NSString *)orderId{
+    
+    ViewCommentViewController *vc = [[ViewCommentViewController alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
+    vc.orderId = orderId;
+    [self.navigationController pushViewController:vc animated:YES];
+    
+}
+
 
 -(void)deleteOrder:(NSInteger)tag{
     
@@ -382,16 +402,22 @@
                 }
                 else if([[dic objectForKey:@"code"] integerValue] == 401){
   
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [SVHUD showErrorWithDelay:@"取消订单失败！" time:0.8];
-                    });
+                 
                 }
                 else{ [SVProgressHUD dismiss];}
             });
             
         } fail:^(id error) {
-           [SVHUD showErrorWithDelay:@"取消订单失败！" time:0.8];
+            [self errorWarning];
     }];
+}
+
+-(void)errorWarning{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [SVHUD showErrorWithDelay:@"取消订单失败！" time:0.8];
+    });
+    
+    
 }
 
 -(void)backTo{

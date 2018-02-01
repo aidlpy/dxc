@@ -1,26 +1,24 @@
 //
-//  AccountSafeViewController.m
+//  AccountSafeAndModifyVC.m
 //  duxin
 //
-//  Created by 37duxin on 19/01/2018.
+//  Created by 37duxin on 31/01/2018.
 //  Copyright © 2018 37duxin. All rights reserved.
 //
 
-#import "AccountSafeViewController.h"
+#import "AccountSafeAndModifyVC.h"
 #import "AccountSafeCell.h"
-#import "ModifyMobileViewController.h"
+#import "AccountSafeViewController.h"
+#import "FogotPsViewController.h"
 
-@interface AccountSafeViewController ()<UITableViewDelegate,UITableViewDataSource>{
-    
+@interface AccountSafeAndModifyVC ()<UITableViewDelegate,UITableViewDataSource>
+{
     UITableView *_tableView;
-    UIButton *_loginOutBtn;
-    NSMutableArray *_dataArray;
-    
+    NSArray *_titleArray;
 }
-
 @end
 
-@implementation AccountSafeViewController
+@implementation AccountSafeAndModifyVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -29,29 +27,18 @@
     [self initUI];
 }
 
-
 -(void)initData{
     
-    _dataArray = [[NSMutableArray alloc] init];
-    NSMutableDictionary *dic = [NSMutableDictionary new];
-    [dic setObject:@"手机号" forKey:@"title"];
-    [dic setObject:FetchUsername forKey:@"content"];
-    [_dataArray addObject:dic];
-
+    _titleArray =@[@{@"title":@"账号绑定"},@{@"title":@"修改密码"}];
+    
 }
 
 -(void)initUI{
     
     self.view.backgroundColor = [UIColor whiteColor];
-    [self.navView setBackStytle:@"账号绑定" rightImage:@"whiteLeftArrow"];
-
+    [self.navView setBackStytle:@"账号与安全" rightImage:@"whiteLeftArrow"];
     
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0,0, SIZE.width, 1)];
-    lineView.backgroundColor = Color_F1F1F1;
-    [_loginOutBtn addSubview:lineView];
-
-    //设置列表属性
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, h(self.navView), SIZE.width, SIZE.height-h(self.navView)) style:UITableViewStylePlain];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,h(self.navView), SIZE.width, SIZE.height-h(self.navView)) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -62,12 +49,10 @@
     
 }
 
-
-
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     
-    return _dataArray.count;
+    return _titleArray.count;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -78,7 +63,7 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *MyIdentifier = @"MyIdentifier";
-    NSDictionary *dic = _dataArray[indexPath.row];
+    NSDictionary *dic = _titleArray[indexPath.row];
     AccountSafeCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
     if (cell == nil) {
         cell = [[AccountSafeCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:MyIdentifier]
@@ -87,26 +72,41 @@
     }
     cell.tag = indexPath.row;
     cell.titleLab.text = dic[@"title"];
-    cell.descributionLab.text = dic[@"content"];
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    if (indexPath.row == 0) {
-     
-        ModifyMobileViewController *vc = [ModifyMobileViewController new];
-        vc.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:vc animated:YES];
+    switch (indexPath.row) {
+        case 0:
+        {
+            
+            AccountSafeViewController *vc = [AccountSafeViewController new];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+            
+        }
+            break;
+        case 1:
+        {
+            FogotPsViewController *vc = [[FogotPsViewController alloc] init];
+            vc.hidesBottomBarWhenPushed = YES;
+            vc.navTilte = @"修改密码";
+            [self.navigationController pushViewController:vc animated:YES];
+            
+        }
+            break;
+            
+        default:
+            break;
     }
     
 }
 
--(void)dealloc
-{
-    //移除登录更新通知
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:LOGINUPDATE object:nil];
-
+-(void)backTo{
+    
+    [self.navigationController popViewControllerAnimated:YES];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -114,10 +114,6 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)backTo{
-    
-    [self.navigationController popViewControllerAnimated:YES];
-}
 /*
 #pragma mark - Navigation
 

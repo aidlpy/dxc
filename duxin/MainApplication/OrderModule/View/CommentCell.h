@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "CommentModel.h"
 #import "CommentFooter.h"
+#import "CWStarRateView.h"
+
 
 @interface CommentCell : UITableViewCell
 @property(nonatomic,retain)UILabel *titleLabel;
@@ -19,6 +21,8 @@
 @property(nonatomic,retain)UIImageView *headerImagView;
 @property(nonatomic,retain)UILabel *replyCommentLabel;
 @property(nonatomic,retain)CommentFooter *footerView;
+@property(nonatomic,retain)CWStarRateView *startView;
+@property(nonatomic,retain)UILabel *commentStringLab;
 
 -(void)fillInCellFooter:(CommentModel *)model;
 

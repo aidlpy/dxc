@@ -425,7 +425,8 @@
     
     CommentViewController *vc =[[CommentViewController alloc] init];
     vc.hidesBottomBarWhenPushed = YES;
-    vc.isMainOrder =!_isSubApi;
+    vc.orderId = orderId;
+    vc.isMainOrder =YES;
     [self.navigationController pushViewController:vc animated:YES];
     
 }

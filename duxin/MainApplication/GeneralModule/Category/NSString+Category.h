@@ -10,4 +10,5 @@
 
 @interface NSString (Category)
 -(NSString *)timeWithTimeIntervalString;
++ (NSDictionary *)dictionaryWithJsonString:(NSString *)jsonString;
 @end

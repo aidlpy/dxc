@@ -9,5 +9,5 @@
 #import "BaseViewController.h"
 
 @interface ShConsultantDetailInfoViewController : BaseViewController
-
+@property(nonatomic,copy)NSString *conslutingID;
 @end

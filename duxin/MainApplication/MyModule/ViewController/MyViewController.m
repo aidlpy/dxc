@@ -18,6 +18,7 @@
 #import "ReservationOrderVController.h"
 #import "ConsultingOrdersVController.h"
 #import "MyInfoViewController.h"
+#import "AccountSafeAndModifyVC.h"
 
 @interface MyViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
@@ -93,11 +94,59 @@
     _tableView.dataSource = self;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableView.tableHeaderView = [self tableViewHeader];
+    _tableView.tableFooterView = [self fetchTableViewFooterView];
     _tableView.estimatedRowHeight = 0;
     _tableView.estimatedSectionHeaderHeight = 0;
     _tableView.estimatedSectionFooterHeight = 0;
     [self.view addSubview:_tableView];
 }
+
+-(UIView *)fetchTableViewFooterView{
+    
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SIZE.width,150)];
+    footerView.backgroundColor = [UIColor whiteColor];
+    
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0,0,SIZE.width,50)];
+    button.center = footerView.center;
+    [button.layer setBorderColor:Color_F1F1F1.CGColor];
+    [button.layer setBorderWidth:0.5];
+    button.backgroundColor = [UIColor clearColor];
+    [button setTitle:@"退出登录" forState:UIControlStateNormal];
+    [button setTitleColor:Color_FF5166 forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(loginOutAction:) forControlEvents:UIControlEventTouchUpInside];
+    [footerView addSubview:button];
+    return footerView;
+}
+
+-(void)loginOutAction:(UIButton *)btn{
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        
+        ClearLoginState;
+        ClearToken;
+        ClearTokenType;
+        ClearEexpiresIn;
+        ClearUserHeaderImage;
+        ClearUserSex;
+        ClearUserNickName;
+        ClearUsername;
+        ClearUserRole;
+        
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            [self.navigationController popViewControllerAnimated:YES];
+            
+        });
+        
+        NSDictionary *dict =[[NSDictionary alloc] initWithObjectsAndKeys:@"1",@"code", nil];
+        NSNotification *notification =[NSNotification notificationWithName:LOGINUPDATE object:nil userInfo:dict];
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
+        
+    });
+    
+}
+
 
 -(UIView *)tableViewHeader{
     
@@ -336,7 +385,7 @@
             
         case 1:
         {
-            AccountSafeViewController *vc = [AccountSafeViewController new];
+            AccountSafeAndModifyVC *vc = [AccountSafeAndModifyVC new];
             vc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:vc animated:YES];
             
@@ -360,7 +409,7 @@
 
 -(void)dealloc{
     
-    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:LOGINUPDATE object:nil];
     
 }
 

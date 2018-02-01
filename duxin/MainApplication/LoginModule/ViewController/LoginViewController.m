@@ -134,6 +134,7 @@
 -(void)fogotPsAction:(UIButton *)btn{
     
     FogotPsViewController *vc = [[FogotPsViewController alloc] init];
+    vc.navTilte = @"忘记密码";
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -199,7 +200,8 @@
                 if (![headerImageStr isEqual:[NSNull null]]) {
                     CacheUserHeaderImage(headerImageStr);
                 }
-                CacheUserSex([dicData objectForKey:@"gender"]);
+                NSString *genderStr = [NSString stringWithFormat:@"%@",[dicData objectForKey:@"gender"]];
+                CacheUserSex(genderStr);
                 CacheUserNickName([dicData objectForKey:@"nickname"]);
                 CacheUsername([dicData objectForKey:@"username"]);
                 CacheUserRole([dicData objectForKey:@"role"]);

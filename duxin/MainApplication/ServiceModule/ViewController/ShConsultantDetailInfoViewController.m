@@ -177,6 +177,7 @@
     self.consultTableview.separatorColor = [UIColor clearColor];
     self.consultTableview.showsVerticalScrollIndicator = FALSE;
     self.consultTableview.showsHorizontalScrollIndicator = FALSE;
+    self.consultTableview.backgroundView = [self backView];
     self.consultTableview.backgroundColor = [UIColor whiteColor];
     [self.consultTableview registerClass:[ShConsultantDetailTableViewCell class] forCellReuseIdentifier:SH_CONSULTEINFO_CELL];
     [self.view addSubview:self.consultTableview];
@@ -289,6 +290,22 @@
     
 }
 
+-(UIView *)backView{
+    
+    UIView *view = [[UIView alloc] initWithFrame:self.consultTableview.frame];
+    view.backgroundColor = [UIColor whiteColor];
+    
+    
+    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(x(self.consultTableview),y(self.consultTableview),SIZE.width,SIZE.height/3)];
+    backView.backgroundColor = self.navView.backgroundColor;
+    
+    [view addSubview:backView];
+    
+    
+    return view;
+    
+}
+
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     
@@ -372,8 +389,8 @@
         
         self.backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         self.backBtn.frame = CGRectMake(10, 10, 30, 30);
-        [self.backBtn setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
-        self.backBtn.backgroundColor = [UIColor whiteColor];
+        [self.backBtn setBackgroundColor:[UIColor clearColor]];
+        [self.backBtn setImage:[UIImage imageNamed:Image(@"whiteLeftArrow")] forState:UIControlStateNormal];
         [self.backBtn addTarget:self action:@selector(backBtnClick) forControlEvents:UIControlEventTouchUpInside];
         [headerView addSubview:self.backBtn];
         
@@ -707,6 +724,9 @@
     
 }
 
+-(void)backTo{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 
 - (void)didReceiveMemoryWarning {

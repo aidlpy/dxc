@@ -77,6 +77,7 @@
 #define  Color_2B2B2B COLOR(@"2B2B2B")
 #define  Color_CBE3E8 COLOR(@"CBE3E8")
 #define  Color_57CAF7 COLOR(@"57CAF7")
+#define  Color_FF5166 COLOR(@"FF5166")
 
 #define A100 @"FF"
 #define A95 @"F2"
@@ -126,6 +127,7 @@
 #import "NSString+Category.h"
 #import "CustomTextView.h"
 
+
 //SH
 #import "UIButton+Sh.h"
 #import "LKProtocolNetworkEngine.h"
@@ -139,6 +141,7 @@
 #define FONT_13 [UIFont systemFontOfSize:13.0f]
 #define FONT_14 [UIFont systemFontOfSize:14.0f]
 #define FONT_15 [UIFont systemFontOfSize:15.0f]
+#define FONT_18 [UIFont systemFontOfSize:18.0f]
 #define FONT_20 [UIFont systemFontOfSize:20.0f]
 #define FONT_25 [UIFont systemFontOfSize:25.0f]
 #define FONT_30 [UIFont systemFontOfSize:30.0f]

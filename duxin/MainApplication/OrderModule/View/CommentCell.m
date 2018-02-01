@@ -42,7 +42,18 @@
         _countLabl.backgroundColor = Color_F1F1F1;
         [self addSubview:_countLabl];
         
-        _lineView = [[UIView alloc] initWithFrame:CGRectMake(0,bottom(_titleLabel)+9,SIZE.width,0.5)];
+        _commentStringLab = [[UILabel alloc] initWithFrame:CGRectMake(x(_titleLabel),bottom(_titleLabel)+10, 40, 20)];
+        _commentStringLab.text = @"评价";
+        _commentStringLab.textColor = Color_BABABA;
+        _commentStringLab.font = [UIFont systemFontOfSize:16.0f];
+        [self addSubview:_commentStringLab];
+        
+        _startView = [[CWStarRateView alloc] initWithFrame:CGRectMake(left(_commentStringLab),0, 100, 15) numberOfStars:5 canChange:NO];
+        _startView.center = CGPointMake(_startView.center.x, _commentStringLab.center.y-1);
+        _startView.scorePercent = 0.0f;
+        [self addSubview:_startView];
+        
+        _lineView = [[UIView alloc] initWithFrame:CGRectMake(0,bottom(_commentStringLab)+9,SIZE.width,0.5)];
         _lineView.backgroundColor = Color_F1F1F1;
         [self addSubview:_lineView];
         
@@ -68,6 +79,8 @@
     _commentLab.backgroundColor = [UIColor whiteColor];
     
     _titleLabel.text =@"深度咨询";
+    NSLog(@"model.commentStart%@",model.commentStart);
+    _startView.scorePercent = [model.commentStart integerValue]*0.2;
     [_countLabl setCommentTimeText:model.commentIndex];
     _timeLabel.text = [model.commentEvaluationAt timeWithTimeIntervalString];
     [_footerView updateUI:model];
@@ -76,7 +89,7 @@
     // CGFloat commentHight = [_countLabl getSpaceLabelHeight:_commentLab.text withFont:_commentLab.font withWidth:w(_countLabl)]
     CGSize commentSize = [_commentLab sizeThatFits:CGSizeMake(w(_commentLab), 0)];
     [_commentLab setHeight:commentSize.height];
-    model.cellHeight = commentSize.height+90;
+    model.cellHeight = commentSize.height+120;
     
     [_footerView setOriginY:bottom(_commentLab)+10];
         
