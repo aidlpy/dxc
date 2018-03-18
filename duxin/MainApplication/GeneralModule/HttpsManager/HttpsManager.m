@@ -31,8 +31,21 @@
     [manager GET:api parameters:dicc progress:^(NSProgress * _Nonnull downloadProgress) {
         nil;
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"responseObject==>%@",responseObject);
-        successBlock(responseObject);
+        
+        NSDictionary *dic = (NSDictionary *)responseObject;
+        if ([[dic objectForKey:@"code"] integerValue] == 401)
+        {
+           
+            [[EMClient sharedClient] logout:YES];
+            NSNotification *notifyEMLogin =[NSNotification notificationWithName:PUSHLOGINVC object:nil userInfo:nil];
+            [[NSNotificationCenter defaultCenter] postNotification:notifyEMLogin];
+        }
+        else
+        {
+            //  [HttpsManager runtimeClass:responseObject];
+            successBlock(responseObject);
+        }
+
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"error==>%@",error);
         failBlock(error);
@@ -54,7 +67,21 @@
     [manager POST:api parameters:dic progress:^(NSProgress * _Nonnull uploadProgress) {
         nil;
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        successBlock(responseObject);
+        
+        NSDictionary *dic = (NSDictionary *)responseObject;
+        if ([[dic objectForKey:@"code"] integerValue] == 401)
+        {
+            
+             [[EMClient sharedClient] logout:YES];
+            NSNotification *notifyEMLogin =[NSNotification notificationWithName:PUSHLOGINVC object:nil userInfo:nil];
+            [[NSNotificationCenter defaultCenter] postNotification:notifyEMLogin];
+        }
+        else
+        {
+          //  [HttpsManager runtimeClass:responseObject];
+            successBlock(responseObject);
+        }
+
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"error==>%@",error);
         failBlock(error);
@@ -82,7 +109,22 @@
     } progress:^(NSProgress * _Nonnull uploadProgress) {
         nil;
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        successBlock(responseObject);
+        
+        NSDictionary *dic = (NSDictionary *)responseObject;
+        if ([[dic objectForKey:@"code"] integerValue] == 401)
+        {
+          
+            [[EMClient sharedClient] logout:YES];
+            NSNotification *notifyEMLogin =[NSNotification notificationWithName:PUSHLOGINVC object:nil userInfo:nil];
+            [[NSNotificationCenter defaultCenter] postNotification:notifyEMLogin];
+        }
+        else
+        {
+            // [HttpsManager runtimeClass:responseObject];
+             successBlock(responseObject);
+        }
+        
+       
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         failBlock(error);
     }];
@@ -281,7 +323,13 @@
     return [NSString stringWithFormat:@"%s", ip_names[1]];
 }
 
+-(void)dealloc{
+    
+    //移除调起登录通知
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:PUSHLOGINVC object:nil];
 
+    
+}
 
 // 判断网络是否可以连接
 -(BOOL) connectedToNetwork
@@ -289,6 +337,32 @@
     Reachability *rea=[Reachability reachabilityForInternetConnection];
     return rea.currentReachabilityStatus==NotReachable?NO:YES;
 }
+
+//+(void)runtimeClass:(NSDictionary *)dic{
+//
+//    [dic enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+//      if ([obj isKindOfClass:[NSDictionary class]]) {
+//          [HttpsManager  runtimeDic:obj];
+//        }
+//        if ([obj isKindOfClass:[NSArray class]]) {
+//             [HttpsManager  runtimeArray:obj];
+//        }
+//
+//
+//    }];
+//
+//}
+//
+//+(id)runtimeArray:(NSArray *)array{
+//
+//
+//}
+//
+//+(id)runtimeDic:(NSDictionary *)dic{
+//
+//
+//
+//}
 
 
 @end

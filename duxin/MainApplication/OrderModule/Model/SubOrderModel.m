@@ -44,6 +44,14 @@
         NSString *consultation_way_string = [packageInfoDic objectForKey:@"consultation_way"];
         model.packageConsultationWay = [consultation_way_string componentsSeparatedByString:@","];
         
+        NSDictionary *userC = [dic objectForKey:@"userC"];
+        if (userC) {
+            model.emChatterAvatar = [userC objectForKey:@"avatar"];
+            model.emChatterUserName = [userC objectForKey:@"emchart_username"];
+        }
+       
+      
+        
         [pocketArray addObject:model];
         
     }];

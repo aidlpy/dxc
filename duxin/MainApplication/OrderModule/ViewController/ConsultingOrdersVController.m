@@ -14,6 +14,8 @@
 #import "SubOrderModel.h"
 #import "ViewCommentViewController.h"
 #import "CommentViewController.h"
+#import "PaymentViewController.h"
+#import "OrderAllCommentsViewController.h"
 
 @interface ConsultingOrdersVController ()<UITableViewDelegate,UITableViewDataSource>
 {
@@ -120,7 +122,7 @@
         case 5:
         {
              _isSubApi= false;
-            _selectedIndex = FinishComment;
+            _selectedIndex = FinishOrderPay;
         }
             break;
         case 6:
@@ -359,13 +361,25 @@
         switch ([model.orderStatus integerValue]) {
             case WatingForOrderPay:
             {
-                
+                [self gotoPayment:model];
+               
             
+            }
+                break;
+            case 1:
+            {
+                 [self maingoToPaymentChat:model];
+                
             }
                 break;
             case 3:
             {
                 [self viewComment:model.orderId];
+            }
+                break;
+            case 4:
+            {
+                [self viewAllComment:model.orderId];
             }
                 break;
             case AlreadColse:
@@ -392,7 +406,7 @@
         switch ([model.orderSubStatus integerValue]) {
             case 0:
             {
-                
+                [self goToPaymentChat:model];
             }
                 break;
             case 1:
@@ -421,6 +435,16 @@
     
 }
 
+-(void)viewAllComment:(NSString *)orderId{
+    
+    OrderAllCommentsViewController *vc = [[OrderAllCommentsViewController alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
+    vc.orderId = orderId;
+    vc.isReervation = NO;
+    [self.navigationController pushViewController:vc animated:YES];
+    
+}
+
 -(void)goToComment:(NSString *)orderId{
     
     CommentViewController *vc =[[CommentViewController alloc] init];
@@ -430,6 +454,50 @@
     [self.navigationController pushViewController:vc animated:YES];
     
 }
+
+-(void)goToPaymentChat:(SubOrderModel *)model{
+    
+    if (FetchToken != nil) {
+        [[EMClient sharedClient] loginWithUsername:FetchEMUsername password:FetchEMPassword];
+    }
+    
+    CacheChatReceiverAdvatar(model.emChatterAvatar);
+    ChatWithPaymentVC *vc = [[ChatWithPaymentVC alloc] initWithConversationChatter:model.emChatterUserName  conversationType:EMConversationTypeChat];
+    vc.friendNickName = model.consultantName;
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+ 
+    
+}
+
+-(void)maingoToPaymentChat:(ConsultingMainModel *)model{
+    
+    if (FetchToken != nil) {
+        [[EMClient sharedClient] loginWithUsername:FetchEMUsername password:FetchEMPassword];
+    }
+    
+    CacheChatReceiverAdvatar(model.emChatterAvatar);
+    ChatWithPaymentVC *vc = [[ChatWithPaymentVC alloc] initWithConversationChatter:model.emChatterUserName  conversationType:EMConversationTypeChat];
+    vc.friendNickName = model.consultantName;
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+    
+    
+}
+
+-(void)gotoPayment:(ConsultingMainModel *)model
+{
+    PaymentViewController *vc = [[PaymentViewController alloc] init];
+    vc.title = model.packageTitle;
+    vc.orderId = model.orderId;
+    vc.orderPrice = model.packageSinglePrice;
+    vc.orderDetail  = model.packageSerContent;
+    vc.iSCreated = YES;
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController  pushViewController:vc animated:YES];
+
+}
+
 
 -(void)deleteOrder:(NSInteger)tag{
     ConsultingMainModel *model = _dataArray[tag];

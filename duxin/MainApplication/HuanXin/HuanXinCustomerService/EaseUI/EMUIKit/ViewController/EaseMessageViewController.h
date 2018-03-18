@@ -516,4 +516,8 @@ shouldSendHasReadAckForMessage:(EMMessage *)message
 - (BOOL)shouldSendHasReadAckForMessage:(EMMessage *)message
                                  read:(BOOL)read;
 
+
+- (void)_sendMessage:(EMMessage *)message
+    isNeedUploadFile:(BOOL)isUploadFile;
+
 @end

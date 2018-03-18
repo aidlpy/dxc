@@ -8,6 +8,7 @@
 
 #import "BaseViewController.h"
 #import "Header.h"
+#import "EMFriendModel.h"
 
 @interface ServiceViewController : BaseViewController
 

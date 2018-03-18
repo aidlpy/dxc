@@ -19,6 +19,7 @@
 #import "ConsultingOrdersVController.h"
 #import "MyInfoViewController.h"
 #import "AccountSafeAndModifyVC.h"
+#import "ShCollectViewController.h"
 
 @interface MyViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
@@ -28,6 +29,8 @@
     UIImageView *_genderImageView;
     UIButton *_loginBtnTitle;
     NSArray *_orderImageArray;
+    UIView *_footerView;
+    UIButton *_loginoutBtn;
     
     
 }
@@ -46,7 +49,7 @@
 
 -(void)initData{
     _dataArray = @[@[@{@"headImage":@"myCollection",@"title":@"我的收藏"},@{@"headImage":@"myFoucs",@"title":@"我的关注"}],@[@{@"headImage":@"accountSecurity",@"title":@"账号与安全"}],@[@{@"headImage":@"aboutUs",@"title":@"关于我们"}]];
-    _orderImageArray = @[@{@"image":@"reservationOrder",@"title":@"预约订单"},@{@"image":@"consultingOrders",@"title":@"咨询订单"},@{@"image":@"myTidings",@"title":@"我的动态"}];
+    _orderImageArray = @[@{@"image":@"reservationOrder",@"title":@"初次咨询"},@{@"image":@"consultingOrders",@"title":@"深度咨询"},@{@"image":@"myTidings",@"title":@"我的动态"}];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginUpdate:) name:LOGINUPDATE object:nil];
 }
 
@@ -61,7 +64,8 @@
 -(void)login{
 
     
-    if ([FetchLoginState isEqualToString:LOGINSUCCESS]) {
+    if ([FetchLoginState isEqualToString:LOGINSUCCESS])
+    {
         
         MyInfoViewController *vc = [MyInfoViewController new];
         vc.hidesBottomBarWhenPushed = YES;
@@ -69,16 +73,13 @@
         
         
     }
-    else{
+    else
+    {
         
-        LoginViewController *vc = [[LoginViewController alloc] init];
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
-        [self.navigationController presentViewController:nav animated:YES completion:nil];
-        
+        [self pushLoginVC];
+    
     }
-    
- 
-    
+
 }
 
 -(void)initUI{
@@ -99,23 +100,33 @@
     _tableView.estimatedSectionHeaderHeight = 0;
     _tableView.estimatedSectionFooterHeight = 0;
     [self.view addSubview:_tableView];
+    
+    if(FetchToken){
+        _loginoutBtn.hidden = NO;
+        
+    }
+    else{
+        _loginoutBtn.hidden = YES;
+        
+    }
+
 }
 
 -(UIView *)fetchTableViewFooterView{
     
-    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SIZE.width,150)];
-    footerView.backgroundColor = [UIColor whiteColor];
+    _footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SIZE.width,150)];
+    _footerView.backgroundColor = [UIColor whiteColor];
     
-    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0,0,SIZE.width,50)];
-    button.center = footerView.center;
-    [button.layer setBorderColor:Color_F1F1F1.CGColor];
-    [button.layer setBorderWidth:0.5];
-    button.backgroundColor = [UIColor clearColor];
-    [button setTitle:@"退出登录" forState:UIControlStateNormal];
-    [button setTitleColor:Color_FF5166 forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(loginOutAction:) forControlEvents:UIControlEventTouchUpInside];
-    [footerView addSubview:button];
-    return footerView;
+    _loginoutBtn = [[UIButton alloc] initWithFrame:CGRectMake(0,0,SIZE.width,50)];
+    _loginoutBtn.center = _footerView.center;
+    [_loginoutBtn.layer setBorderColor:Color_F1F1F1.CGColor];
+    [_loginoutBtn.layer setBorderWidth:0.5];
+    _loginoutBtn.backgroundColor = [UIColor clearColor];
+    [_loginoutBtn setTitle:@"退出登录" forState:UIControlStateNormal];
+    [_loginoutBtn setTitleColor:Color_FF5166 forState:UIControlStateNormal];
+    [_loginoutBtn addTarget:self action:@selector(loginOutAction:) forControlEvents:UIControlEventTouchUpInside];
+    [_footerView addSubview:_loginoutBtn];
+    return _footerView;
 }
 
 -(void)loginOutAction:(UIButton *)btn{
@@ -131,8 +142,9 @@
         ClearUserNickName;
         ClearUsername;
         ClearUserRole;
-        
-        
+        ClearEMUsername;
+        ClearEMPassword;
+
         dispatch_async(dispatch_get_main_queue(), ^{
             
             [self.navigationController popViewControllerAnimated:YES];
@@ -200,7 +212,8 @@
     
     
     if ([FetchLoginState isEqualToString:LOGINSUCCESS]) {
-        
+        _footerView.hidden = NO;
+        _loginoutBtn.hidden = NO;
         if (FetchUserHeaderImage)
         {
              [_loginBtn sd_setImageWithURL:[NSURL URLWithString:FetchUserHeaderImage] forState:UIControlStateNormal];
@@ -242,6 +255,7 @@
     }
     else
     {
+        _footerView.hidden = YES;
         [_loginBtn setImage:[UIImage imageNamed:Image(@"unLogin")] forState:UIControlStateNormal];
         [_loginBtnTitle setTitle:@"请登录" forState:UIControlStateNormal];
         _genderImageView.hidden = YES;
@@ -252,33 +266,44 @@
 
 -(void)myHeadAction:(MyHeaderBtn *)btn{
     
-    switch (btn.tag) {
-        case 0:
-        {
-            ReservationOrderVController *vc = [ReservationOrderVController new];
-            vc.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:vc animated:YES];
+    NSString *token = FetchToken;
+    if (token) {
+        
+        switch (btn.tag) {
+            case 0:
+            {
+                ReservationOrderVController *vc = [ReservationOrderVController new];
+                vc.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+                break;
+                
+            case 1:
+            {
+                ConsultingOrdersVController *vc = [ConsultingOrdersVController new];
+                vc.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+                break;
+                
+            case 2:
+            {
+                MyDynamicViewController *vc = [MyDynamicViewController new];
+                vc.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+                break;
+                
+            default:
+                break;
         }
-            break;
-            
-        case 1:
-        {
-            ConsultingOrdersVController *vc = [ConsultingOrdersVController new];
-            vc.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:vc animated:YES];
-        }
-            break;
-            
-        case 2:
-        {
-            MyDynamicViewController *vc = [MyDynamicViewController new];
-            vc.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:vc animated:YES];
-        }
-            break;
-            
-        default:
-            break;
+        
+        
+    }
+    else
+    {
+        [self pushLoginVC];
+        
     }
     
     
@@ -357,53 +382,73 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    switch (indexPath.section) {
-        case 0:
+  
+        if (indexPath.section == 0 || indexPath.section == 1)
         {
-            switch (indexPath.row) {
-                case 0:
-                {
-                    MyCollectionVC *vc = [MyCollectionVC new];
-                    vc.hidesBottomBarWhenPushed = YES;
-                    [self.navigationController pushViewController:vc animated:YES];
-                    
-                }
-                    break;
-                case 1:
-                {
-                    MyFoucsViewController *vc = [MyFoucsViewController new];
-                    vc.hidesBottomBarWhenPushed = YES;
-                    [self.navigationController pushViewController:vc animated:YES];
-                }
-                    break;
-                    
-                default:
-                    break;
-            }
-        }
-            break;
+            NSString *token = FetchToken;
+             if (token) {
+                 switch (indexPath.section) {
+                     case 0:
+                     {
+                         switch (indexPath.row) {
+                             case 0:
+                             {
+                                 ShCollectViewController *vc = [ShCollectViewController new];
+                                 vc.hidesBottomBarWhenPushed = YES;
+                                 [self.navigationController pushViewController:vc animated:YES];
+                                 
+                             }
+                                 break;
+                             case 1:
+                             {
+                                 MyFoucsViewController *vc = [MyFoucsViewController new];
+                                 vc.hidesBottomBarWhenPushed = YES;
+                                 [self.navigationController pushViewController:vc animated:YES];
+                             }
+                                 break;
+                                 
+                             default:
+                                 break;
+                         }
+                     }
+                         break;
+                         
+                     case 1:
+                     {
+                         AccountSafeAndModifyVC *vc = [AccountSafeAndModifyVC new];
+                         vc.hidesBottomBarWhenPushed = YES;
+                         [self.navigationController pushViewController:vc animated:YES];
+                         
+                     }
+                         break;
+                         
+                         
+                     default:
+                         break;
+                 }
+             }
+             else
+             {
+                 [self pushLoginVC];
+             }
             
-        case 1:
+            
+        }
+        else
         {
-            AccountSafeAndModifyVC *vc = [AccountSafeAndModifyVC new];
+            
+            AboutUsViewController *vc = [[AboutUsViewController alloc] init];
             vc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:vc animated:YES];
             
         }
-            break;
-            
-        case 2:
-        {
-            AboutUsViewController *vc = [AboutUsViewController new];
-            vc.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:vc animated:YES];
-        }
-            break;
-            
-        default:
-            break;
-    }
+}
+
+-(void)pushLoginVC{
     
+    LoginViewController *vc = [[LoginViewController alloc] init];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+    [self.navigationController presentViewController:nav animated:YES completion:nil];
     
 }
 

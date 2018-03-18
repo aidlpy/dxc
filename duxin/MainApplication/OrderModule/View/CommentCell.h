@@ -24,6 +24,6 @@
 @property(nonatomic,retain)CWStarRateView *startView;
 @property(nonatomic,retain)UILabel *commentStringLab;
 
--(void)fillInCellFooter:(CommentModel *)model;
+-(void)fillInCellFooter:(CommentModel *)model isReveration:(BOOL)isReveration;
 
 @end

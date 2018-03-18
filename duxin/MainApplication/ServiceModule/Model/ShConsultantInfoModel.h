@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ShConsultantInfoModel.h"
+#import "ShConsultantProfileModel.h"
 
 @interface ShConsultantInfoModel : NSObject
 /**
@@ -41,7 +41,7 @@
 /**
  *  好评度
  */
-@property (assign, nonatomic) NSInteger praise;
+@property (strong, nonatomic) NSString *praise;
 /**
  *  是否关注该咨询师
  */
@@ -53,7 +53,7 @@
 /**
  *  咨询师详细信息
  */
-@property (strong, nonatomic) ShConsultantInfoModel *consultantProfile;
+@property (strong, nonatomic) ShConsultantProfileModel *consultantProfile;
 
 
 @end

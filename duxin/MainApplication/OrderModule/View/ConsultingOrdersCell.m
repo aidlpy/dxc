@@ -69,11 +69,11 @@
     self.packageCount.frame = CGRectMake(x(self.packageCount), y(self.packageCount),[ZSize sizeWidth:self.packageCount], h(self.packageCount));
     self.packageCount.backgroundColor = [UIColor whiteColor];
     
-    self.packageDetail.text = [NSString stringWithFormat:@"/次 (%@小时) , %@次",model.packageSerHours,model.packageSerTimes];
+    self.packageDetail.text = [NSString stringWithFormat:@"/次 (%@分钟) , %@次",model.packageSerHours,model.packageSerTimes];
     self.packageDetail.frame = CGRectMake(left(self.packageCount),y(self.packageDetail), [ZSize sizeWidth:self.packageDetail], h(self.packageDetail));
     self.packageDetail.backgroundColor = [UIColor whiteColor];
     
-    self.packagePaymentLab.text = [NSString stringWithFormat:@"共%@次服务 合计:%@元",model.packageSerTimes,model.packageSinglePrice];
+    self.packagePaymentLab.text = [NSString stringWithFormat:@"共%@次服务 合计:%@元",model.packageSerTimes,model.orderPrice];
     self.packagePaymentLab.backgroundColor = [UIColor whiteColor];
     
 }
@@ -81,21 +81,21 @@
 -(void)fetchSubData:(SubOrderModel *)model{
     
     self.nameLab.text = model.consultantName;
-    self.nameLab.backgroundColor = [UIColor whiteColor];
+    self.nameLab.backgroundColor = [UIColor clearColor];
     
     self.packageTitle.text = model.packageTitle;
-    self.packageTitle.backgroundColor = [UIColor whiteColor];
+    self.packageTitle.backgroundColor = [UIColor clearColor];
     
     self.packageCount.text = model.packageSinglePrice;
     self.packageCount.frame = CGRectMake(x(self.packageCount), y(self.packageCount),[ZSize sizeWidth:self.packageCount], h(self.packageCount));
-    self.packageCount.backgroundColor = [UIColor whiteColor];
+    self.packageCount.backgroundColor = [UIColor clearColor];
     
-    self.packageDetail.text = [NSString stringWithFormat:@"/次 (%@小时) , %@次",model.packageSerHours,model.packageSerTimes];
-    self.packageDetail.frame = CGRectMake(left(self.packageCount),y(self.packageDetail), [ZSize sizeWidth:self.packageDetail], h(self.packageDetail));
-    self.packageDetail.backgroundColor = [UIColor whiteColor];
+    self.packageDetail.text = [NSString stringWithFormat:@"/次 (%@分钟) , %@次",model.packageSerHours,model.packageSerTimes];
+    self.packageDetail.frame = CGRectMake(left(self.packageCount)+3,y(self.packageDetail), [ZSize sizeWidth:self.packageDetail], h(self.packageDetail));
+    self.packageDetail.backgroundColor = [UIColor clearColor ];
     
-    self.packagePaymentLab.text = [NSString stringWithFormat:@"共%@次服务 合计:%@元",model.packageSerTimes,model.packageSinglePrice];
-    self.packagePaymentLab.backgroundColor = [UIColor whiteColor];
+    self.packagePaymentLab.text = [NSString stringWithFormat:@"共%@次服务 合计:%@元",model.packageSerTimes,model.orderPrice];
+    self.packagePaymentLab.backgroundColor = [UIColor clearColor];
     
 }
 
@@ -121,8 +121,9 @@
             UIColor *color = Color_5ECAF7;
             [self.wiatingPayBtn.layer setBorderColor:color.CGColor];
             [self.wiatingPayBtn setTitleColor:Color_5ECAF7 forState:UIControlStateNormal];
-            
+          
         }
+            break;
         case 2:
         {
             self.cancelOrderBtn.hidden = YES;

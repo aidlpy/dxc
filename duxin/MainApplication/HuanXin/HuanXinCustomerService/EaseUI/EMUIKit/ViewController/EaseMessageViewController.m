@@ -26,6 +26,7 @@
 #import "UIImage+EMGIF.h"
 #import "EaseLocalDefine.h"
 #import "EaseSDKHelper.h"
+#import "EMCDDeviceManager.h"
 
 #define KHintAdjustY    50
 
@@ -85,6 +86,7 @@ typedef enum : NSUInteger {
     self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
         _conversation = [[EMClient sharedClient].chatManager getConversation:conversationChatter type:conversationType createIfNotExist:YES];
+        
         _messageCountOfPage = 10;
         _timeCellHeight = 30;
         _deleteConversationIfNull = YES;
@@ -136,14 +138,15 @@ typedef enum : NSUInteger {
                                                  name:UIApplicationDidBecomeActiveNotification
                                                object:nil];
     
-    [[EaseBaseMessageCell appearance] setSendBubbleBackgroundImage:[[UIImage imageNamed:@"EaseUIResource.bundle/chat_sender_bg"] stretchableImageWithLeftCapWidth:5 topCapHeight:35]];
-    [[EaseBaseMessageCell appearance] setRecvBubbleBackgroundImage:[[UIImage imageNamed:@"EaseUIResource.bundle/chat_receiver_bg"] stretchableImageWithLeftCapWidth:35 topCapHeight:35]];
+    [[EaseBaseMessageCell appearance] setSendBubbleBackgroundImage:[[UIImage imageNamed:@"EaseUIResource.bundle/custom_sender_bg"] stretchableImageWithLeftCapWidth:5 topCapHeight:35]];
+    [[EaseBaseMessageCell appearance] setRecvBubbleBackgroundImage:[[UIImage imageNamed:@"EaseUIResource.bundle/custom_receiver_bg"] stretchableImageWithLeftCapWidth:35 topCapHeight:35]];
     
     [[EaseBaseMessageCell appearance] setSendMessageVoiceAnimationImages:@[[UIImage imageNamed:@"EaseUIResource.bundle/chat_sender_audio_playing_full"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_sender_audio_playing_000"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_sender_audio_playing_001"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_sender_audio_playing_002"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_sender_audio_playing_003"]]];
     [[EaseBaseMessageCell appearance] setRecvMessageVoiceAnimationImages:@[[UIImage imageNamed:@"EaseUIResource.bundle/chat_receiver_audio_playing_full"],[UIImage imageNamed:@"EaseUIResource.bundle/chat_receiver_audio_playing000"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_receiver_audio_playing001"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_receiver_audio_playing002"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_receiver_audio_playing003"]]];
     
     [[EaseBaseMessageCell appearance] setAvatarSize:40.f];
     [[EaseBaseMessageCell appearance] setAvatarCornerRadius:20.f];
+    [[EaseBaseMessageCell appearance] setMessageNameIsHidden:YES];
     
     [[EaseChatBarMoreView appearance] setMoreViewBackgroundColor:[UIColor colorWithRed:240 / 255.0 green:242 / 255.0 blue:247 / 255.0 alpha:1.0]];
     
@@ -405,7 +408,7 @@ typedef enum : NSUInteger {
     if (videoAuthStatus == AVAuthorizationStatusNotDetermined) {
         [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL granted) {
             if (aCompletion) {
-                aCompletion(granted ? EMCanRecord : EMRequestRecord);
+                aCompletion(EMRequestRecord);
             }
         }];
     }
@@ -1624,6 +1627,8 @@ typedef enum : NSUInteger {
 
 - (void)didReceiveMessages:(NSArray *)aMessages
 {
+    [[EMCDDeviceManager sharedInstance] playNewMessageSound];
+    [[EMCDDeviceManager sharedInstance] playVibration];
     for (EMMessage *message in aMessages) {
         if ([self.conversation.conversationId isEqualToString:message.conversationId]) {
             [self addMessageToDataSource:message progress:nil];
@@ -2030,6 +2035,7 @@ typedef enum : NSUInteger {
 }
 
 - (void)sendFileMessageWith:(EMMessage *)message {
+    NSLog(@"from==>%@to==>%@",message.from,message.to);
     [self _sendMessage:message isNeedUploadFile:YES];
 }
 

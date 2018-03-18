@@ -16,7 +16,7 @@
 @end
 
 
-static NSString *url = @"https://www.baidu.com";
+static NSString *url = @"https://bside.37du.xin/about";
 
 @implementation AboutUsViewController
 

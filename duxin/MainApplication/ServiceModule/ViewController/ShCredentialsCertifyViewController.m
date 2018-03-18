@@ -44,7 +44,6 @@
     [self.navView.middleBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.navView.leftBtn setImage:[UIImage imageNamed:Image(@"whiteLeftArrow")] forState:UIControlStateNormal];
     [self.navView.rightBtn setImage:[UIImage imageNamed:Image(@"consultantShare")] forState:UIControlStateNormal];
-    self.navView.backBlock();
     [self.navView.middleBtn.titleLabel setFont:FONT_20];
     
 }
@@ -55,7 +54,9 @@
     self.scrollView = [[UIScrollView alloc] init];
     self.scrollView.showsVerticalScrollIndicator = FALSE;
     self.scrollView.showsHorizontalScrollIndicator = FALSE;
-    self.scrollView.contentSize = CGSizeMake(SIZE.width ,SIZE.height +100);
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        self.scrollView.contentSize = CGSizeMake(0, SIZE.height+100);
+    });
     self.scrollView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.scrollView];
     [self.scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -181,7 +182,7 @@
     }];
     
     self.labelRefund = [[UILabel alloc] init];
-    self.labelRefund.text = @"交易资金平台监督，若专家违约，由37度心给予现金赔付，保障每一位用户权益";
+    self.labelRefund.text = @"如对咨询效果不满意，可直接联系客服申请退款，一经审核全额退款";
     self.labelRefund.font = FONT_13;
     self.labelRefund.textColor = Color_1F1F1F;
     self.labelRefund.numberOfLines = 0;
@@ -210,7 +211,7 @@
     }];
     
     self.phoneNumBtn =[UIButton buttonWithType:UIButtonTypeCustom];
-    [self.phoneNumBtn setTitle:@"400-123-1234" forState:UIControlStateNormal];
+    [self.phoneNumBtn setTitle:SERVICENUMBER forState:UIControlStateNormal];
     [self.phoneNumBtn setTitleColor:Color_5DCBF5 forState:UIControlStateNormal];
     self.phoneNumBtn.titleLabel.font = FONT_13;
     [self.phoneNumBtn addTarget:self action:@selector(phoneNumBtnClick) forControlEvents:UIControlEventTouchUpInside];
@@ -222,7 +223,7 @@
     }];
     
     self.timeLabel= [[UILabel alloc] init];
-    self.timeLabel.text = @"早8:00 - 凌晨2:00";
+    self.timeLabel.text = @"早9:00 - 凌晨24:00";
     self.timeLabel.font = FONT_13;
     self.timeLabel.textColor = Color_1F1F1F;
     [self.scrollView addSubview:self.timeLabel];
@@ -250,11 +251,16 @@
 -(void)phoneNumBtnClick
 {
     
-    NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"tel:%@",@"400-123-1234"];
+    NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"tel:%@",SERVICENUMBER];
     UIWebView * callWebview = [[UIWebView alloc] init];
     [callWebview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:str]]];
     [self.view addSubview:callWebview];
  
+}
+
+-(void)backTo{
+    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

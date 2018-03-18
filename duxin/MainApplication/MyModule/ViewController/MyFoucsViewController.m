@@ -45,32 +45,35 @@
                        });
 
                    }else{
-
-                       [self errorWarning];
+                       
+                       dispatch_async(dispatch_get_main_queue(), ^{
+                           [_tableView.mj_header endRefreshing];
+                       });
+                     
 
                    }
                }
                else
                {
-                   [self errorWarning];
+                   [self errorWarning:@"获取关注咨询师失败!"];
                }
 
            });
 
 
     } fail:^(id error) {
-        [self errorWarning];
+        [self errorWarning:@"获取关注咨询师失败!"];
     }];
 
 
 
 }
 
--(void)errorWarning{
+-(void)errorWarning:(NSString *)errorString{
     
     dispatch_async(dispatch_get_main_queue(), ^{
       
-        [SVHUD showErrorWithDelay:@"获取关注咨询师失败!" time:0.8f];
+        [SVHUD showErrorWithDelay:errorString time:0.8f];
         
     });
     
@@ -114,6 +117,23 @@
     _tableView.estimatedSectionHeaderHeight = 0;
     _tableView.estimatedSectionFooterHeight = 0;
     [self.view addSubview:_tableView];
+    [self customView];
+}
+
+-(void)customView{
+    //初始化一个emptyView
+    LYEmptyView *emptyView = [LYEmptyView emptyActionViewWithImageStr:Image(@"nonData")
+                                                             titleStr:@"无数据"
+                                                            detailStr:@""
+                                                          btnTitleStr:@""
+                                                        btnClickBlock:^{}];
+    //元素竖直方向的间距
+    emptyView.contentViewY = 70.0f;
+    emptyView.titleLabTextColor = Color_BABABA;
+    emptyView.titleLabFont = FONT_13;
+    //设置空内容占位图
+    _tableView.ly_emptyView = emptyView;
+    
 }
 
 
@@ -151,8 +171,9 @@
     
     ConsultingModel *model = _dataArray[indexPath.row];
     ShConsultantDetailInfoViewController *vc = [ShConsultantDetailInfoViewController new];
+    NSLog(@"%@",model.toUserid);
+    vc.strID = [NSString stringWithFormat:@"%@",model.toUserid];
     vc.hidesBottomBarWhenPushed = YES;
-    vc.conslutingID = model.toUserid;
     [self.navigationController pushViewController:vc animated:YES];
     
 }

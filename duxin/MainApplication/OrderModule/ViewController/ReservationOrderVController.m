@@ -11,6 +11,9 @@
 #import "ReservatingCell.h"
 #import "CommentViewController.h"
 #import "ViewCommentViewController.h"
+#import "PaymentViewController.h"
+#import "WatingForPayCell.h"
+#import "WaitingForComment.h"
 
 
 @interface ReservationOrderVController ()<UITableViewDelegate,UITableViewDataSource>
@@ -44,10 +47,10 @@
 -(void)initUI{
     
     self.view.backgroundColor = [UIColor whiteColor];
-    [self.navView setBackStytle:@"预约订单" rightImage:@"whiteLeftArrow"];
+    [self.navView setBackStytle:@"初次咨询" rightImage:@"whiteLeftArrow"];
 
     __weak typeof(self) weakSelf = self;
-    _titleView = [[OrderTitleView alloc] initWithFrame:CGRectMake(0, h(self.navView), SIZE.width, 50) withArray:@[@"全部",@"待支付",@"待评价",@"已支付"]];
+    _titleView = [[OrderTitleView alloc] initWithFrame:CGRectMake(0, h(self.navView), SIZE.width, 50) withArray:@[@"全部",@"待支付",@"待评价",@"已完成"]];
     _titleView.indexBlock = ^(NSInteger index) {
         [weakSelf selectedIndex:index];
     };
@@ -106,7 +109,8 @@
     if (orderStatus == AllOrder) {
         [dic setObject:@"" forKey:@"status"];
     }
-    else{
+    else
+    {
         [dic setObject:[NSString stringWithFormat:@"%d",(int)orderStatus] forKey:@"status"];
     }
     [dic setObject:[NSString stringWithFormat:@"%d",(int)_page] forKey:@"page"];
@@ -223,23 +227,154 @@
 {
     
     OrderModel *model = _dataArray[indexPath.section];
-    static NSString *waitingForPayID = @"GeneralCellID";
-    NSInteger orderStatus = [model.orderStatus integerValue];
-    ReservatingCell *cell = [tableView dequeueReusableCellWithIdentifier:waitingForPayID];
-    if (cell == nil) {
-        cell = [[ReservatingCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:waitingForPayID];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    if ([model.orderStatus integerValue] == 0) {
+        
+        static NSString *waitingForPayID0 = @"GeneralCellID0";
+        NSInteger orderStatus = [model.orderStatus integerValue];
+        WatingForPayCell *cell = [tableView dequeueReusableCellWithIdentifier:waitingForPayID0];
+        if (cell == nil) {
+            cell = [[WatingForPayCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:waitingForPayID0];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+        cell.tag = indexPath.section;
+        [cell setCellStytle:orderStatus];
+        [cell fetchData:model];
+        cell.cancelBlock = ^(NSInteger tag) {
+            [self cancelAction:tag];
+        };
+        cell.generalBlock = ^(NSInteger tag) {
+            NSLog(@"orderType==>%@",model.orderType);
+            [self gotoPayment:model];
+        };
+        return cell;
     }
-    cell.tag = indexPath.section;
-    [cell setCellStytle:orderStatus];
-    [cell fetchData:model];
-    cell.cancelBlock = ^(NSInteger tag) {
-        [self cancelAction:tag];
-    };
-    cell.generalBlock = ^(NSInteger tag) {
-        [self generalAction:tag];
-    };
-    return cell;
+    else
+    if ([model.orderStatus integerValue] == 1) {
+        
+        
+        static NSString *waitingForPayID1 = @"GeneralCellID1";
+        NSInteger orderStatus = [model.orderStatus integerValue];
+        ReservatingCell *cell = [tableView dequeueReusableCellWithIdentifier:waitingForPayID1];
+        if (cell == nil) {
+            cell = [[ReservatingCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:waitingForPayID1];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+        cell.tag = indexPath.section;
+        [cell setCellStytle:orderStatus];
+        [cell fetchData:model];
+        cell.cancelBlock = ^(NSInteger tag) {
+           
+        };
+        cell.generalBlock = ^(NSInteger tag) {
+            OrderModel *model = _dataArray[tag];
+            [self goToPaymentChat:model];
+        
+        };
+        return cell;
+    
+    }
+    else
+        if ([model.orderStatus integerValue] ==2) {
+            
+            
+            static NSString *waitingForPayID2 = @"GeneralCellID2";
+            NSInteger orderStatus = [model.orderStatus integerValue];
+            WaitingForComment *cell = [tableView dequeueReusableCellWithIdentifier:waitingForPayID2];
+            if (cell == nil) {
+                cell = [[WaitingForComment alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:waitingForPayID2];
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            }
+            cell.tag = indexPath.section;
+            [cell setCellStytle:orderStatus];
+            [cell fetchData:model];
+            cell.cancelBlock = ^(NSInteger tag) {
+                [self cancelAction:tag];
+            };
+            cell.generalBlock = ^(NSInteger tag) {
+                OrderModel *model = _dataArray[tag];
+                NSLog(@"orderType==>%@",model.orderType);
+                [self goToComment:model.orderId];
+            };
+            return cell;
+        }
+        else if([model.orderStatus integerValue] ==3){
+            
+            static NSString *waitingForPayID3 = @"GeneralCellID3";
+            NSInteger orderStatus = [model.orderStatus integerValue];
+            ReservatingCell *cell = [tableView dequeueReusableCellWithIdentifier:waitingForPayID3];
+            if (cell == nil) {
+                cell = [[ReservatingCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:waitingForPayID3];
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            }
+            cell.tag = indexPath.section;
+            [cell setCellStytle:orderStatus];
+            [cell fetchData:model];
+            cell.cancelBlock = ^(NSInteger tag) {
+                [self cancelAction:tag];
+            };
+            cell.generalBlock = ^(NSInteger tag) {
+                OrderModel *model = _dataArray[tag];
+                [self gotoPayment:model];
+            };
+            return cell;
+            
+            
+        }
+        else if([model.orderStatus integerValue] == 4){
+            
+            static NSString *waitingForPayID4 = @"GeneralCellID4";
+            NSInteger orderStatus = [model.orderStatus integerValue];
+            ReservatingCell *cell = [tableView dequeueReusableCellWithIdentifier:waitingForPayID4];
+            if (cell == nil) {
+                cell = [[ReservatingCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:waitingForPayID4];
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            }
+            cell.tag = indexPath.section;
+            [cell setCellStytle:orderStatus];
+            [cell fetchData:model];
+            cell.cancelBlock = ^(NSInteger tag) {
+                [self cancelAction:tag];
+            };
+            cell.generalBlock = ^(NSInteger tag) {
+                OrderModel *model = _dataArray[tag];
+                NSLog(@"orderType==>%@",model.orderType);
+                [self generalAction:tag];
+            };
+            return cell;
+            
+            
+            
+        }
+        else if([model.orderStatus integerValue] ==5){
+            
+            static NSString *waitingForPayID5 = @"GeneralCellID5";
+            NSInteger orderStatus = [model.orderStatus integerValue];
+            ReservatingCell *cell = [tableView dequeueReusableCellWithIdentifier:waitingForPayID5];
+            if (cell == nil) {
+                cell = [[ReservatingCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:waitingForPayID5];
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            }
+            cell.tag = indexPath.section;
+            [cell setCellStytle:orderStatus];
+            [cell fetchData:model];
+            cell.cancelBlock = ^(NSInteger tag) {
+                [self cancelAction:tag];
+            };
+            cell.generalBlock = ^(NSInteger tag) {
+                OrderModel *model = _dataArray[tag];
+                NSLog(@"orderType==>%@",model.orderType);
+                [self generalAction:tag];
+            };
+            return cell;
+            
+            
+        }
+        else{
+            return nil;
+            
+        }
+
 }
 
 
@@ -261,10 +396,9 @@
 -(void)generalAction:(NSUInteger)tag{
     OrderModel *model = _dataArray[tag];
     switch ([model.orderStatus integerValue]) {
-        case WatingForOrderPay:
+        case 0:
         {
-            //支付界面
-            
+            [self gotoPayment:model];
         }
             break;
         case WatingForConsulting:
@@ -322,7 +456,36 @@
     ViewCommentViewController *vc = [[ViewCommentViewController alloc] init];
     vc.hidesBottomBarWhenPushed = YES;
     vc.orderId = orderId;
+    vc.isReervation = YES;
     [self.navigationController pushViewController:vc animated:YES];
+    
+}
+
+-(void)gotoPayment:(OrderModel *)model
+{
+    PaymentViewController *vc = [[PaymentViewController alloc] init];
+    vc.title = model.packageTitle;
+    vc.orderId = model.orderId;
+    vc.orderPrice = model.orderPrice;
+    vc.orderDetail  = model.packageSerContent;
+    vc.iSCreated = YES;
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController  pushViewController:vc animated:YES];
+    
+}
+
+-(void)goToPaymentChat:(OrderModel *)model{
+    
+    if (FetchToken != nil) {
+        [[EMClient sharedClient] loginWithUsername:FetchEMUsername password:FetchEMPassword];
+    }
+    
+    CacheChatReceiverAdvatar(model.emChatterAvatar);
+    ChatWithPaymentVC *vc = [[ChatWithPaymentVC alloc] initWithConversationChatter:model.emChatterUserName  conversationType:EMConversationTypeChat];
+    vc.friendNickName = model.consultantName;
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+    
     
 }
 

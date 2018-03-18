@@ -138,6 +138,17 @@
         
         }
             break;
+        case 1:
+        {
+            _cancelOrderBtn.hidden = YES;
+            _orderTypeLab.text = @"待咨询";
+            [_wiatingPayBtn setTitle:@"去咨询" forState:UIControlStateNormal];
+            UIColor *color = Color_5ECAF7;
+            [_wiatingPayBtn.layer setBorderColor:color.CGColor];
+            [_wiatingPayBtn setTitleColor:Color_5ECAF7 forState:UIControlStateNormal];
+            
+        }
+            break;
         case 2:
         {
             _cancelOrderBtn.hidden = YES;
@@ -192,21 +203,21 @@
 -(void)fetchData:(OrderModel *)model{
     
     _nameLab.text = model.consultantName;
-    _nameLab.backgroundColor = [UIColor whiteColor];
+    _nameLab.backgroundColor = [UIColor clearColor];
     
     _packageTitle.text = model.packageTitle;
-    _packageTitle.backgroundColor = [UIColor whiteColor];
+    _packageTitle.backgroundColor = [UIColor clearColor];
     
     _packageCount.text = model.packageSinglePrice;
     _packageCount.frame = CGRectMake(x(_packageCount), y(_packageCount),[ZSize sizeWidth:_packageCount], h(_packageCount));
-    _packageCount.backgroundColor = [UIColor whiteColor];
+    _packageCount.backgroundColor = [UIColor clearColor];
     
-    _packageDetail.text = [NSString stringWithFormat:@"/次 (%@小时) , %@次",model.packageSerHours,model.packageSerTimes];
+    _packageDetail.text = [NSString stringWithFormat:@"/次 (%@分钟) , %@次",model.packageSerHours,model.packageSerTimes];
     _packageDetail.frame = CGRectMake(left(_packageCount),y(_packageDetail), [ZSize sizeWidth:_packageDetail], h(_packageDetail));
-    _packageDetail.backgroundColor = [UIColor whiteColor];
+    _packageDetail.backgroundColor = [UIColor clearColor];
     
-    _packagePaymentLab.text = [NSString stringWithFormat:@"共%@次服务 合计:%@元",model.packageSerTimes,model.packageSinglePrice];
-    _packagePaymentLab.backgroundColor = [UIColor whiteColor];
+    _packagePaymentLab.text = [NSString stringWithFormat:@"共%@次服务 合计:%@元",model.packageSerTimes,model.orderPrice];
+    _packagePaymentLab.backgroundColor = [UIColor clearColor];
     
 }
 

@@ -49,8 +49,7 @@
     self.view.backgroundColor = [UIColor clearColor];
     [self.navView.middleBtn setTitle:@"全部评价" forState:UIControlStateNormal];
     [self.navView.middleBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-     [self.navView.leftBtn setImage:[UIImage imageNamed:Image(@"whiteLeftArrow")] forState:UIControlStateNormal];
-    self.navView.backBlock();
+    [self.navView.leftBtn setImage:[UIImage imageNamed:Image(@"whiteLeftArrow")] forState:UIControlStateNormal];
     [self.navView.middleBtn.titleLabel setFont:FONT_20];
 
 }
@@ -72,11 +71,30 @@
     }];
     self.commentTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [self getCommentsData:YES];
+        [self getComment:YES];
     }];
     self.commentTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         [self getCommentsData:NO];
+        [self getComment:NO];
     }];
     [self.commentTableView.mj_header beginRefreshing];
+    [self customView];
+}
+
+-(void)customView{
+    //初始化一个emptyView
+    LYEmptyView *emptyView = [LYEmptyView emptyActionViewWithImageStr:Image(@"nonData")
+                                                             titleStr:@"无数据"
+                                                            detailStr:@""
+                                                          btnTitleStr:@""
+                                                        btnClickBlock:^{}];
+    //元素竖直方向的间距
+    emptyView.contentViewY = 70.0f;
+    emptyView.titleLabTextColor = Color_BABABA;
+    emptyView.titleLabFont = FONT_13;
+    //设置空内容占位图
+    self.commentTableView.ly_emptyView = emptyView;
+    
 }
 
 #pragma mark --UITabBarDelegate && UITableViewDataSource--
@@ -128,6 +146,25 @@
     
 }
 
+-(void)getComment:(BOOL)isHeader{
+    HttpsManager *httpsManager = [[HttpsManager alloc] init];
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+    [dic setObject:self.strID forKey:@"id"];
+    if (isHeader == YES) {
+        [dic setObject:[NSString stringWithFormat:@"%zd",self.pageNum] forKey:@"page"];
+    }else{
+        [dic setObject:[NSString stringWithFormat:@"%zd",self.pageNum + 1] forKey:@"page"];
+    }
+    [dic setObject:@"10" forKey:@"limit"];
+    NSString *urlString = [NSString stringWithFormat:@"%@%@",FetchConsultantComment,self.strID];
+    [httpsManager getServerAPI:urlString deliveryDic:dic successful:^(id responseObject) {
+        NSLog(@"responseObject==>%@",responseObject);
+    } fail:^(id error) {
+        
+    }];
+    
+}
+
 #pragma mark --get comment data--
 -(void)getCommentsData:(BOOL)isHeader
 {
@@ -139,8 +176,9 @@
         [dic setObject:[NSString stringWithFormat:@"%zd",self.pageNum + 1] forKey:@"pageNum"];
     }
     [dic setObject:@"10" forKey:@"limit"];
+    NSString *urlString = [NSString stringWithFormat:@"%@%@",FetchConsultantComment,self.strID];
     @weakify(self)
-    [[LKProtocolNetworkEngine sharedInstance] protocolWithUrl:FetchConsultantComment
+    [[LKProtocolNetworkEngine sharedInstance] protocolWithUrl:urlString
         requestDictionary:dic
          responseModelCls:[ShConsultantCommentModel class]
         completionHandler:^(LMModel *response,SHModel *responseC, NSError *error) {
@@ -171,9 +209,10 @@
                 [self.commentTableView reloadData];
                 
             }else{
-                [self.commentTableView.mj_footer endRefreshing];
-
-                [SVProgressHUD showErrorWithStatus:responseC.msg];
+                
+                isHeader == YES?[self.commentTableView.mj_header endRefreshing]:[self.commentTableView.mj_footer endRefreshing];
+             
+                
             }
         }];
 }

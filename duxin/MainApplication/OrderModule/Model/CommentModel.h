@@ -23,4 +23,5 @@
 @property(nonatomic,assign)CGFloat footerHeight;
 
 +(NSArray *)transferCommentModels:(NSArray *)array;
++(NSArray *)transferAllCommentModels:(NSArray *)array;
 @end

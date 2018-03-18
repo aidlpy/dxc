@@ -22,6 +22,7 @@ extern NSString *const EaseMessageCellIdentifierSendFile;
 @interface EaseBaseMessageCell : EaseMessageCell
 {
     UILabel *_nameLabel;
+
 }
 
 /*
@@ -53,5 +54,8 @@ extern NSString *const EaseMessageCellIdentifierSendFile;
  *  昵称是否显示
  */
 @property (nonatomic) BOOL messageNameIsHidden UI_APPEARANCE_SELECTOR; //default NO;
+
+@property (nonatomic,copy) NSString *receiverImageString;
+@property (nonatomic,copy) NSString *senderImageString;
 
 @end

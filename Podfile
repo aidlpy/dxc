@@ -12,11 +12,10 @@ target 'duxin' do
   pod 'MJExtension', '~> 3.0.13'
   pod 'Masonry'
   pod 'LYEmptyView'
-
- 
+  pod 'GrowingIO', '~> 2.1.2'
+  pod 'Bugtags'
 
   # Pods for duxin
-
   target 'duxinTests' do
     inherit! :search_paths
     # Pods for testing

@@ -46,7 +46,6 @@
     [self.navView.middleBtn setTitle:@"我的收藏" forState:UIControlStateNormal];
     [self.navView.middleBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.navView.leftBtn setImage:[UIImage imageNamed:Image(@"whiteLeftArrow")] forState:UIControlStateNormal];
-    self.navView.backBlock();
     [self.navView.middleBtn.titleLabel setFont:FONT_20];
     
 }
@@ -126,7 +125,7 @@
     [dic setObject:@"10" forKey:@"limit"];
     @weakify(self)
     [[ShProtocolNetworkEngine sharedInstance] protocolWithRequestMethod:REQUEST_METHOD_POST
-             requestUrl:FetchUnFollowConsultant
+             requestUrl:FetchMyCollection
            requestModel:dic
        responseModelCls:[ShCollectModel class]
       completionHandler:^(LMModel *response, NSError *error) {
@@ -164,10 +163,10 @@
       }];
 }
 
-//-(void)backTo{
-//
-//    [self.navigationController popViewControllerAnimated:YES];
-//}
+-(void)backTo{
+
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 
 - (void)didReceiveMemoryWarning {

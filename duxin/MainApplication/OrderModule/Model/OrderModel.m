@@ -24,7 +24,10 @@
         model.orderCid =  [dic objectForKey:@"cid"];
         model.orderStatus  =  [dic objectForKey:@"consultation_status"];
         model.orderReservationId = [dic objectForKey:@"reservation_order_id"];
-        model.orderCsId = [dic objectForKey:@"cs_id"];
+    
+        if (![[dic objectForKey:@"cs_id"] isEqual:[NSNull null]]) {
+            model.orderCsId = [dic objectForKey:@"cs_id"];
+        }
         model.orderPrice = [dic objectForKey:@"price"];
         model.orderType = [dic objectForKey:@"type"];
         model.orderStatus = [dic objectForKey:@"status"];
@@ -36,13 +39,22 @@
         model.consultantName = [consultantProfileDic objectForKey:@"name"];
         model.consultantCid = [consultantProfileDic objectForKey:@"cid"];
         
-        NSDictionary *packageDic = [dic objectForKey:@"package"];
-        model.packageTitle = [packageDic objectForKey:@"title"];
-        model.packageSerContent = [packageDic objectForKey:@"service_content"];
-        model.packageSerTimes = [packageDic objectForKey:@"service_times"];
-        model.packageSerHours = [packageDic objectForKey:@"service_hours"];
-        model.packageSerType = [packageDic objectForKey:@"service_type"];
-        model.packageSinglePrice = [packageDic objectForKey:@"single_price"];
+        if (![[dic objectForKey:@"package"] isEqual:[NSNull null]]) {
+            NSDictionary *packageDic = [dic objectForKey:@"package"];
+            model.packageTitle = [packageDic objectForKey:@"title"];
+            model.packageSerContent = [packageDic objectForKey:@"service_content"];
+            model.packageSerTimes = [packageDic objectForKey:@"service_times"];
+            model.packageSerHours = [packageDic objectForKey:@"service_hours"];
+            model.packageSerType = [packageDic objectForKey:@"service_type"];
+            model.packageSinglePrice = [packageDic objectForKey:@"single_price"];
+        }
+       
+        NSDictionary *userC = [dic objectForKey:@"userC"];
+        if (userC) {
+            model.emChatterAvatar = [userC objectForKey:@"avatar"];
+            model.emChatterUserName = [userC objectForKey:@"emchart_username"];
+        }
+        
         
         [pocketArray addObject:model];
         

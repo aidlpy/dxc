@@ -7,6 +7,7 @@
 //
 
 #import "FogotPsViewController.h"
+#import "DelegateViewController.h"
 #import "LoginView.h"
 
 @interface FogotPsViewController ()
@@ -14,6 +15,9 @@
     NSArray *_dataArray;
     NSMutableArray *_loginViewArray;
     UIButton *_confirmBtn;
+    UIButton *_selectingBtn;
+    UIButton *_delegateBtn;
+    BOOL _isSeledted;
     
 }
 
@@ -24,15 +28,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        [self initData];
-    });
-    [self initUI];
+     dispatch_async(dispatch_get_global_queue(0, 0), ^{
+         [self initData];
+         dispatch_async(dispatch_get_main_queue(), ^{
+              [self initUI];
+         });
+     });
+   
 }
 
 
 -(void)initData{
-    
+    _isSeledted = YES;
     _dataArray = @[@{@"logo":@"mobileLogo",@"placeHolder":@"请输入手机号"},@{@"logo":@"codeLogo",@"placeHolder":@"请输入验证码"},@{@"logo":@"passwordLogo",@"placeHolder":@"请输入密码"}];
     _loginViewArray = [[NSMutableArray alloc] initWithCapacity:0];
     
@@ -51,17 +58,17 @@
         
         LoginView *loginView = [[LoginView alloc] initWithFrame:CGRectMake(0, h(self.navView)+pedding+idx*viewHeight, SIZE.width, viewHeight)];
         [loginView setLogoImageView:dic[@"logo"] setPlaceHolder:dic[@"placeHolder"]];
-        if (idx == 1) {
-            loginView.codeBtn.hidden = NO;
-        }
-        
+
         if (idx == 0)
         {
             loginView.textField.keyboardType =UIKeyboardTypePhonePad;
+            loginView.textField.text = FetchUsername;
+            loginView.textField.enabled = false;
         }
         else
             if (idx == 1)
             {
+                loginView.codeBtn.hidden = NO;
                 loginView.textField.keyboardType =UIKeyboardTypeNumberPad;
             }
             else
@@ -69,6 +76,9 @@
                 loginView.textField.keyboardType = UIKeyboardTypeDefault;
             }
         
+        if (idx == 2) {
+            loginView.textField.secureTextEntry = YES;
+        }
         
         loginView.codeBlock = ^(JKCountDownButton *sender) {
             [self fetchCode:sender];
@@ -78,6 +88,7 @@
         [_loginViewArray addObject:loginView];
         
     }];
+
     
     _confirmBtn = [[UIButton alloc] initWithFrame:CGRectMake(35, bottom(_loginViewArray.lastObject)+48,SIZE.width-70,40)];
     _confirmBtn.backgroundColor = Color_5ECAF5;
@@ -86,6 +97,21 @@
     [_confirmBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_confirmBtn addTarget:self action:@selector(confirmAciton:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_confirmBtn];
+    
+}
+
+-(void)pushDelegate:(UIButton *)sender{
+    
+    DelegateViewController *vc = [[DelegateViewController  alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+    
+}
+
+-(void)clickChoice{
+    
+    _isSeledted = !_isSeledted;
+    [_selectingBtn setImage:[UIImage imageNamed:_isSeledted?Image(@"choice"):Image(@"default")] forState:UIControlStateNormal];
     
 }
 
@@ -183,7 +209,7 @@
 
 
 -(void)confirmAciton:(UIButton *)btn{
-    
+    [SVProgressHUD show];
     NSString *mobileString  = ((LoginView *)(_loginViewArray[0])).textField.text;
     NSString *codeString = ((LoginView *)(_loginViewArray[1])).textField.text;
     NSString *passwordString =((LoginView *)(_loginViewArray[2])).textField.text;
@@ -223,7 +249,7 @@
     [dic setObject:((LoginView *)(_loginViewArray[0])).textField.text forKey:@"username"];
     [dic setObject:((LoginView *)(_loginViewArray[2])).textField.text forKey:[FetchLoginState isEqualToString:LOGINSUCCESS]?@"new_password":@"password"];
     [dic setObject:((LoginView *)(_loginViewArray[1])).textField.text forKey:@"code"];
-    [httpsManager postServerAPI:[FetchLoginState isEqualToString:LOGINSUCCESS]?PostMobileCodeForPS:PostMobileCodeForPSUnLogin deliveryDic:dic successful:^(id responseObject) {
+    [httpsManager postServerAPI:[FetchLoginState isEqualToString:LOGINSUCCESS]?PostMobileCodeForPSLogin:PostMobileCodeForPS deliveryDic:dic successful:^(id responseObject) {
         
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             NSDictionary *dic = (NSDictionary *)responseObject;
@@ -232,7 +258,10 @@
             {
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [SVHUD showSuccessWithDelay:@"修改密码成功！" time:0.8];
+    
+                    [SVHUD showSuccessWithDelay:@"修改密码成功！" time:0.8f blockAction:^{
+                        [self.navigationController popViewControllerAnimated:YES];
+                    }];
                 });
                 
             }

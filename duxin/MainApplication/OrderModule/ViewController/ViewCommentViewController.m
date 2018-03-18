@@ -61,7 +61,14 @@
 {
     HttpsManager *httpsManager = [[HttpsManager alloc] init];
     NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithCapacity:0];
-    NSString *urlString = [NSString stringWithFormat:@"%@%@",FetchOrderComments,_orderId];
+    __block NSString *urlString = @"";
+    if (_isReervation) {
+        urlString = [NSString stringWithFormat:@"%@%@",FetchReOrderComments,_orderId];
+    }
+    else{
+        urlString = [NSString stringWithFormat:@"%@%@",FetchOrderComments,_orderId];
+    }
+    
     [httpsManager getServerAPI:urlString deliveryDic:dic successful:^(id responseObject) {
        
           dispatch_async(dispatch_get_global_queue(0, 0), ^{
@@ -69,22 +76,49 @@
             if ([[responseObject objectForKey:@"code"] integerValue] ==200) {
                 
                 NSDictionary *dataDic = [responseObject objectForKey:@"data"];
-                NSArray *commentArray = [dataDic objectForKey:@"result"];
-                if ([[dataDic objectForKey:@"error_code"] integerValue] == 0) {
-                    NSArray *modelArray = [CommentModel transferCommentModels:commentArray];
-                    [_dataArray removeAllObjects];
-                    [_dataArray addObjectsFromArray:modelArray];
+                
+                if (_isReervation) {
                     
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [_tableView reloadData];
-                        [_tableView.mj_header endRefreshing];
-                    });
-                  
+                    NSDictionary *dic = [dataDic objectForKey:@"result"];
+                    if ([[dataDic objectForKey:@"error_code"] integerValue] == 0) {
+                        NSArray *array =@[dic];
+                        NSArray *modelArray = [CommentModel transferCommentModels:array];
+                        [_dataArray removeAllObjects];
+                        [_dataArray addObjectsFromArray:modelArray];
+                        
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [_tableView reloadData];
+                            [_tableView.mj_header endRefreshing];
+                        });
+                        
+                    }
+                    else
+                    {
+                        [self errorWaring];
+                    }
+                    
                 }
                 else
                 {
-                  [self errorWaring];
+                    NSArray *commentArray = [dataDic objectForKey:@"result"];
+                    if ([[dataDic objectForKey:@"error_code"] integerValue] == 0) {
+                        NSArray *modelArray = [CommentModel transferCommentModels:commentArray];
+                        [_dataArray removeAllObjects];
+                        [_dataArray addObjectsFromArray:modelArray];
+                        
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [_tableView reloadData];
+                            [_tableView.mj_header endRefreshing];
+                        });
+                        
+                    }
+                    else
+                    {
+                        [self errorWaring];
+                    }
+                    
                 }
+          
             }
             else
             {
@@ -145,7 +179,7 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     cell.tag = indexPath.section;
-    [cell fillInCellFooter:_dataArray[indexPath.section]];
+    [cell fillInCellFooter:_dataArray[indexPath.section] isReveration:_isReervation];
 
     return cell;
 }

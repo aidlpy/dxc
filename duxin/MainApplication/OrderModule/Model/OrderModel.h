@@ -19,6 +19,9 @@
 @property(nonatomic,assign)BOOL orderIsReservation;//服务类型(0:预约服务,1:咨询服务)
 @property(nonatomic,assign)BOOL orderIsInitiative;//是否C端用户主动下单(0:否,1:是) ,主动下单无cs_id(客服ID)
 
+@property(nonatomic,copy)NSString *emChatterAvatar;
+@property(nonatomic,copy)NSString *emChatterUserName;
+
 
  +(NSArray *)fetchOrderModels:(NSArray *)itemsArray;//获取订单model
 

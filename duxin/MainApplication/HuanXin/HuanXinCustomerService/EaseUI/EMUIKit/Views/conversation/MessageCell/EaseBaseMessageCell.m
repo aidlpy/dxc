@@ -33,6 +33,8 @@
 @implementation EaseBaseMessageCell
 
 @synthesize nameLabel = _nameLabel;
+@synthesize receiverImageString = _receiverImageString;
+@synthesize senderImageString =_senderImageString;
 
 + (void)initialize
 {
@@ -40,7 +42,7 @@
     EaseBaseMessageCell *cell = [self appearance];
     cell.avatarSize = 30;
     cell.avatarCornerRadius = 0;
-    
+ 
     cell.messageNameColor = [UIColor grayColor];
     cell.messageNameFont = [UIFont systemFontOfSize:10];
     cell.messageNameHeight = 15;
@@ -71,6 +73,9 @@
         if ([UIDevice currentDevice].systemVersion.floatValue == 7.0) {
             self.messageNameHeight = 15;
         }
+        
+        _receiverImageString = FetchChatReceiverAdvatar;
+        _senderImageString = FetchUserHeaderImage;
     }
     
     return self;
@@ -80,6 +85,9 @@
 {
     [super layoutSubviews];
     _bubbleView.backgroundImageView.image = self.model.isSender ? self.sendBubbleBackgroundImage : self.recvBubbleBackgroundImage;
+    [self.avatarView sd_setImageWithURL:[NSURL URLWithString:self.model.isSender?_senderImageString:_receiverImageString]];
+    self.bubbleView.textLabel.textColor = self.model.isSender? [UIColor whiteColor]:Color_1F1F1F;
+    self.bubbleView.textLabel.font = [UIFont systemFontOfSize:15.0f];
     switch (self.model.bodyType) {
         case EMMessageBodyTypeText:
         {

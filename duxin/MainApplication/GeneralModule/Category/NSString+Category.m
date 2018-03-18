@@ -25,6 +25,38 @@
     return dateString;
 }
 
+-(NSString *)timeWithTimeIntervalFullString
+{
+    // 格式化时间
+    NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
+    formatter.timeZone = [NSTimeZone timeZoneWithName:@"shanghai"];
+    [formatter setDateStyle:NSDateFormatterMediumStyle];
+    [formatter setTimeStyle:NSDateFormatterShortStyle];
+    [formatter setDateFormat:@"yyyy/MM/dd HH:mm:ss"];
+    
+    //    // 毫秒值转化为秒
+    //    NSDate* date = [NSDate dateWithTimeIntervalSince1970:[timeString doubleValue]/ 1000.0];
+    NSDate* date = [NSDate dateWithTimeIntervalSince1970:[self doubleValue]];
+    NSString* dateString = [formatter stringFromDate:date];
+    return dateString;
+}
+
+-(NSString *)timeWithTimeIntervalFullStringWithHizon
+{
+    // 格式化时间
+    NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
+    formatter.timeZone = [NSTimeZone timeZoneWithName:@"shanghai"];
+    [formatter setDateStyle:NSDateFormatterMediumStyle];
+    [formatter setTimeStyle:NSDateFormatterShortStyle];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    
+    //    // 毫秒值转化为秒
+    //    NSDate* date = [NSDate dateWithTimeIntervalSince1970:[timeString doubleValue]/ 1000.0];
+    NSDate* date = [NSDate dateWithTimeIntervalSince1970:[self doubleValue]];
+    NSString* dateString = [formatter stringFromDate:date];
+    return dateString;
+}
+
 /*!
  * @brief 把格式化的JSON格式的字符串转换成字典
  * @param jsonString JSON格式的字符串

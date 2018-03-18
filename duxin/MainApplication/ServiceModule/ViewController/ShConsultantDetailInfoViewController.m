@@ -17,7 +17,10 @@
 #import "NSString+Util.h"
 #import "ShAllCommentViewController.h"
 #import "ShCredentialsCertifyViewController.h"
-
+#import "PaymentViewController.h"
+#import "ServiceDetailViewController.h"
+#import "CustomerServiceViewController.h"
+#import "LoginViewController.h"
 
 #define HEIGHT_15 15
 #define HEIGHT_50 50
@@ -55,6 +58,8 @@
 @property (strong, nonatomic) UIButton *judgeBtn;
 @property (strong, nonatomic) UIView *introduceLine;
 @property (assign, nonatomic) BOOL hasLeft;//介绍 NO 评价 YES
+@property (assign, nonatomic) BOOL hasSpread;//五条或五条以下 NO 五条以上 YES
+
 
 
 @property (strong, nonatomic) ShConsultantInfoModel *consultantInfoModel;//咨询师详情数据
@@ -80,21 +85,16 @@
 
 @implementation ShConsultantDetailInfoViewController
 
--(void)viewWillAppear:(BOOL)animated
-{
-    self.navigationController.navigationBar.hidden = YES;
-    [UIApplication sharedApplication].statusBarStyle=UIStatusBarStyleLightContent;
-    
-    [self setStatusBarBackgroundColor:Color_5DCBF5];
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor whiteColor];
-//    self.navView.hidden = YES;
+    
+    self.navView.hidden= NO;
+    [self.navView setMj_h:Height_StatusBar];
+    
     self.hasLeft = NO;
-    self.tagArray = @[@"恋爱观念",@"情绪压力",@"个人成长"];
+    self.hasSpread = NO;
+    self.tagArray = [[NSArray alloc] init];
     self.footerHeight = 420;
     self.introduceHeight = 100;
     
@@ -107,16 +107,18 @@
     [self getConstultDetailData];
     
     [self getCommentsData];
+
     
 }
+
 
 #pragma mark --get consultant detail data--
 -(void)getConstultDetailData
 {
     NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
-    [dic setObject:self.strID forKey:@"id"];
+    NSString *urlString = [NSString stringWithFormat:@"%@%@",FetchConsultantInfo,self.strID];
     @weakify(self)
-    [[LKProtocolNetworkEngine sharedInstance] protocolWithUrl:FetchConsultantInfo
+    [[LKProtocolNetworkEngine sharedInstance] protocolWithUrl:urlString
         requestDictionary:dic
          responseModelCls:[ShConsultantInfoModel class]
         completionHandler:^(LMModel *response,SHModel *responseC, NSError *error) {
@@ -124,7 +126,7 @@
             if (response.code == 200 && responseC.error_code == 0) {
                 
                 self.consultantInfoModel = responseC.result;
-                
+    
                 self.packageArray = [ShConsultantPackageModel mj_objectArrayWithKeyValuesArray:self.consultantInfoModel.consultationPackage];
               
                 if (self.consultantInfoModel.IsFollow == YES) {
@@ -132,7 +134,11 @@
                 }else{
                     [self.attentionBtn setImage:[UIImage imageNamed:Image(@"consultantUnAttenion")] forState:UIControlStateNormal];
                 }
+                self.tagArray = [self.consultantInfoModel.consultantProfile.tags componentsSeparatedByString:@","];
                 self.introduceLabel.text = self.consultantInfoModel.introduction;
+       
+        
+              
                 
                 [self.consultTableview reloadData];
                 //计算 介绍 的高度 
@@ -150,8 +156,9 @@
     [dic setObject:self.strID forKey:@"id"];
     [dic setObject:@"1" forKey:@"pageNum"];
     [dic setObject:@"10" forKey:@"limit"];
+    NSString *urlString = [NSString stringWithFormat:@"%@%@",FetchConsultantComment,self.strID];
     @weakify(self)
-    [[LKProtocolNetworkEngine sharedInstance] protocolWithUrl:FetchConsultantComment
+    [[LKProtocolNetworkEngine sharedInstance] protocolWithUrl:urlString
         requestDictionary:dic
          responseModelCls:[ShConsultantCommentModel class]
         completionHandler:^(LMModel *response,SHModel *responseC, NSError *error) {
@@ -183,7 +190,7 @@
                 [self.footerRightTableView reloadData];
 
             }else{
-                [SVProgressHUD showWithStatus:responseC.msg];
+             
             }
         }];
 }
@@ -198,7 +205,7 @@
     self.consultTableview.separatorColor = [UIColor clearColor];
     self.consultTableview.showsVerticalScrollIndicator = FALSE;
     self.consultTableview.showsHorizontalScrollIndicator = FALSE;
-    self.consultTableview.backgroundColor = [UIColor whiteColor];
+    self.consultTableview.backgroundColor = [UIColor clearColor];
     [self.consultTableview registerClass:[ShConsultantDetailTableViewCell class] forCellReuseIdentifier:SH_CONSULTEINFO_CELL];
     [self.view addSubview:self.consultTableview];
     [self.consultTableview mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -235,8 +242,18 @@
     [self.chatBtn setImage:[UIImage imageNamed:Image(@"sonsultantChat")] forState:UIControlStateNormal];
     [self.chatBtn setImage:[UIImage imageNamed:Image(@"sonsultantChat")] forState:UIControlStateHighlighted];
     self.chatBtn.backgroundColor = Color_5DCBF5;
+    [self.chatBtn addTarget:self action:@selector(privateChat:) forControlEvents:UIControlEventTouchUpInside];
     [self.bottomView addSubview:self.chatBtn];
 
+    
+}
+
+-(void)privateChat:(UIButton *)button{
+    
+    CacheChatReceiverAdvatar(CustomServiceAdvatar);
+    CustomerServiceViewController *vc =[[CustomerServiceViewController alloc] initWithConversationChatter:EMCUSTOMERNUMBERT conversationType:EMConversationTypeChat];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
     
 }
 
@@ -256,12 +273,29 @@
         if (section == 0) {
             return 0;
         }else if (section == 1){
-            return self.packageArray.count;
+            if (self.packageArray.count>5 ) {
+                if (self.hasSpread == YES) {
+                    return self.packageArray.count;
+                }else{
+                    return 5;
+                }
+            }else{
+                return self.packageArray.count;
+            }
         }else{
             return 0;
         }
     }else{
-        return COMMENT_NUM;
+        
+        if(self.commentListArray.count >= COMMENT_NUM){
+            
+            return COMMENT_NUM;
+        }
+        else{
+            return  self.commentListArray.count;
+        }
+        
+        
     }
    
 }
@@ -363,9 +397,20 @@
     
     if (tableView.tag == 1) {
         if (section == 1) {
-            return 5;
+            if (self.packageArray.count >5) {
+                if (self.hasSpread == YES) {//点击“展开全部”之后 不显示
+                    return 5;
+                }else{
+                    return 40;
+
+                }
+            }else{
+                return 5;
+            }
+            
         }else if (section == 2)
         {
+            NSLog(@"self.footer==>%f",self.footerHeight);
             return self.footerHeight;
         }
         return 0.0001;
@@ -378,6 +423,12 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
+    ShConsultantPackageModel *model = _packageArray[indexPath.row];
+    ServiceDetailViewController *vc  = [[ServiceDetailViewController alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
+    vc.idString  = [NSString stringWithFormat:@"%ld",(long)model.id];
+    [self.navigationController pushViewController:vc animated:YES];
+    
 }
 
 -(UIView *)createHeaderView:(NSInteger)section
@@ -387,7 +438,6 @@
 
     if (section == 0) {
         headerView.frame = CGRectMake(0, 0, SIZE.width, HEIGHT_300);
-        
         self.backImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SIZE.width, headerView.frame.size.height)];
         self.backImageView.image = [UIImage imageNamed:Image(@"consultantBackImage")];
         self.backImageView.backgroundColor = Color_8BBAC4;
@@ -459,7 +509,15 @@
         self.leftTagNum.textColor = [UIColor whiteColor];
         self.leftTagNum.font = FONT_15;
         self.leftTagNum.textAlignment = NSTextAlignmentCenter;
-        self.leftTagNum.text = [NSString stringWithFormat:@"%zd",self.consultantInfoModel.praise];
+        if (self.consultantInfoModel.praise == nil)
+        {
+            self.leftTagNum.text = [NSString stringWithFormat:@"100%%"];
+        }
+        else
+        {
+           self.leftTagNum.text = [NSString stringWithFormat:@"%@",self.consultantInfoModel.praise];
+        }
+        
         [headerView addSubview:self.leftTagNum];
         
         
@@ -569,7 +627,7 @@
         
         self.judgeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         self.judgeBtn.frame = CGRectMake(self.introduceBtn.frame.size.width, HEIGHT_15, self.introduceBtn.frame.size.width, HEIGHT_45 - HEIGHT_15 * 2);
-        NSString *strjudge = [NSString stringWithFormat:@"评价(%zd)",10];
+        NSString *strjudge = [NSString stringWithFormat:@"评价(%ld)",(long)self.commentListArray.count];
         [self.judgeBtn setTitle:strjudge forState:UIControlStateNormal];
         [self.judgeBtn setTitleColor:Color_1F1F1F forState:UIControlStateNormal];
         self.judgeBtn.titleLabel.font = FONT_15;
@@ -653,7 +711,33 @@
         
     }else if (section == 1)
     {
-        footerView.frame = CGRectMake(0, 0, SIZE.width, 10);
+        if (self.packageArray.count >5) {
+            if (self.hasSpread == YES) {//点击“展开全部”之后 不显示
+                footerView.frame = CGRectMake(0, 0, SIZE.width, 5);
+            }
+            else{//没有点击“展开全部”之前 显示
+                footerView.frame = CGRectMake(0, 0, SIZE.width, 40);
+                footerView.backgroundColor = [UIColor whiteColor];
+                UIButton *moreBtn= [UIButton buttonWithType:UIButtonTypeCustom];
+                CGFloat btnWidth = 120;
+                CGFloat btnX =(SIZE.width - btnWidth)/2;
+                moreBtn.frame= CGRectMake(btnX, 5, btnWidth, 30);
+                moreBtn.titleLabel.font = FONT_15;
+                [moreBtn setTitle:@"展开全部" forState:UIControlStateNormal];
+                [moreBtn setTitleColor:Color_5DCBF5 forState:UIControlStateNormal];
+                moreBtn.layer.borderColor = Color_5DCBF5.CGColor;
+                moreBtn.layer.borderWidth = 1;
+                moreBtn.layer.cornerRadius = 2;
+                moreBtn.clipsToBounds = YES;
+                moreBtn.userInteractionEnabled = YES;
+                [moreBtn addTarget:self action:@selector(moreBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+                [footerView addSubview:moreBtn];
+                
+            }
+           
+        }else{
+            footerView.frame = CGRectMake(0, 0, SIZE.width, 5);
+        }
         footerView.backgroundColor = Color_EEEEEE;
         return footerView;
 
@@ -712,7 +796,15 @@
     ShCredentialsCertifyViewController *certifyVC = [ShCredentialsCertifyViewController new];
     certifyVC.hidesBottomBarWhenPushed = YES ;
     certifyVC.strName = self.consultantInfoModel.name;
+    certifyVC.strURL =self.consultantInfoModel.consultantProfile.qualified_cert;
     [self.navigationController pushViewController:certifyVC animated:YES];
+}
+
+#pragma mark ---more btn click action--
+-(void)moreBtnClick:(UIButton *)sender
+{
+    self.hasSpread = YES;
+    [self.consultTableview reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 #pragma mark --introduce btn click action--
@@ -743,7 +835,7 @@
 {
     ShAllCommentViewController *commentVC = [[ShAllCommentViewController alloc] init];
     commentVC.hidesBottomBarWhenPushed = YES ;
-    commentVC.strID = @"3";
+    commentVC.strID = _strID;
     [self.navigationController pushViewController:commentVC animated:YES];
     
     
@@ -755,6 +847,7 @@
     CGSize size = [self.introduceLabel suggestedSizeForWidth:SIZE.width - 20];
     self.introduceHeight = size.height;
     self.introduceLabel.frame = CGRectMake(10, 10, SIZE.width - 20, size.height);
+    self.footerHeight = self.introduceHeight +100;
     self.spreadAllBtn.hidden = YES;
     [self.consultTableview reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
 }
@@ -775,46 +868,115 @@
 #pragma mark --attention btn click action --
 -(void)attentionBtnClick
 {
-    
-    [self judgeFollow:self.consultantInfoModel.IsFollow];
-   
+    NSString *string = FetchToken;
+    if (string != nil)
+    {
+        NSLog(@"isFollow==>%ld",(long)self.consultantInfoModel.IsFollow);
+        [self judgeFollow:self.consultantInfoModel.IsFollow];
+    }
+    else
+    {
+        
+        LoginViewController *vc = [[LoginViewController alloc] init];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+        [self.navigationController presentViewController:nav animated:YES completion:nil];
+    }
 }
 
 #pragma mark --yes or no follow data--
--(void)judgeFollow:(BOOL)isFollow
-{
-    NSString *strUrl;
-    if (isFollow) {//取消关注
-        strUrl = FetchUnFollowConsultant;
-    }
-    else{//关注
-        strUrl = FetchFollowConsultant;
-    }
-    strUrl = [NSString stringWithFormat:@"%@%@",strUrl,self.strID];
+-(void)judgeFollow:(BOOL)isFollow{
+    
+        NSString *strUrl;
+        if (isFollow) {//取消关注
+            strUrl = FetchUnFollowConsultant;
+        }
+        else{//关注
+            strUrl = FetchFollowConsultant;
+        }
+        strUrl = [NSString stringWithFormat:@"%@%@",strUrl,self.strID];
+    HttpsManager *httsManager = [[HttpsManager alloc] init];
     NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
     [dic setObject:self.strID forKey:@"id"];
-    [[LKProtocolNetworkEngine sharedInstance] protocolWithRequestMethod:REQUEST_METHOD_POST
-                 requestUrl:strUrl
-               requestModel:dic
-           responseModelCls:[SHModel class]
-        completionHandler:^(LMModel *response,SHModel *responseC, NSError *error) {
-              if (response.code == 200 && responseC.error_code == 0) {
-                  [SVProgressHUD showSuccessWithStatus:responseC.msg];
-                  if (isFollow) {
-                      self.consultantInfoModel.IsFollow = NO;
-                      [self.attentionBtn setImage:[UIImage imageNamed:Image(@"consultantUnAttenion")] forState:UIControlStateNormal];
-                  }else{
-                      self.consultantInfoModel.IsFollow = YES;
-                      [self.attentionBtn setImage:[UIImage imageNamed:Image(@"consultantAttenion")] forState:UIControlStateNormal];
-                  }
-              }else{
-                  [SVProgressHUD showErrorWithStatus:responseC.msg];
-              }
-          }];
+    [httsManager postServerAPI:strUrl deliveryDic:dic successful:^(id responseObject) {
+        NSLog(@"responseObject==>%@",responseObject);
+        if ([[responseObject objectForKey:@"code"] integerValue] == 200) {
+            NSDictionary *dataDic = [responseObject objectForKey:@"data"];
+            if ([[dataDic objectForKey:@"error_code"] integerValue] ==0) {
+                
+                if (isFollow)
+                {
+                    self.consultantInfoModel.IsFollow = NO;
+                    [self.attentionBtn setImage:[UIImage imageNamed:Image(@"consultantUnAttenion")] forState:UIControlStateNormal];
+                }
+                else
+                {
+                    self.consultantInfoModel.IsFollow = YES;
+                    [self.attentionBtn setImage:[UIImage imageNamed:Image(@"consultantAttenion")] forState:UIControlStateNormal];
+                }
+                [SVHUD showSuccessWithDelay:[dataDic objectForKey:@"msg"] time:0.8f];
+            }
+            else
+            {
+                
+                 [SVHUD showErrorWithDelay:[dataDic objectForKey:@"msg"] time:0.8f];
+                
+            }
+            
+        }
+        else
+        {
+            [SVHUD showErrorWithDelay:[responseObject objectForKey:@"msg"] time:0.8f];
+        }
+        
+        
+        
+    } fail:^(id error) {
+        
+    }];
+    
+    
+    
 }
 
+#pragma mark --yes or no follow data--
+//-(void)judgeFollow:(BOOL)isFollow
+//{
+//    NSString *strUrl;
+//    if (isFollow) {//取消关注
+//        strUrl = FetchUnFollowConsultant;
+//    }
+//    else{//关注
+//        strUrl = FetchFollowConsultant;
+//    }
+//    strUrl = [NSString stringWithFormat:@"%@%@",strUrl,self.strID];
+//    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+//    [dic setObject:self.strID forKey:@"id"];
+//    [[LKProtocolNetworkEngine sharedInstance] protocolWithRequestMethod:REQUEST_METHOD_POST
+//                 requestUrl:strUrl
+//               requestModel:dic
+//           responseModelCls:[SHModel class]
+//        completionHandler:^(LMModel *response,SHModel *responseC, NSError *error) {
+//              if (response.code == 200 && responseC.error_code == 0) {
+//                  [SVProgressHUD showSuccessWithStatus:responseC.msg];
+//                  if (isFollow) {
+//                      self.consultantInfoModel.IsFollow = NO;
+//                      [self.attentionBtn setImage:[UIImage imageNamed:Image(@"consultantUnAttenion")] forState:UIControlStateNormal];
+//                  }else{
+//                      self.consultantInfoModel.IsFollow = YES;
+//                      [self.attentionBtn setImage:[UIImage imageNamed:Image(@"consultantAttenion")] forState:UIControlStateNormal];
+//                  }
+//              }else{
+//                  [SVProgressHUD showErrorWithStatus:responseC.msg];
+//              }
+//          }];
+//}
 
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [SVProgressHUD dismiss];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

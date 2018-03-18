@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Header.h"
+#import "CustomerServiceModel.h"
 #import "ShConsultantInfoModel.h"
 
 @interface MyConselorCell : UITableViewCell
@@ -17,6 +18,8 @@
 @property(nonatomic,retain)UIView *lineView;
 
 -(void)setDefaultStytle;
+
+-(void)setDefaultStytleWithData:(CustomerServiceModel *)model;
 
 -(void)reloadUI:(ShConsultantInfoModel *)attentionModel;
 @end

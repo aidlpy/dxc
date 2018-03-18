@@ -24,10 +24,15 @@
 
 #define IsConsultingMainOrder(status) (status== 10000||status== 1||status== 4)?YES:NO
 
+#define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
 
-#define SERVICENUMBER [NSString stringWithFormat:@"18851322324"]
+#define IS_PAD (UI_USER_INTERFACE_IDIOM()== UIUserInterfaceIdiomPad)
+
+
+#define SERVICENUMBER [NSString stringWithFormat:@"4006580180"]
 #define Image(name) [NSString stringWithFormat:@"Images.bundle/%@",name]
 #define COLOR(string) [UIColor colorWithHexString:string]
+
 
 /**
  *  成功Code
@@ -42,7 +47,8 @@
  */
 #define REQUEST_METHOD_POST                         @"POST"
 #define REQUEST_METHOD_GET                          @"GET"
-
+#define CustomerKEY [NSString stringWithFormat:@"%@",@"kefuchannelimid_329995"]
+#define normalize( x ) try{} @finally{} __typeof__(x) x = __weak_##x##__;
 
 //拼两个字符串
 #define NStringAppending(str1,str2)   [NSString stringWithFormat:@"%@%@",str1,str2]
@@ -93,6 +99,16 @@
 #define  Color_CBE3E8 COLOR(@"CBE3E8")
 #define  Color_57CAF7 COLOR(@"57CAF7")
 #define  Color_FF5166 COLOR(@"FF5166")
+#define  Color_4C4C4C COLOR(@"4C4C4C")
+
+//sh
+#define  Color_2B2B2B COLOR(@"2B2B2B")
+#define  Color_8BBAC4 COLOR(@"8BBAC4")
+#define  Color_57CAF7 COLOR(@"57CAF7")
+#define  Color_BABABA COLOR(@"BABABA")
+#define  Color_8D989C COLOR(@"8D989C")
+#define  Color_CBE3E8 COLOR(@"CBE3E8")
+
 
 #define A100 @"FF"
 #define A95 @"F2"
@@ -141,15 +157,20 @@
 #import "UILabel+Category.h"
 #import "NSString+Category.h"
 #import "CustomTextView.h"
+#import "JumpModel.h"
+#import "MainTabbarVC.h"
+#import "UIImage+Category.h"
+#import "CWStarRateView.h"
+#import "CallMobileTool.h"
 
 
+//SH
 //SH
 #import "UIButton+Sh.h"
 #import "LKProtocolNetworkEngine.h"
 #import <Masonry.h>
 #import "ShProtocolNetworkEngine.h"
 #import <LYEmptyView/LYEmptyViewHeader.h>
-
 
 
 //systemFontOfSize
@@ -174,6 +195,8 @@
 #define USERID @"userid"
 #define AUTOLOGIN @"autologin"
 #define DEVICEID @"deviceid"
+#define GETUICID @"GETUICID"
+#define DeviceToKen @"deviceToken"
 #define USERSEX @"sex"
 #define USERADDRESS @"address"
 #define USEREMAIL @"email"
@@ -184,7 +207,11 @@
 #define EXPIRESININ @"expires_in"
 #define USERROLE @"userrole"
 #define LOGINEMUSER @"lgoinEMuser"
+#define INFOPAYMENT @"infopayment"
 #define LOGINUPDATE @"loginUpdate"
+#define PAYBACKPATH @"paybackpath"
+#define PUSHLOGINVC @"pushloginpushvc"
+#define PAYSUCCESSFUL @"paySuccessfully"
 #define LOGINSTATE @"loginState"
 #define LOGINERROR [NSString stringWithFormat:@"401"]
 #define LOGINSUCCESS [NSString stringWithFormat:@"200"]
@@ -193,6 +220,12 @@
 #define ZERO [NSString stringWithFormat:@"0"]
 #define EMUSER @"emuser"
 #define EMPASSWORD @"empassword"
+#define EMCUSTOMERNUMBERT @"37duxincustomerservice"
+#define RECEIVERADVATARIAMGE @"receiver_advatar_image"
+#define CustomServiceAdvatar @"https://37duxin.oss-cn-huhehaote.aliyuncs.com/banner/20180224/f8632a910396488b2f13f11415e22faa.png"
+#define aboutUS @"https://bside.37du.xin/about"
+
+
 
 //自动登录
 #define CacheAutoLoginState(bool) [[NSUserDefaults standardUserDefaults] setBool:bool forKey:AUTOLOGIN]
@@ -332,6 +365,28 @@
 #define FetchUserRole NSUserDefaultsFetch(USERROLE)
 //删除用户角色
 #define ClearUserRole NSUserDefalutsDel(USERROLE)
+
+//缓存聊天对方的头像
+#define CacheChatReceiverAdvatar(value) NSUserDefaultsSet(RECEIVERADVATARIAMGE,value)
+//获取聊天对方的头像
+#define FetchChatReceiverAdvatar NSUserDefaultsFetch(RECEIVERADVATARIAMGE)
+//删除聊天对方的头像
+#define ClearChatReceiverAdvatar NSUserDefalutsDel(RECEIVERADVATARIAMGE)
+
+
+//缓存DeviceToken
+#define CacheDeviceToken(value) NSUserDefaultsSet(DeviceToKen,value)
+//获取DeviceToken
+#define FetchDeviceToken NSUserDefaultsFetch(DeviceToKen)
+//删除DeviceToken
+#define ClearDeviceToken NSUserDefalutsDel(DeviceToKen)
+
+//缓存CID
+#define CacheGETUICID(value) NSUserDefaultsSet(GETUICID,value)
+//获取CID
+#define FetchGETUICID NSUserDefaultsFetch(GETUICID)
+//删除CID
+#define ClearGETUICID NSUserDefalutsDel(GETUICID)
 
 
 #endif /* Header_h */

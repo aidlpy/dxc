@@ -24,8 +24,16 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(time * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [SVProgressHUD dismiss];
     });
+}
+
++(void)showSuccessWithDelay:(NSString *)message time:(CGFloat)time blockAction:(void(^)(void))compeletionBlock{
     
-    
+    [SVProgressHUD showSuccessWithStatus:message];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(time * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [SVProgressHUD dismissWithCompletion:^{
+            compeletionBlock();
+        }];
+    });
 }
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "MainTabbarVC.h"
+#import "LoginViewController.h"
 
 @interface MainTabbarVC ()
 {
@@ -93,12 +94,139 @@
     
 }
 
+
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [UITabBar appearance].translucent = NO;
-//    self.tabBar.tintColor = [UIColor clearColor];
+
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushLoginVC:) name:PUSHLOGINVC object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addPayPageAction:) name:@"addPayPage" object:nil];
+    
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(paySuccessfully:) name:@"paySuccessful" object:nil];
+    
+    
+    
+
+    
+    
+    
 }
+
+-(void)paySuccessfully:(NSNotification *)notification{
+  
+    NSDictionary *dic = [notification userInfo];
+    NSString *chatterid = [dic objectForKey:@"emchat_username"];
+    NSString *chatterNickName = [dic objectForKey:@"nickname"];
+    NSString *chatterUserAdvatar = [dic objectForKey:@"avatar"];
+
+    if (FetchToken != nil) {
+        [[EMClient sharedClient] loginWithUsername:FetchEMUsername password:FetchEMPassword];
+    }
+    CacheChatReceiverAdvatar(chatterUserAdvatar);
+    ChatWithPaymentVC *chatvc = [[ChatWithPaymentVC alloc] initWithConversationChatter:chatterid conversationType:EMConversationTypeChat];
+    chatvc.friendNickName = chatterNickName;
+    chatvc.hidesBottomBarWhenPushed = YES;
+    MainTabbarVC *maintabbar = [self.navigationController.viewControllers copy][0];
+
+    [maintabbar.viewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+   
+        UINavigationController *nav = (UINavigationController *)obj;
+        
+        NSLog(@"viewControllers==>%@",_svc);
+       
+        if (idx == 2) {
+          NSArray *array = [NSArray arrayWithObjects:nav.viewControllers[0],chatvc,_svc,nil];
+          nav.viewControllers = array;
+          chatvc.copynav = nav;
+          [chatvc setNav];
+        }
+        else
+        {
+         NSArray *array=@[nav.viewControllers[0]];
+             nav.viewControllers = array;
+            
+        }
+    
+    }];
+
+                   
+    self.selectedIndex = 2;
+}
+
+-(void)addPayPageAction:(NSNotification *)notification{
+    NSDictionary *dic = [notification userInfo];
+    NSString *orderType = [dic objectForKey:@"orderType"];
+    _svc = [dic objectForKey:@"vc"];
+    MainTabbarVC *maintabbar = [self.navigationController.viewControllers copy][0];
+    [maintabbar.viewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+
+        UINavigationController *nav = (UINavigationController *)obj;
+        NSLog(@"_svc==>~%@",_svc);
+        __block NSArray *array = nil;
+        if (idx == 3) {
+            if ([orderType integerValue] == 0)
+            {
+                ReservationOrderVController *reservc = [ReservationOrderVController new];
+                reservc.hidesBottomBarWhenPushed = YES;
+                array =@[nav.viewControllers[0],reservc,_svc];
+            }
+            else
+            {
+                ConsultingOrdersVController *consultvc = [ConsultingOrdersVController new];
+                consultvc.hidesBottomBarWhenPushed = YES;
+                array =@[nav.viewControllers[0],consultvc,_svc];
+            }
+           
+        }
+        else{
+            
+            array =@[nav.viewControllers[0]];
+        }
+       
+        nav.viewControllers = array;
+        
+    }];
+    self.selectedIndex = 3;
+    
+}
+
+
+
+
+
+
+-(void)pushLoginVC:(NSNotification *)notification
+{
+
+    MainTabbarVC *maintabbar = [self.navigationController.viewControllers copy][0];
+    [maintabbar.viewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        UINavigationController *nav = (UINavigationController *)obj;
+        NSArray *array =@[nav.viewControllers[0]];
+        nav.viewControllers = array;
+    }];
+    
+    [self setSelectedIndex:0];
+    
+    LoginViewController *vc = [[LoginViewController alloc] init];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+    [self.navigationController presentViewController:nav animated:YES completion:nil];
+    
+}
+
+-(void)dealloc{
+    
+    
+    
+    
+    
+}
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

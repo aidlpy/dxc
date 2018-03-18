@@ -9,5 +9,9 @@
 #import "EaseMessageViewController.h"
 
 @interface ChatWithPaymentVC : EaseMessageViewController
+@property(nonatomic,copy)NSString *friendNickName;
+@property(nonatomic,copy)NSString *friendId;
+@property(nonatomic,retain)UINavigationController *copynav;
 
+-(void)setNav;
 @end

@@ -71,28 +71,38 @@
     return  self;
 }
 
--(void)fillInCellFooter:(CommentModel *)model{
+-(void)fillInCellFooter:(CommentModel *)model isReveration:(BOOL)isReveration{
     
     _titleLabel.backgroundColor = [UIColor whiteColor];
     _timeLabel.backgroundColor = [UIColor whiteColor];
     _countLabl.backgroundColor = [UIColor whiteColor];
     _commentLab.backgroundColor = [UIColor whiteColor];
     
-    _titleLabel.text =@"深度咨询";
-    NSLog(@"model.commentStart%@",model.commentStart);
+
+    _titleLabel.text =isReveration?@"初次咨询":@"深度咨询";
     _startView.scorePercent = [model.commentStart integerValue]*0.2;
-    [_countLabl setCommentTimeText:model.commentIndex];
+    if (model.commentIndex == nil)
+    {
+        _countLabl.hidden = YES;
+    }
+    else
+    {
+        _countLabl.hidden = NO;
+        [_countLabl setCommentTimeText:model.commentIndex];
+    }
+
     _timeLabel.text = [model.commentEvaluationAt timeWithTimeIntervalString];
     [_footerView updateUI:model];
     
     _commentLab.text =[NSString stringWithFormat:@"%@",model.commentEvaluation];
-    // CGFloat commentHight = [_countLabl getSpaceLabelHeight:_commentLab.text withFont:_commentLab.font withWidth:w(_countLabl)]
     CGSize commentSize = [_commentLab sizeThatFits:CGSizeMake(w(_commentLab), 0)];
-    [_commentLab setHeight:commentSize.height];
+    [_commentLab setMj_h:commentSize.height];
     model.cellHeight = commentSize.height+120;
-    
-    [_footerView setOriginY:bottom(_commentLab)+10];
-        
+    [_footerView setMj_y:bottom(_commentLab)+10];
+    NSLog(@"model.commentAvatar==>%@",model.commentAvatar);
+    [_footerView.headerImageView sd_setImageWithURL:[NSURL URLWithString:model.commentAvatar]];
+
+    _countLabl.hidden = isReveration;
 }
 
 

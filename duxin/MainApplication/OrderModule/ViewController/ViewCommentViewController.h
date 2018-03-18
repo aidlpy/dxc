@@ -10,4 +10,5 @@
 
 @interface ViewCommentViewController : BaseViewController
 @property(nonatomic,retain)NSString *orderId;
+@property(nonatomic,assign)BOOL isReervation;
 @end

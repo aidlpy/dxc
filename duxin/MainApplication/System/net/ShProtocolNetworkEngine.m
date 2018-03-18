@@ -29,7 +29,7 @@ IMPLEMENT_SINGLETON(ShProtocolNetworkEngine);
     customHeaders[@"Accept-Charset"]=@"UTF-8";
     customHeaders[@"Authorization"]=[NSString stringWithFormat:@"%@ %@",FetchTokenType,FetchToken];;
 
-    
+    NSLog(@"customHeaders===>%@",customHeaders);
     //    if ([LMUtilities isLogin]) {
     //        customHeaders[@"X-Token"]= [LMUtilities getToken];
     //    }
@@ -104,11 +104,11 @@ IMPLEMENT_SINGLETON(ShProtocolNetworkEngine);
         allURL = [NSString stringWithFormat:@"%@",url];;
     }
     
-    NSLog(@"xlz requestDict = %@",requestDict);
+    NSLog(@"xlz requestDict = %@ ulr==>%@",requestDict,url);
     MKNetworkOperation *op = [self operationWithURLString:allURL params:requestDict httpMethod:method];
     op.postDataEncoding = MKNKPostDataEncodingTypeJSON;
     op.shouldNotCacheResponse = !useCache;
-    
+   
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
 #ifdef DEBUG
         

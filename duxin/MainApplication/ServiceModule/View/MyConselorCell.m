@@ -27,6 +27,7 @@
         [_headerImageView.layer setBorderWidth:0.5f];
         [_headerImageView.layer setBorderColor:Color_F1F1F1.CGColor];
         [_headerImageView setBackgroundColor:Color_F1F1F1];
+        [_headerImageView setClipsToBounds:YES];
         [self addSubview:_headerImageView];
         
         _titleLab = [[UILabel alloc] initWithFrame:CGRectMake(left(_headerImageView)+13, 0, 100, 20)];
@@ -53,6 +54,12 @@
 {
 //    [self.headerImageView sd_setImageWithURL:[NSURL URLWithString:attentionModel.avatar] placeholderImage:Image(@".jpg")];
     self.titleLab.text =attentionModel.name;
+}
+
+-(void)setDefaultStytleWithData:(CustomerServiceModel *)model{
+    
+   self.titleLab.text =model.consultantProfileName;
+   [self.headerImageView sd_setImageWithURL:[NSURL URLWithString:model.consultantProfileAvatar]];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

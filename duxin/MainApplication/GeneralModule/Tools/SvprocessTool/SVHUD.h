@@ -11,4 +11,5 @@
 @interface SVHUD : NSObject
 +(void)showSuccessWithDelay:(NSString *)message time:(CGFloat)time;
 +(void)showErrorWithDelay:(NSString *)message time:(CGFloat)time;
++(void)showSuccessWithDelay:(NSString *)message time:(CGFloat)time blockAction:(void(^)(void))compeletionBlock;
 @end

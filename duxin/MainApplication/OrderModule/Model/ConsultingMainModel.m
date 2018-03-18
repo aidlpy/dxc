@@ -30,19 +30,28 @@
         model.consultantName = [consultantProfileDic objectForKey:@"name"];
         
         //package
-        NSDictionary *packageInfoDic = [dic objectForKey:@"package"];
-        model.packageId = [packageInfoDic objectForKey:@"id"];
-        model.packageTitle = [packageInfoDic objectForKey:@"title"];
-        model.packageSerContent = [packageInfoDic objectForKey:@"service_content"];
-        model.packageSerTimes = [packageInfoDic objectForKey:@"service_times"];
-        model.packageSerHours = [packageInfoDic objectForKey:@"service_hours"];
-        model.packageSerType = [packageInfoDic objectForKey:@"service_type"];
-        model.packageSinglePrice = [packageInfoDic objectForKey:@"single_price"];
-        NSString *tags = [packageInfoDic objectForKey:@"tags"];
-        model.packageTags = [tags componentsSeparatedByString:@","];
-        NSString *consultation_way_string = [packageInfoDic objectForKey:@"consultation_way"];
-        model.packageConsultationWay = [consultation_way_string componentsSeparatedByString:@","];
+        if (![[dic objectForKey:@"package"] isEqual:[NSNull null]]) {
+            NSDictionary *packageInfoDic = [dic objectForKey:@"package"];
+            model.packageId = [packageInfoDic objectForKey:@"id"];
+            model.packageTitle = [packageInfoDic objectForKey:@"title"];
+            model.packageSerContent = [packageInfoDic objectForKey:@"service_content"];
+            model.packageSerTimes = [packageInfoDic objectForKey:@"service_times"];
+            model.packageSerHours = [packageInfoDic objectForKey:@"service_hours"];
+            model.packageSerType = [packageInfoDic objectForKey:@"service_type"];
+            model.packageSinglePrice = [packageInfoDic objectForKey:@"single_price"];
+            NSString *tags = [packageInfoDic objectForKey:@"tags"];
+            model.packageTags = [tags componentsSeparatedByString:@","];
+            NSString *consultation_way_string = [packageInfoDic objectForKey:@"consultation_way"];
+            model.packageConsultationWay = [consultation_way_string componentsSeparatedByString:@","];
+        }
         
+        NSDictionary *userC = [dic objectForKey:@"userC"];
+        if (userC) {
+            model.emChatterAvatar = [userC objectForKey:@"avatar"];
+            model.emChatterUserName = [userC objectForKey:@"emchart_username"];
+        }
+
+    
         [pocketArray addObject:model];
         
     }];

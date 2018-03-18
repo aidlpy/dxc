@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "Header.h"
+#import "PaySuccessfulViewController.h"
 
 @interface MainTabbarVC : UITabBarController
-
+@property(nonatomic,retain)PaySuccessfulViewController *svc;
 @end

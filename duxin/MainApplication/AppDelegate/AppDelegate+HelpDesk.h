@@ -8,8 +8,11 @@
 
 #import "AppDelegate.h"
 #import "Header.h"
+#import "MainTabbarVC.h"
 
-@interface AppDelegate (HelpDesk)<UIAlertViewDelegate,HChatClientDelegate>
+
+@interface AppDelegate (HelpDesk)<UIAlertViewDelegate>
+@property(nonatomic,retain)MainTabbarVC *tabbar;
 - (void)easemobApplication:(UIApplication *)application
 didFinishLaunchingWithOptions:(NSDictionary *)launchOptions;
 -(void)resetCustomerServiceSDK;

@@ -31,14 +31,17 @@
     // Do any additional setup after loading the view.
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         [self initData];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self initUI];
+        });
     });
-    [self initUI];
 }
 
 -(void)initData{
     
     _dataArray = @[@{@"logo":@"mobileLogo",@"placeHolder":@"请输入手机号"},@{@"logo":@"passwordLogo",@"placeHolder":@"请输入密码"}];
     _loginViewArray = [[NSMutableArray alloc] initWithCapacity:0];
+    return;
 }
 
 -(void)initUI{
@@ -61,6 +64,9 @@
         [loginView setLogoImageView:dic[@"logo"] setPlaceHolder:dic[@"placeHolder"]];
         if (idx == 0) {
             loginView.textField.keyboardType = UIKeyboardTypePhonePad;
+        }
+        if (idx == 1) {
+            loginView.textField.secureTextEntry = YES;
         }
         loginView.codeBlock = ^(JKCountDownButton *sendeer) {nil;};
         [self.view addSubview:loginView];
@@ -91,7 +97,11 @@
     [_forgotpsBtn addTarget:self action:@selector(fogotPsAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_forgotpsBtn];
     
+     
+    
 }
+
+
 
 -(void)loginAciton:(UIButton *)loginBtn{
     [self checkInputType];
@@ -120,7 +130,6 @@
         [SVHUD showErrorWithDelay:@"请输入正确的手机号码！" time:0.8];
 
     }
-    
 }
 
 
@@ -149,6 +158,9 @@
     [dic setValue:@"testclient" forKey:@"client_id"];
     [dic setValue:@"testpass" forKey:@"client_secret"];
     [dic setValue:@"application/x-www-form-urlencoded" forKey:@"Content-Type"];
+    NSString *deviceToken = FetchGETUICID;
+    [dic setValue:deviceToken forKey:@"device_id"];
+    [dic setValue:@"0" forKey:@"type"];
     [httpsManager postServerAPI:FetchLogin deliveryDic:dic successful:^(id responseObject) {
         
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
@@ -163,8 +175,9 @@
                 
                 [self fetchUserInfo];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [SVHUD showSuccessWithDelay:@"登录成功！" time:0.8];
-                    [self dismissViewControllerAnimated:YES completion:nil];
+                    [SVHUD showSuccessWithDelay:@"登录成功！" time:0.8 blockAction:^{
+                        [self dismissViewControllerAnimated:YES completion:nil];
+                    }];
                 });
                 
             }
@@ -210,13 +223,12 @@
                 CacheEMUsername(emusername);
                 CacheEMPassword(empassword);
                 
-        
-
-                NSNotification *notifyEMLogin =[NSNotification notificationWithName:LOGINEMUSER object:nil userInfo:nil];
-                [[NSNotificationCenter defaultCenter] postNotification:notifyEMLogin];
                 
                 NSNotification *notification =[NSNotification notificationWithName:LOGINUPDATE object:nil userInfo:nil];
                 [[NSNotificationCenter defaultCenter] postNotification:notification];
+                
+                NSNotification *notifyEMLogin =[NSNotification notificationWithName:LOGINEMUSER object:nil userInfo:nil];
+                [[NSNotificationCenter defaultCenter] postNotification:notifyEMLogin];
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     

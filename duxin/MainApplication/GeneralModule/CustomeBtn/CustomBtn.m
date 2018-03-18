@@ -68,11 +68,11 @@
     NSString *newStr = [NSString stringWithFormat:@"%@",str];
     NSLog(@"%@",newStr);
     _displayImgV.contentMode = contentModel;
-     [_displayImgV sd_setImageWithURL:[NSURL URLWithString:newStr] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-         if (_photoShowBlock) {
-             _photoShowBlock(image,_displayImgV);
-         }
-     }];
+    [_displayImgV sd_setImageWithURL:[NSURL URLWithString:newStr] completed:^(UIImage *image, NSError *error, EMSDImageCacheType cacheType, NSURL *imageURL) {
+        if (_photoShowBlock) {
+            _photoShowBlock(image,_displayImgV);
+        }
+    }];
     [self addSubview:_displayImgV];
 }
 

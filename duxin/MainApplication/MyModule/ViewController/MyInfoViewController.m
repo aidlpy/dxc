@@ -9,6 +9,7 @@
 #import "MyInfoViewController.h"
 #import "AccountSafeCell.h"
 #import "HeaderImageCell.h"
+#import "CBImageCompressor.h"
 
 @interface  MyInfoViewController()<UITableViewDelegate,UITableViewDataSource,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIActionSheetDelegate,UIPickerViewDelegate>
 {
@@ -32,8 +33,6 @@
 }
 
 void initData(MyInfoViewController *vc){
-    
-    
     NSString *headerImage = FetchUserHeaderImage;
     NSString *nickName = FetchUserNickName;
     NSString *sex =  FetchUserSex;
@@ -108,8 +107,8 @@ void initData(MyInfoViewController *vc){
         }
         cell.tag = indexPath.row;
         cell.titleLab.text = dic[@"title"];
-        [cell.lineView setOriginX:20];
-        [cell.lineView setWidth:SIZE.width-20];
+        [cell.lineView setMj_x:20];
+        [cell.lineView setMj_w:SIZE.width-20];
         [cell.headerImageView sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"content"]]];
         
         return cell;
@@ -125,8 +124,8 @@ void initData(MyInfoViewController *vc){
         }
         cell.tag = indexPath.row;
         cell.titleLab.text = dic[@"title"];
-        [cell.lineView setOriginX:20];
-        [cell.lineView setWidth:SIZE.width-20];
+        [cell.lineView setMj_x:20];
+        [cell.lineView setMj_w:SIZE.width-20];
         if (indexPath.row == 2) {
             cell.descributionLab.text =[dic[@"content"] isEqualToString:@"1"]?@"男":@"女";
         }else{
@@ -346,8 +345,9 @@ void initData(MyInfoViewController *vc){
                     
                     dispatch_async(dispatch_get_main_queue(), ^{
                    
-                        [SVHUD showErrorWithDelay:@"修改成功!" time:0.8f];
+                        [SVHUD showSuccessWithDelay:@"修改成功!" time:0.8f];
                         [self.navigationController popViewControllerAnimated:YES];
+                        
                     });
                 }
                 else

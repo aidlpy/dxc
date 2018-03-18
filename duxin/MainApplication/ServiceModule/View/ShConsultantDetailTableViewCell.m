@@ -29,7 +29,7 @@
     self.leftLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.titleLabel.frame.origin.x, self.titleLabel.frame.origin.y + self.titleLabel.frame.size.height, 200, 20)];
     self.leftLabel.textColor = Color_BABABA;
     self.leftLabel.font = FONT_13;
-    self.leftLabel.text = @"50元/次 （1小时）， 1次起";
+    self.leftLabel.text = @"50元/次 （1小时）， 1次";
     
     [self.contentView addSubview:self.leftLabel];
     
@@ -58,7 +58,7 @@
 {
     
     self.titleLabel.text = packageModel.title;
-    NSString *strLeft = [NSString stringWithFormat: @"%.2lf元/次（1小时）， 1次起",packageModel.single_price];
+    NSString *strLeft = [NSString stringWithFormat: @"%.2lf元/次（%ld分钟）， %ld次",packageModel.single_price,(long)packageModel.service_hours,(long)packageModel.service_times];
     NSMutableAttributedString *strGood = [[NSMutableAttributedString alloc] initWithString:strLeft];
 
     NSString *strLeft1 =[NSString stringWithFormat:@"%.2lf元",packageModel.single_price];

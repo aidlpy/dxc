@@ -116,8 +116,9 @@ void postData(CommentViewController *selfVC)
 
 -(void)successful{
     dispatch_async(dispatch_get_main_queue(), ^{
-        [SVHUD showSuccessWithDelay:@"提交评价成功" time:0.8f];
-        [self backTo];
+        [SVHUD showSuccessWithDelay:@"提交评价成功" time:0.8f blockAction:^{
+             [self backTo];
+        }];
     });
 }
 
@@ -141,7 +142,7 @@ void postData(CommentViewController *selfVC)
 
 -(void)initData{
     _isSelected = NO;
-    _startNumber =0;
+    _startNumber =5;
 }
 
 -(void)initUI{
@@ -226,9 +227,10 @@ void postData(CommentViewController *selfVC)
     _textView = cell.textView;
     cell.fetchPercentBlock = ^(CGFloat startNumber) {
         _startNumber = startNumber;
+        NSLog(@"%d",_startNumber);
     };
     cell.postCommentBlock = ^(CGFloat startNumber) {
-        _startNumber = startNumber;
+       // _startNumber = startNumber;
         postData(self);
     };
     return cell;

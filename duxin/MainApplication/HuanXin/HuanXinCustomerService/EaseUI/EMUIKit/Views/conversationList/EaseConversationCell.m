@@ -12,7 +12,7 @@
 
 #import "EaseConversationCell.h"
 
-#import <HyphenateLite/HyphenateLite.h>
+#import <Hyphenate/Hyphenate.h>
 #import "UIImageView+EMWebCache.h"
 
 CGFloat const EaseConversationCellPadding = 10;

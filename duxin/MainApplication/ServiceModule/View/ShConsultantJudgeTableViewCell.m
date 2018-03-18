@@ -116,14 +116,16 @@
         self.sexImageView.hidden = YES;
     }
     self.timeLabel.text  = @"今天20：10   来自Android客户端";
+    NSString *timeStempsting = [NSString stringWithFormat:@"%ld",(long)commentModel.evaluation_at];
+    NSString *timeString = [timeStempsting timeWithTimeIntervalFullStringWithHizon];
 
     switch (commentModel.user.device) {
         case 0:
-            self.timeLabel.text = [NSString stringWithFormat:@"%zd 来自Android客户端",commentModel.evaluation_at];
+            self.timeLabel.text = [NSString stringWithFormat:@"%@ 来自Android客户端",timeString];
         case 1:
-            self.timeLabel.text = [NSString stringWithFormat:@"%zd 来自iOS客户端",commentModel.evaluation_at];
+            self.timeLabel.text = [NSString stringWithFormat:@"%@ 来自iOS客户端",timeString];
         case 2:
-            self.timeLabel.text = [NSString stringWithFormat:@"%zd 来自PC客户端",commentModel.evaluation_at];
+            self.timeLabel.text = [NSString stringWithFormat:@"%@ 来自PC客户端",timeString];
             break;
             
         default:

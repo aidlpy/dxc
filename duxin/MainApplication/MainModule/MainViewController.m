@@ -7,7 +7,9 @@
 //
 
 #import "MainViewController.h"
-#import "ChatViewController.h"
+#import "WebViewController.h"
+#import "LoginViewController.h"
+#import "CustomerServiceViewController.h"
 #import <JavaScriptCore/JavaScriptCore.h>
 
 
@@ -15,17 +17,24 @@
 {
     UIWebView *_webView;
     JSContext *_context;
+    BOOL _isFirstLoad;
 }
 @end
 
-static NSString *url = @"http://h5.uat.37du.xin/#/";
+static NSString *url = @"https://h5.37du.xin/";
 
 @implementation MainViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self initData];
     [self initUI];
+}
+
+-(void)initData{
+    _isFirstLoad = YES;
+    
 }
 
 -(void)initUI{
@@ -37,31 +46,51 @@ static NSString *url = @"http://h5.uat.37du.xin/#/";
     CGFloat tabbarHeight = Height_TabBar;
     _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0,h(self.navView),SIZE.width,SIZE.height-h(self.navView)-tabbarHeight)];
     _webView.delegate = self;
-    [self.view addSubview:_webView];
 
+    [self.view addSubview:_webView];
+    
+    [SVProgressHUD show];
+    _isFirstLoad = YES;
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:60];
+    [_webView loadRequest:request];
+
+
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [SVProgressHUD show];
-
-    NSMutableURLRequest *requestUrl = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
-    [_webView loadRequest:requestUrl];
+  
+ 
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [SVProgressHUD dismiss];
+
     
 }
 
-
-
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
-    
+   
+    if (_isFirstLoad == NO) {
+        
+        WebViewController *webViewVC = [[WebViewController alloc] init];
+        webViewVC.urlString = request.URL.absoluteString;
+        webViewVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:webViewVC animated:YES];
+        _isFirstLoad =  NO;
+         return NO;
 
-    return YES;
+    }
+    else{
+        
+        _isFirstLoad = NO;
+        return YES;
+       
+    }
+    
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView{
@@ -77,47 +106,53 @@ static NSString *url = @"http://h5.uat.37du.xin/#/";
 }
 
 -(void)webViewDidFinishLoad:(UIWebView *)webView{
-   
-    [SVProgressHUD dismiss];
     
+    [SVProgressHUD dismiss];
     __weak typeof(self) weakSelf = self;
     
-   //获取js的运行环境
-   _context=[webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
-  //html调用无参数OC
-   _context[@"test1"] = ^(){
-      [weakSelf menthod1];
-   };
-   //html调用OC(传参数过来)
-   _context[@"test2"] = ^(){
-       NSArray * args = [JSContext currentArguments];//传过来的参数
-       [args enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-           
-       }];
-       NSString * name = args[0];
-        NSString * str = args[1];
-       [weakSelf menthod2:name and:str];
+    //获取js的运行环境
+    _context=[webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
+    
+    //html调用无参数OC
+    _context[@"userLogin"] = ^(){
+        [weakSelf userLogin];
+    };
+    
+    _context[@"customerService"] = ^(){
+        if(FetchToken != nil )
+        {
+            NSArray *args = [JSContext currentArguments];
+            NSString *typeString = args[0];
+            [weakSelf customerService:typeString];
+        }
+        else
+        {
+            [weakSelf userLogin];
+        }
     };
 }
 
--(void)menthod1{
+-(void)customerService:(NSString *)type{
     
+    CacheChatReceiverAdvatar(CustomServiceAdvatar);
+    CustomerServiceViewController *vc =[[CustomerServiceViewController alloc] initWithConversationChatter:EMCUSTOMERNUMBERT conversationType:EMConversationTypeChat];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
     
 }
 
--(void)menthod2:(NSString *)name and:(NSString *)str{
+
+-(void)userLogin{
     
-    
-    
+    LoginViewController *vc = [[LoginViewController alloc] init];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+    [self.navigationController presentViewController:nav animated:YES completion:nil];
     
 }
 
 
 -(void)nextTo{
-    NSMutableString *str=[[NSMutableString alloc] initWithFormat:@"tel:%@",SERVICENUMBER];
-    UIWebView *callWebview = [[UIWebView alloc] init];
-    [callWebview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:str]]];
-    [self.view addSubview:callWebview];
+    [CallMobileTool callwithCustomAlert:SERVICENUMBER alertTitle:@"欢迎致电37度心客服热线" alertMessage:@"400-658-0180\n致电时间:早上9:00至晚上24:00" controller:self];
 }
 
 

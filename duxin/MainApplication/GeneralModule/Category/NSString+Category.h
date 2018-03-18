@@ -10,5 +10,7 @@
 
 @interface NSString (Category)
 -(NSString *)timeWithTimeIntervalString;
+-(NSString *)timeWithTimeIntervalFullString;
+-(NSString *)timeWithTimeIntervalFullStringWithHizon;
 + (NSDictionary *)dictionaryWithJsonString:(NSString *)jsonString;
 @end

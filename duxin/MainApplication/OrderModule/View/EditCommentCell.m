@@ -36,7 +36,10 @@ NSString *defaultComment = @"谢谢老师，对我有很大的帮助。";
         _stars.center = CGPointMake(_stars.center.x, _titleLabel.center.y);
         _stars.scorePercent = 1.0f;
         _stars.delegate = self;
+        _stars.isTap = YES;
+        [_stars addObserver:self forKeyPath:@"scorePercent" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
         _stars.allowIncompleteStar = YES;
+        
         [self addSubview:_stars];
         
         _textView = [[CustomTextView alloc] initWithFrame:CGRectMake(15, bottom(_titleLabel)+14,SIZE.width-30, 190)];
@@ -66,20 +69,36 @@ NSString *defaultComment = @"谢谢老师，对我有很大的帮助。";
     
 }
 
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    // 方式1.匹配keypath
+    if ([keyPath isEqualToString:@"scorePercent"]) {
+        if (_fetchPercentBlock) {
+            NSLog(@"_stars.scorePercent==>%f",_stars.scorePercent);
+            _fetchPercentBlock(self.stars.scorePercent*10/2);
+        }
+    }
+
+}
+
 -(void)postCommentAciton:(UIButton *)btn{
     
     if (_postCommentBlock) {
-        _postCommentBlock(_stars.scorePercent/0.2);
+        _postCommentBlock((int)(_stars.scorePercent*10)/2);
     }
     
     
 }
 
-- (void)starRateView:(CWStarRateView *)starRateView scroePercentDidChange:(CGFloat)newScorePercent{
-    if (_fetchPercentBlock) {
-        _fetchPercentBlock(newScorePercent/0.2);
-    }
-}
+//- (void)starRateView:(CWStarRateView *)starRateView scroePercentDidChange:(CGFloat)newScorePercent{
+//
+//
+//    if (_fetchPercentBlock) {
+//        _fetchPercentBlock(starRateView.scorePercent/0.2);
+//    }
+//
+//}
 
 
 
@@ -95,6 +114,11 @@ NSString *defaultComment = @"谢谢老师，对我有很大的帮助。";
     if (_textView.text.length == 0) {
         _textView.placeholder =commentPlaceHolder;
     }
+}
+
+-(void)dealloc{
+    [self.stars removeObserver:self forKeyPath:@"scorePercent"];
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

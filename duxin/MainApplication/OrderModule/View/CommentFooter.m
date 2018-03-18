@@ -43,8 +43,10 @@
         _textLabel.backgroundColor = [UIColor whiteColor];
         CGSize size =  [_textLabel sizeThatFits:CGSizeMake(w(_textLabel), 0)];//计算高度
         model.footerHeight = size.height+30.0f;//高度给footer
-        [_textLabel setHeight:size.height ];//textLabel
-        [self setHeight:model.footerHeight];
+        
+        [_textLabel setMj_h:size.height];
+        [self setMj_h:model.footerHeight];
+
         
     }
     else{

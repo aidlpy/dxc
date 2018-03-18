@@ -28,6 +28,11 @@
 @property(nonatomic,copy)NSString *orderInfoZXArea;
 @property(nonatomic,copy)NSString *orderInfoReservationOrderId;
 
+@property(nonatomic,copy)NSString *emChatterAvatar;
+@property(nonatomic,copy)NSString *emChatterUserName;
+
+
+
 +(NSArray *)fetchOrderSubModels:(NSArray *)itemsArray;
 
 @end
