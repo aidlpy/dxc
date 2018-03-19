@@ -12,29 +12,7 @@
 
 #pragma mark - 匹配固定电话号码
 
-+(BOOL)isPhoneNumber:(NSString *)str {
-    
-    NSString * MOBILE = @"^1(3[0-9]|5[0-35-9]|8[025-9])\\d{8}$";
-    NSString * CM = @"^1(34[0-8]|(3[5-9]|5[017-9]|8[278])\\d)\\d{7}$";
-    NSString * CU = @"^1(3[0-2]|5[256]|8[156])\\d{8}$";
-    NSString * CT = @"^1((33|53|8|7[0-9]|9)[0-9]|349)\\d{7}$";
-    
-    NSPredicate *regextestmobile = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", MOBILE];
-    NSPredicate *regextestcm = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", CM];
-    NSPredicate *regextestcu = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", CU];
-    NSPredicate *regextestct = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", CT];
-    
-    BOOL res1 = [regextestmobile evaluateWithObject:str];
-    BOOL res2 = [regextestcm evaluateWithObject:str];
-    BOOL res3 = [regextestcu evaluateWithObject:str];
-    BOOL res4 = [regextestct evaluateWithObject:str];
-    
-    if (res1 || res2 || res3 || res4 ) {
-        return YES;
-    } else {
-        return NO;
-    }
-}
+
 
 +(BOOL)matchCodeType:(NSString *)str {
     BOOL result = false;

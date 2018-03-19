@@ -162,6 +162,7 @@
 #import "UIImage+Category.h"
 #import "CWStarRateView.h"
 #import "CallMobileTool.h"
+#import "NSString+RegexCategory.h"
 
 
 //SH

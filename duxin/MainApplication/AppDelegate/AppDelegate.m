@@ -55,6 +55,8 @@
     [nav.navigationBar setHidden:YES];
     self.window.rootViewController = nav;
     [self.window makeKeyAndVisible];
+ 
+    
     
 #if 1
     [LaunchIntroductionView sharedWithImages:@[Image(@"launch0.png"),Image(@"launch1.png"),Image(@"launch2.png"),Image(@"launch3.png")]];

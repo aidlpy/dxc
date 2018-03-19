@@ -10,14 +10,7 @@
 typedef void(^resultBlock)(NSString *res);
 @interface RegularTool : NSObject
 
-/*!
-*  匹配手机号码
-*
-*  @param str 需要匹配的手机号码
-*
-*  @return 返回匹配结果
-*/
-+(BOOL)isPhoneNumber:(NSString *)str;
+
 
 /*!
 *  匹配3-15位的中文或英文(用户名)

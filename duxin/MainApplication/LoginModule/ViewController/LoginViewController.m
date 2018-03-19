@@ -112,7 +112,7 @@
     NSString *cellPhone = ((LoginView *)(_loginViewArray[0])).textField.text;
     NSString *password = ((LoginView *)(_loginViewArray[1])).textField.text;
 
-    if ([RegularTool isPhoneNumber:cellPhone]){
+    if ([cellPhone isMobileNumber]){
         
         if ([RegularTool matchPassword:password]) {
             [SVProgressHUD show];

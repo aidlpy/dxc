@@ -71,7 +71,7 @@
 -(void)fetchCodeAction{
     
     NSString *mobileString = ((LoginView *)(_loginViewArray[0])).textField.text;
-    if ([RegularTool isPhoneNumber:mobileString]) {
+    if ([mobileString isMobileNumber]) {
         
         HttpsManager *httpsManager = [[HttpsManager alloc] init];
         NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
@@ -137,7 +137,7 @@
         NSString *mobileString  = ((LoginView *)(_loginViewArray[0])).textField.text;
         NSString *codeString = ((LoginView *)(_loginViewArray[1])).textField.text;
 
-        if ([RegularTool isPhoneNumber:mobileString]){
+        if ([mobileString isMobileNumber]){
             
             if (codeString.length == 6) {
                 
