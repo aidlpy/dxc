@@ -97,11 +97,7 @@
     [_forgotpsBtn addTarget:self action:@selector(fogotPsAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_forgotpsBtn];
     
-     
-    
 }
-
-
 
 -(void)loginAciton:(UIButton *)loginBtn{
     [self checkInputType];

@@ -3053,6 +3053,7 @@
 			isa = PBXGroup;
 			children = (
 				BA600444201F27BD007EE398 /* ChatWithPaymentVC.h */,
+				BA600445201F27BD007EE398 /* ChatWithPaymentVC.m */,
 				BCDD93DF203099CA00590B53 /* CustomerServiceViewController.h */,
 				BCDD93E0203099CA00590B53 /* CustomerServiceViewController.m */,
 			);
@@ -3062,7 +3063,6 @@
 		BA600448201F27F7007EE398 /* LoginModule */ = {
 			isa = PBXGroup;
 			children = (
-				BA600445201F27BD007EE398 /* ChatWithPaymentVC.m */,
 				BA600449201F27F7007EE398 /* Model */,
 				BA60044A201F27F7007EE398 /* View */,
 				BA60044D201F27F7007EE398 /* ViewController */,

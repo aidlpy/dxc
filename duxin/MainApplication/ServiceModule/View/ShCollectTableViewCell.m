@@ -115,15 +115,18 @@
         make.height.mas_equalTo(self.nameLabel.mas_height);
     }];
     
-    self.eyeImagView = [[UIImageView alloc] init];
-    self.eyeImagView.backgroundColor = [UIColor redColor];
-    self.eyeImagView.backgroundColor = [UIColor clearColor];
-    [self.eyeImagView setImage:[UIImage imageNamed:Image(@"eye")]];
-    self.eyeImagView.frame = CGRectMake(SIZE.width-100,0, 20, 20);
-    self.eyeImagView.center = CGPointMake(self.eyeImagView.center.x,self.eyeImagView.center.y);
+    self.eyeImagView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    [self.eyeImagView setImage:[UIImage imageNamed:Image(@"eyes")]];
     [self.contentView addSubview:self.eyeImagView];
-    
+    [self.eyeImagView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.viewBtn.mas_centerY);
+        make.right.equalTo(self.viewBtn.mas_left);
+        make.width.mas_equalTo(20);
+        make.height.mas_equalTo(10);
+        
+    }];
 
+    
     self.line = [[UIView alloc] init];
     self.line.backgroundColor = Color_EEEEEE;
     [self.contentView addSubview:self.line];
